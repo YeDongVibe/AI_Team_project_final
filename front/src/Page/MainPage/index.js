@@ -2,6 +2,7 @@
 import {IntroSection} from './IntroSection'
 import {TypeRecylingSection} from './TypeRecylingSection'
 import {GuideSection} from './GuideSection'
+import {Footer} from '../Routes/Footer'
 import {useEffect, useState, useRef} from 'react'
 
 export default function MainPage() {
@@ -30,7 +31,7 @@ export default function MainPage() {
     const newSection = currentSection + Math.sign(deltaY)
 
     // 새 섹션 값이 유효한 범위 내에 있도록 보장
-    if (newSection >= 1 && newSection <= 3) {
+    if (newSection >= 1 && newSection <= 4) {
       setCurrentSection(newSection)
 
       mainDivRef.current.scrollTo({
@@ -61,6 +62,7 @@ export default function MainPage() {
         <IntroSection currentSection={currentSection} />
         <TypeRecylingSection currentSection={currentSection} />
         <GuideSection currentSection={currentSection} />
+        <Footer />
       </div>
       <div className="fixed flex flex-col bottom-1/2 left-4">
         <button className="mr-4" onClick={() => scrollToSection(1)}>
@@ -71,6 +73,9 @@ export default function MainPage() {
         </button>
         <button className="mr-4" onClick={() => scrollToSection(3)}>
           Section 3
+        </button>
+        <button className="mr-4" onClick={() => scrollToSection(4)}>
+          footer
         </button>
       </div>
     </div>

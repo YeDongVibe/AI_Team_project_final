@@ -6,7 +6,7 @@ export const BarChart = ({data, labels, title, backgroundColor}) => {
   const yMax = 100
   initTE({Chart})
   return (
-    <div className="mx-auto w-3/5 overflow-hidden">
+    <div className="w-3/5 mx-auto overflow-hidden">
       <canvas
         data-te-chart="bar"
         data-te-dataset-label={title}

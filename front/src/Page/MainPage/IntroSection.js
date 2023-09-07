@@ -8,12 +8,13 @@ export function IntroSection({currentSection}) {
   const [landingText, setLandingText] = useState('')
   const [startAnimation, setStartAnimation] = useState(false)
   const completeText = 'Tracing the Green Path of Recycling'
-  // 8, 26
+  // count가 8일 때 글자 굵기 변경 , 26 일때 줄바꿈
 
   useEffect(() => {
+    // 첫 애니메이션 종료 후 글자 도도도도동
     const ecoTraceAnimationTimeout = setTimeout(() => {
       setStartAnimation(true)
-    }, 2000) // Set the desired time for the animation to complete
+    }, 2000)
 
     return () => {
       clearTimeout(ecoTraceAnimationTimeout)
@@ -31,6 +32,7 @@ export function IntroSection({currentSection}) {
       }
 
       setLandingText(prev => {
+        // console.log(prev)
         let result = prev ? prev + completeText[count] : completeText[0]
         setCount(prev => prev + 1)
         return result
@@ -60,7 +62,7 @@ export function IntroSection({currentSection}) {
               </span>
             )
           } else if (index === 25) {
-            return <br />
+            return <br key={index} />
           } else {
             return (
               <span key={index} className="text-[34px] font-light font-poppins text-left text-white animate-type-in">
