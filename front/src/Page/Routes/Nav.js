@@ -9,24 +9,19 @@ export function Nav() {
           <p>logo</p>
         </Link>
       </div>
+      {/* 텍스트 상태 필요 */}
       <div className="flex items-center justify-center w-2/4 text-xl text-white">
         <Link to="/static">
           <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">통계</p>
         </Link>
         <Link to="/inquiry">
-          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">
-            자료 조회
-          </p>
+          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">자료 조회</p>
         </Link>
         <Link to="/guide">
-          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">
-            Guide & Tip
-          </p>
+          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">Guide & Tip</p>
         </Link>
         <Link to="/customer">
-          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">
-            고객센터
-          </p>
+          <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">고객센터</p>
         </Link>
       </div>
       <div className="flex items-center justify-center w-1/4 text-white">
