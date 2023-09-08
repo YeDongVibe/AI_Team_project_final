@@ -1,6 +1,15 @@
+import {useNavColorGreen, useNavColorWhite} from '../../util'
+import {useEffect} from 'react'
+
 export function GuideSection({currentSection}) {
-  // TODO: 해당 섹션으로 왔을 때 Nav바 색상이 달라져야 함,,
-  // -> 상태관리(Redux로 상태에 따른 색상코드 값을 줘야 할듯,,)
+  const setNavColorGreen = useNavColorGreen() // 커스텀 훅을 호출하여 함수를 가져옴.
+  const setNavColorWhite = useNavColorWhite()
+
+  // setNavColorBlack 함수를 호출하여 액션을 디스패치
+  useEffect(() => {
+    if (currentSection === 3) setNavColorGreen()
+    else setNavColorWhite()
+  }, [currentSection])
 
   return <section className="w-full h-screen bg-gradient-to-b from-[#EEFFE7]"></section>
 }

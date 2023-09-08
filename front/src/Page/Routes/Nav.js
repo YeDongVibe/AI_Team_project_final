@@ -1,7 +1,10 @@
 // Nav 바
 import {Link} from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
 export function Nav() {
+  const navColor = useSelector(state => state.rootReducer.navColor)
+
   return (
     <nav className="w-full h-[120px] fixed z-50 flex justify-between items-center">
       <div className="w-1/4">
@@ -9,8 +12,7 @@ export function Nav() {
           <p>logo</p>
         </Link>
       </div>
-      {/* 텍스트 상태 필요 */}
-      <div className="flex items-center justify-center w-2/4 text-xl text-white">
+      <div className={`flex items-center justify-center w-2/4 text-xl ${navColor}`}>
         <Link to="/static">
           <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">통계</p>
         </Link>

@@ -1,4 +1,6 @@
 import {Routes, Route, BrowserRouter, Outlet} from 'react-router-dom'
+import {useEffect} from 'react'
+import {useNavColorBlack} from '../../util'
 import {Nav} from './Nav'
 import {Footer} from './Footer'
 import {Login} from '../LoginPage/Login'
@@ -34,9 +36,14 @@ export function RouteMain() {
 // 사실 메인페이지의 푸터 추가로 스크롤이 스무스하게 흘러가지 않아 사용,, (좀 방법이 맘에 안들긴 함,,)
 const MainLayout = () => {
   // Outlet은 페이지에 따라 바뀌는 부분임,
+  const setNavColorBlack = useNavColorBlack() // 커스텀 훅을 호출하여 함수를 가져옵니다
+
+  // setNavColorBlack 함수를 호출하여 액션을 디스패치합니다.
+  useEffect(() => {
+    setNavColorBlack()
+  }, [])
   return (
     <>
-      <Nav />
       <Outlet />
       <Footer />
     </>
