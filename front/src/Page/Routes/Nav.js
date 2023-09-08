@@ -26,7 +26,7 @@ export function Nav() {
           <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">고객센터</p>
         </Link>
       </div>
-      <div className="flex items-center justify-center w-1/4 text-white">
+      <div className={`flex items-center justify-center w-1/4 ${navColor}`}>
         <Link to="/login">
           <p className="h-full mr-8 text-lg text-center align-middle font-Inconsolata ">SIGN IN</p>
         </Link>

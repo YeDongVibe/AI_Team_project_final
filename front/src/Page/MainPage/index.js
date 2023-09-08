@@ -8,6 +8,7 @@ import {useEffect, useState, useRef} from 'react'
 export default function MainPage() {
   const mainDivRef = useRef()
   const [currentSection, setCurrentSection] = useState(1)
+  const [showIntroAnimation, setShowIntroAnimation] = useState(true)
 
   // 해당 섹션으로 이동
   const scrollToSection = sectionNumber => {
@@ -41,9 +42,12 @@ export default function MainPage() {
     }
   }
 
-  // 마우스 휠 이벤트
+  // 마우스 휠 이벤트 및 인트로 애니메이션 상태
   useEffect(() => {
     // console.log(currentSection)
+    if (currentSection === 1) setShowIntroAnimation(true)
+    else setShowIntroAnimation(false)
+
     if (mainDivRef.current) {
       setTimeout(() => {
         mainDivRef.current.addEventListener('wheel', MouseWheelScroll, {passive: false})
@@ -59,8 +63,8 @@ export default function MainPage() {
   return (
     <div className="w-full h-full">
       <div ref={mainDivRef} className="relative h-screen overflow-hidden">
-        <IntroSection currentSection={currentSection} />
-        <TypeRecylingSection currentSection={currentSection} />
+        <IntroSection showIntroAnimation={showIntroAnimation} />
+        <TypeRecylingSection />
         <GuideSection currentSection={currentSection} />
         <Footer />
       </div>
