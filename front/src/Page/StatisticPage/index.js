@@ -6,8 +6,8 @@ import {Div} from '../../Component'
 export default function StatisticPage() {
   return (
     <Div>
-      <ByTime />
-      <ByType />
+      {/* <ByTime />
+      <ByType /> */}
     </Div>
   )
 }

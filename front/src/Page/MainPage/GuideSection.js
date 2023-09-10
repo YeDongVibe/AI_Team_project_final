@@ -11,5 +11,9 @@ export function GuideSection({currentSection}) {
     else setNavColorWhite()
   }, [currentSection])
 
-  return <section className="w-full h-screen bg-gradient-to-b from-[#EEFFE7]"></section>
+  return (
+    <section className="w-full h-full bg-gradient-to-b from-[#EEFFE7] pt-[120px]">
+      <div className="w-full h-full border-y-2"></div>
+    </section>
+  )
 }

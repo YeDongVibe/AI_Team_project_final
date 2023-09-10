@@ -22,23 +22,24 @@ export default function MainPage() {
 
   // 마우스 휠 이벤트에 적용할 함수
   const MouseWheelScroll = e => {
-    // 크롬 기본 마우스 휠 이벤트 막기
-    e.preventDefault()
-    // 스크롤 행동 구현
-    // 스크롤의 방향 계산 마우스 휠 내릴 떄 100, 마우스 휠 올릴 때 -100
-    const deltaY = e.deltaY
+    if (mainDivRef.current) {
+      // 스크롤 행동 구현
+      // 스크롤의 방향 계산 마우스 휠 내릴 떄 100, 마우스 휠 올릴 때 -100
+      const deltaY = e.deltaY
 
-    // 스크롤 방향에 따라 새 섹션 계산
-    const newSection = currentSection + Math.sign(deltaY)
+      // 스크롤 방향에 따라 새 섹션 계산
+      const newSection = currentSection + Math.sign(deltaY)
+      // console.log(newSection)
 
-    // 새 섹션 값이 유효한 범위 내에 있도록 보장
-    if (newSection >= 1 && newSection <= 4) {
-      setCurrentSection(newSection)
+      // 새 섹션 값이 유효한 범위 내에 있도록 보장
+      if (newSection >= 1 && newSection <= 4) {
+        setCurrentSection(newSection)
 
-      mainDivRef.current.scrollTo({
-        top: mainDivRef.current.clientHeight * (newSection - 1),
-        behavior: 'smooth'
-      })
+        mainDivRef.current.scrollTo({
+          top: mainDivRef.current.clientHeight * (newSection - 1),
+          behavior: 'smooth'
+        })
+      }
     }
   }
 
@@ -48,14 +49,16 @@ export default function MainPage() {
     if (currentSection === 1) setShowIntroAnimation(true)
     else setShowIntroAnimation(false)
 
-    if (mainDivRef.current) {
-      setTimeout(() => {
-        mainDivRef.current.addEventListener('wheel', MouseWheelScroll, {passive: false})
+    const mainDiv = mainDivRef.current
+
+    if (mainDiv) {
+      const eventTimeout = setTimeout(() => {
+        mainDiv.addEventListener('wheel', MouseWheelScroll, {passive: false})
       }, 800)
-    }
-    return () => {
-      if (mainDivRef.current) {
-        mainDivRef.current.removeEventListener('wheel', MouseWheelScroll)
+
+      return () => {
+        clearTimeout(eventTimeout)
+        mainDiv.removeEventListener('wheel', MouseWheelScroll)
       }
     }
   }, [currentSection])

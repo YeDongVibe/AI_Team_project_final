@@ -52,15 +52,15 @@ export function IntroSection({showIntroAnimation}) {
   }, [count, startSecondAnimation])
 
   return (
-    <div className="relative top-0 flex items-center justify-center w-full h-screen">
+    <section className="relative top-0 flex items-center justify-center w-full h-full">
       <img src={papercup} className="absolute top-0 object-cover w-full h-full bg-[#2A4435]" />
       <p
         className={`w-[550px] h-[198px] z-10 text-[99px] text-left text-white mr-6 relative bottom-40 ${
           showIntroAnimation ? 'animate-zoom-in' : ''
         }`}>
-        <span className="w-[550px] h-[198px] text-[99px] text-left font-porter-sans ">ECO</span>
+        <span className="w-[550px] h-[198px] text-left font-porter-sans ">ECO</span>
         <br />
-        <span className="w-[550px] h-[198px] text-[99px] text-left font-porter-sans">TRACE</span>
+        <span className="w-[550px] h-[198px] text-left font-porter-sans">TRACE</span>
       </p>
       <p className="w-[407px] relative z-10 text-left text-white translate-y-4 bottom-40">
         {Array.from(landingText).map((char, index) => {
@@ -86,6 +86,6 @@ export function IntroSection({showIntroAnimation}) {
         })}
       </p>
       <Icon name="arrow_downward" className="absolute text-3xl font-bold text-white bottom-6 animate-bounce" />
-    </div>
+    </section>
   )
 }

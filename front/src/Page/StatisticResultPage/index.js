@@ -8,9 +8,5 @@ export default function StatisticResultPage() {
   //     e.preventDefault();
   // },{passive : false});
 
-  return (
-    <Div>
-      <ResultBox />
-    </Div>
-  )
+  return <Div>{/* <ResultBox /> */}</Div>
 }
