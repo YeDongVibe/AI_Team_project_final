@@ -1,6 +1,8 @@
 import {useState, useRef} from 'react'
+import {Link} from 'react-router-dom'
 import {LoginInput} from '../../Component'
 import axios from 'axios'
+import LoginBg from './LoginBg'
 
 export const Login = () => {
   const [user_Id, setUser_Id] = useState('')
@@ -21,64 +23,46 @@ export const Login = () => {
   console.log('pw', pw)
 
   return (
-    <section className="w-full h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-full lg:py-0">
-        <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">로그인</div>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
-            </h1>
-            <LoginInput
-              label="Your ID"
-              type="text"
-              placeholder="Your ID"
-              value={user_Id}
-              onChange={e => setUser_Id(e.target.value)}
-            />
-            <LoginInput
-              label="Password"
-              type="password"
-              placeholder="password"
-              value={pw}
-              onChange={e => setPw(e.target.value)}
-            />
-            <div className="flex items-center justify-between">
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="remember"
-                    aria-describedby="remember"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required=""
-                  />
-                </div>
-                <div className="ml-3 text-sm">
-                  <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">
-                    Remember me
-                  </label>
-                </div>
-              </div>
-              <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Forgot password?
-              </a>
+    <section className="flex w-full h-screen">
+      <div className="w-2/3 h-full bg-white shadow rounded-l-[40px]">
+        <div className="flex flex-col items-center justify-center bg-white rounded-r-[40px] shadow h-full">
+          <div className="flex flex-col items-center w-2/3 p-6 space-y-6">
+            <h1 className="w-full m-4 text-4xl font-bold text-left font-poppins">Login</h1>
+            <div className="flex w-full mt-4 text-sm">
+              <button className="mr-4 btn">Continue with Google</button>
+              <button className="btn">Continue with Facebook</button>
             </div>
-            <button
-              type="submit"
-              className="w-full text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              onClick={SignInBtnClicked}>
+            <div className="w-full space-y-6">
+              <LoginInput
+                label="Your ID"
+                type="text"
+                placeholder="Id"
+                className="w-full"
+                value={user_Id}
+                onChange={e => setUser_Id(e.target.value)}
+              />
+              <LoginInput
+                label="Password"
+                type="password"
+                placeholder="Password"
+                className="w-full"
+                value={pw}
+                onChange={e => setPw(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="w-full text-white btn bg-[#435353]" onClick={SignInBtnClicked}>
               Sign in
             </button>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-500 ">
               Don’t have an account yet?{' '}
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+              <Link to="/signup" className="font-bold hover:text-green-400">
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </div>
       </div>
+      <LoginBg p1="REDUCE" p2="REUSE" p3="RECYCLE" p4="Recycling Makes MAN" textclassName="text-right" />
     </section>
   )
 }

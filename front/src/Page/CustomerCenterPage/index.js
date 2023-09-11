@@ -1,3 +1,5 @@
+import {Div} from '../../Component'
+
 export default function CustomerCenterPage() {
-  return <div></div>
+  return <Div className="pt-[120px]"></Div>
 }

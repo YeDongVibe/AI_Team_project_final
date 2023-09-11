@@ -1,7 +1,12 @@
 import {Card} from '../../Component'
 import pet from '../../images/CardImage/pet.png'
 import glass from '../../images/CardImage/glass.png'
+import can from '../../images/CardImage/can.jpg'
+import paper from '../../images/CardImage/paper.jpg'
+import paperpack from '../../images/CardImage/paperpack.jpg'
+import plastic from '../../images/CardImage/plastic.jpg'
 import {useState, useEffect, useRef} from 'react'
+import {Link} from 'react-router-dom'
 
 export function TypeRecylingSection() {
   //recycling type
@@ -14,10 +19,10 @@ export function TypeRecylingSection() {
   const cardData = [
     {imgsrc: pet, typeName: 'pet'},
     {imgsrc: glass, typeName: 'glass'},
-    {imgsrc: pet, typeName: 'pet'},
-    {imgsrc: pet, typeName: 'pet'},
-    {imgsrc: pet, typeName: 'pet'},
-    {imgsrc: pet, typeName: 'pet'},
+    {imgsrc: can, typeName: 'can'},
+    {imgsrc: paper, typeName: 'paper'},
+    {imgsrc: paperpack, typeName: 'paperpack'},
+    {imgsrc: plastic, typeName: 'plastic'},
     {imgsrc: pet, typeName: 'pet'}
   ]
 
@@ -35,11 +40,9 @@ export function TypeRecylingSection() {
   useEffect(() => {
     // 슬라이더 컨테이너의 너비를 설정하여 슬라이드 이동에 트랜지션 효과 적용
     const slider = sliderRef.current
-    console.log(slider.offsetWidth)
     if (slider) {
       const sliderWidth = slider.offsetWidth
       slider.style.width = `${sliderWidth * cardCount}px`
-      console.log(currentCard)
       slider.style.transform = `translateX(-${(currentCard - 1) * 354}px)`
       slider.style.transition = `transform ${currentCard === 1 ? 0 : 0.5}s ease-in-out`
     }
@@ -68,7 +71,9 @@ export function TypeRecylingSection() {
             {Array.from({length: 2}).map((_, index) => (
               <div className="flex" key={index}>
                 {cardData.map((card, cardIndex) => (
-                  <Card key={cardIndex} imgsrc={card.imgsrc} typeName={card.typeName} className="mr-6" />
+                  <Link to="/static/result" state={{data: cardData.typeName}}>
+                    <Card key={cardIndex} imgsrc={card.imgsrc} typeName={card.typeName} className="mr-6" />
+                  </Link>
                 ))}
               </div>
             ))}

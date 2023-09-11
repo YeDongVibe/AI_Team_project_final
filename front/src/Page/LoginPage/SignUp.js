@@ -1,7 +1,9 @@
 // 회원가입 페이지
 import {Input} from '../../Component'
 import {useState} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
+import LoginBg from './LoginBg'
 
 export function SignUp() {
   const [data, setData] = useState({
@@ -10,7 +12,7 @@ export function SignUp() {
     user_pw_chk: '',
     name: '',
     email: '',
-    birth: ''
+    nickname: ''
   })
 
   // input에 사용자 입력 값 가져오기
@@ -32,45 +34,70 @@ export function SignUp() {
   }
 
   return (
-    <section className="flex flex-col items-center justify-center w-full h-screen bg-gray-100">
-      <div className="mb-6 text-2xl font-semibold text-gray-900">회원가입</div>
-      <div className="w-3/5 bg-white rounded-lg shadow h-3/5">
-        <div className="flex flex-col items-center">
-          <Input
-            type="text"
-            name="user_id"
-            placeholder="아이디"
-            className="m-4"
-            onChange={event => DataOnChange(event)}
-          />
-          <Input
-            type="password"
-            name="user_pw"
-            placeholder="비밀번호"
-            className=""
-            onChange={event => DataOnChange(event)}
-          />
-          <Input
-            type="password"
-            name="user_pw_chk"
-            placeholder="비밀번호 확인"
-            className=""
-            onChange={event => DataOnChange(event)}
-          />
-          <Input type="text" name="name" placeholder="이름" className="m-4" onChange={event => DataOnChange(event)} />
-          <Input
-            type="email"
-            name="email"
-            placeholder="이메일"
-            className="m-4"
-            onChange={event => DataOnChange(event)}
-          />
-          <Input type="date" name="birth" placeholder="생일" className="m-4" onChange={event => DataOnChange(event)} />
-        </div>
-        <div className="flex justify-center w-full">
-          <button className="text-white btn btn-success" onClick={SubmitBtnClicked}>
-            submit
-          </button>
+    <section className="flex items-center justify-center w-full h-screen ">
+      <LoginBg p1="RECYCLING" p2="MAKETH" p3="MAN" p4="Let’s roll !" />
+      <div className="w-4/6 h-full bg-white shadow rounded-l-[40px]">
+        <div className="flex flex-col items-center justify-center w-full h-full">
+          <div className="w-2/3">
+            <h1 className="m-4 text-4xl font-bold text-left font-poppins">Create Account</h1>
+            <div className="flex mt-4 text-sm">
+              <button className="mr-4 btn">Continue with Google</button>
+              <button className="btn">Continue with Facebook</button>
+            </div>
+            <Input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <Input
+              type="text"
+              name="user_id"
+              placeholder="Id"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <Input
+              type="password"
+              name="user_pw"
+              placeholder="Password"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <Input
+              type="password"
+              name="user_pw_chk"
+              placeholder="Password Check"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <Input
+              type="text"
+              name="nickname"
+              placeholder="Nickname"
+              className="w-full my-4"
+              onChange={event => DataOnChange(event)}
+            />
+            <div className="flex justify-center w-full">
+              <button className="text-white w-full bg-[#435353] btn" onClick={SubmitBtnClicked}>
+                Create Account
+              </button>
+            </div>
+            <div className="mt-4">
+              Already have an account?{' '}
+              <Link to="/login" className="font-bold hover:text-green-400">
+                Login
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
