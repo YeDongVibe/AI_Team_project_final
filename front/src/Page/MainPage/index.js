@@ -4,11 +4,18 @@ import {TypeRecylingSection} from './TypeRecylingSection'
 import {GuideSection} from './GuideSection'
 import {Footer} from '../Routes/Footer'
 import {useEffect, useState, useRef} from 'react'
+import {useNavVisibleTrue, useNavVisibleFalse} from '../../util'
+import {useSelector} from 'react-redux'
 
 export default function MainPage() {
   const mainDivRef = useRef()
   const [currentSection, setCurrentSection] = useState(1)
   const [showIntroAnimation, setShowIntroAnimation] = useState(true)
+
+  const navVisibleTrue = useNavVisibleTrue()
+  const navVisibleFalse = useNavVisibleFalse()
+
+  const navVisible = useSelector(state => state.rootReducer.navVisible)
 
   // 해당 섹션으로 이동
   const scrollToSection = sectionNumber => {
@@ -40,15 +47,33 @@ export default function MainPage() {
           behavior: 'smooth'
         })
       }
+      if (newSection > 4) {
+        console.log(newSection)
+        navVisibleFalse()
+        console.log('navVisible: ', navVisible)
+      } else {
+        console.log('t')
+        navVisibleTrue()
+      }
     }
   }
 
+  // 푸터에 도달 시 nav바 숨김
+  useEffect(() => {
+    if (currentSection >= 4) {
+      navVisibleFalse()
+    } else {
+      navVisibleTrue()
+    }
+  }, [navVisible])
+
   // 마우스 휠 이벤트 및 인트로 애니메이션 상태
   useEffect(() => {
-    // console.log(currentSection)
-    if (currentSection === 1) setShowIntroAnimation(true)
-    else if (currentSection >= 4) {
-    } else setShowIntroAnimation(false)
+    if (currentSection === 1) {
+      setShowIntroAnimation(true)
+    } else {
+      setShowIntroAnimation(false)
+    }
 
     const mainDiv = mainDivRef.current
 
@@ -56,6 +81,7 @@ export default function MainPage() {
       const eventTimeout = setTimeout(() => {
         mainDiv.addEventListener('wheel', MouseWheelScroll, {passive: false})
       }, 800)
+      console.log('currentSection: ', currentSection)
 
       return () => {
         clearTimeout(eventTimeout)

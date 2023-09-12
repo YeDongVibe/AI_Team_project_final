@@ -25,29 +25,29 @@ export default function GuideTipPage() {
   const navigate = useNavigate()
 
   // 3개씩 나누어 렌더링
-  const renderCards = () => {
-    const columns = 3
-    const cardGroups = []
+  // const renderCards = () => {
+  //   const columns = 3
+  //   const cardGroups = []
 
-    for (let i = 0; i < cardData.length; i += columns) {
-      const cardGroup = cardData.slice(i, i + columns)
-      cardGroups.push(
-        <div className="flex w-full mb-10" key={i}>
-          {cardGroup.map((card, cardIndex) => (
-            <Card
-              key={cardIndex}
-              imgsrc={card.imgsrc}
-              typeName={card.typeName}
-              className="w-1/3 mr-6"
-              onClick={() => CardClicked(card.typeName)}
-            />
-          ))}
-        </div>
-      )
-    }
+  //   for (let i = 0; i < cardData.length; i += columns) {
+  //     const cardGroup = cardData.slice(i, i + columns)
+  //     cardGroups.push(
+  //       <div className="flex w-3/4 m-auto mb-12 md:w-1/2 sm:w-full" key={i}>
+  //         {cardGroup.map((card, cardIndex) => (
+  //           <Card
+  //             key={cardIndex}
+  //             imgsrc={card.imgsrc}
+  //             typeName={card.typeName}
+  //             className="mr-8 "
+  //             onClick={() => CardClicked(card.typeName)}
+  //           />
+  //         ))}
+  //       </div>
+  //     )
+  //   }
 
-    return cardGroups
-  }
+  //   return cardGroups
+  // }
 
   const CardClicked = () => {
     navigate('/static/result', {state: {data: cardData.typeName}})
@@ -59,7 +59,20 @@ export default function GuideTipPage() {
         <p className="absolute text-3xl font-bold text-black font-poppins">Guide & Tip</p>
       </div>
 
-      <div className="flex flex-col w-full h-full my-10 ">{renderCards()}</div>
+      <div className="flex justify-center w-full h-full my-10 ">
+        {/* <div className="w-full ">{renderCards()}</div> */}
+        <div className="flex flex-wrap justify-between w-4/5 h-full md:justify-center sm:justify-center">
+          {cardData.map((data, index) => (
+            <Card
+              key={index}
+              imgsrc={data.imgsrc}
+              typeName={data.typeName}
+              className="w-1/4 mb-8 mr-4 md:w-1/3 sm:w-1/2"
+              onClick={() => CardClicked(data.typeName)}
+            />
+          ))}
+        </div>
+      </div>
     </Div>
   )
 }

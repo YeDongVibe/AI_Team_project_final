@@ -1,5 +1,17 @@
+import {useLocation} from 'react-router-dom'
+
 export const Card = ({imgsrc, typeName, className, onClick}) => {
-  const cardClassName = ['w-[330px]', 'h-[296px]', 'relative', 'cursor-pointer', className].join(' ')
+  const location = useLocation().pathname
+  const isGuidePage = location === '/guide'
+
+  const cardClassName = [
+    // 'w-1/3',
+    `${isGuidePage ? 'w-1/3' : 'w-[330px]'}`,
+    'h-[296px]',
+    'relative',
+    'cursor-pointer',
+    className
+  ].join(' ')
 
   return (
     <div className={cardClassName} onClick={onClick}>

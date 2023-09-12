@@ -2,15 +2,18 @@
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {useEffect, useState} from 'react'
+import {useNavVisibleTrue, useNavVisibleFalse} from '../../util'
 import logo from '../../images/logo.png'
 
 export function Nav() {
   // redux
-  const [isVisible, setIsVisible] = useState(true)
-
+  const navVisible = useSelector(state => state.rootReducer.navVisible)
   const navColor = useSelector(state => state.rootReducer.navColor)
   const location = useLocation().pathname
   const Navigate = useNavigate()
+
+  const navVisibleTrue = useNavVisibleTrue()
+  const navVisibleFalse = useNavVisibleFalse()
 
   const isMainPage = location === '/'
 
@@ -21,21 +24,21 @@ export function Nav() {
     const deltaY = e.deltaY
 
     if (isMainPage) {
-      setIsVisible(true)
+      navVisibleTrue()
     } else if (deltaY >= 0) {
-      setIsVisible(false)
+      navVisibleFalse()
     } else {
-      setIsVisible(true)
+      navVisibleTrue()
     }
   }
 
   useEffect(() => {
     window.addEventListener('wheel', MouseWheelScroll)
-
+    console.log('navVisible:2 ', navVisible)
     return () => {
       window.removeEventListener('wheel', MouseWheelScroll)
     }
-  }, [isVisible, isMainPage])
+  }, [isMainPage])
 
   const logoClicked = () => {
     Navigate('/')
@@ -43,8 +46,8 @@ export function Nav() {
 
   return (
     <nav
-      className={`w-full h-[120px] fixed ${isVisible ? 'z-50' : '-z-10'} flex justify-between items-center
-    ${isVisible ? 'opacity-100 transition-all duration-500' : 'opacity-0 '}`}>
+      className={`w-full h-[120px] fixed ${navVisible ? 'z-50' : '-z-10'} flex justify-between items-center
+    ${navVisible ? 'opacity-100 transition-all duration-500' : 'opacity-0 '}`}>
       <div className="w-1/5">
         <img src={logo} className="w-1/4 cursor-pointer h-1/4" onClick={logoClicked} />
       </div>
