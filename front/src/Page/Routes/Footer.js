@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <div className="px-24 w-full h-[231px]">
+    <footer className="px-24 w-full h-[231px]">
       <div className="w-full h-[150px] pl-8 bg-white">
         <p className="text-base text-black">이수호(FE) 허지은(BE) 이예진(DA)</p>
         <p className="mt-2 text-base text-black">Terms of Use Private Policy</p>
@@ -11,6 +11,6 @@ export function Footer() {
         <p className="text-[13px] p-8 text-center text-[#4a4949]">개인정보처리방침</p>
         <p className="text-[13px] p-8 text-center text-[#4a4949]">운영정책</p>
       </div>
-    </div>
+    </footer>
   )
 }

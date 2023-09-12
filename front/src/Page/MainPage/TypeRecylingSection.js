@@ -5,8 +5,9 @@ import can from '../../images/CardImage/can.jpg'
 import paper from '../../images/CardImage/paper.jpg'
 import paperpack from '../../images/CardImage/paperpack.jpg'
 import plastic from '../../images/CardImage/plastic.jpg'
+import vinly from '../../images/CardImage/vinly.jpg'
 import {useState, useEffect, useRef} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 export function TypeRecylingSection() {
   //recycling type
@@ -14,6 +15,8 @@ export function TypeRecylingSection() {
   const [currentCard, setCurrentCard] = useState(1)
   const [customIntervel, setCustomIntervel] = useState(3000) // 이미지 이동시간
   const sliderRef = useRef(null)
+
+  const navigate = useNavigate()
 
   const cardCount = 6
   const cardData = [
@@ -23,7 +26,7 @@ export function TypeRecylingSection() {
     {imgsrc: paper, typeName: 'paper'},
     {imgsrc: paperpack, typeName: 'paperpack'},
     {imgsrc: plastic, typeName: 'plastic'},
-    {imgsrc: pet, typeName: 'pet'}
+    {imgsrc: vinly, typeName: 'vinly'}
   ]
 
   // currentCard * translate-x-[-330px] 하면 될 듯
@@ -48,32 +51,40 @@ export function TypeRecylingSection() {
     }
   }, [currentCard, cardCount])
 
+  const CardClicked = () => {
+    navigate('/guide', {state: {data: cardData.typeName}})
+  }
+
   return (
     <section className="relative flex items-center pt-[120px] w-full h-full bg-[#2A4435]">
-      <div className="flex w-full h-4/6 ">
-        <div className="flex flex-col w-5/12 text-left pl-[150px] ">
-          <div className="text-[#666666] p-2 font-Notable font-bold text-2xl">RECYCLING TYPE</div>
-          <div className="p-2 text-6xl font-bold text-white font-Notable">
+      <div className="flex w-full h-5/6 md:flex-col sm:flex-col">
+        <div className="flex flex-col w-5/12 text-left pl-[150px] sm:pl-[80px] md:flex-row md:w-full md:mb-6 sm:w-full sm:flex-row sm:mb-6">
+          <div className="text-[#666666] p-2 font-Notable font-bold text-2xl ">RECYCLING TYPE</div>
+          <div className="p-2 text-6xl font-bold text-white font-Notable ">
             <span>CHECK</span>
             <br />
             <span>RECYLING</span>
             <br />
             <span>TYPE.</span>
           </div>
-          <div className="mt-2 border-2 border-[#666666] w-[190px]"></div>
-          <div className="w-2/3 mt-2 text-white">
+          <div className="mt-2 border-2 border-[#666666] w-[190px] md:w-[0px] sm:w-[0px]"></div>
+          <div className="w-2/3 mt-2 text-white md:w-full md:mr-8 sm:mr-8 sm:w-full sm:max-h-[180px] sm:overflow-hidden">
             해당 이미지를 클릭하면 재활용 분류별 통계수치를 확인 할 수 있습니다.{' '}
           </div>
         </div>
 
-        <div className="flex w-7/12 overflow-hidden">
+        <div className="flex w-7/12 overflow-hidden md:w-2/3 md:m-auto sm:m-auto sm:w-2/3">
           <div ref={sliderRef} className="flex w-full transition-all duration-300 min-w-max">
             {Array.from({length: 2}).map((_, index) => (
               <div className="flex" key={index}>
                 {cardData.map((card, cardIndex) => (
-                  <Link to="/static/result" state={{data: cardData.typeName}}>
-                    <Card key={cardIndex} imgsrc={card.imgsrc} typeName={card.typeName} className="mr-6" />
-                  </Link>
+                  <Card
+                    key={cardIndex}
+                    imgsrc={card.imgsrc}
+                    typeName={card.typeName}
+                    className="mr-6"
+                    onClick={CardClicked}
+                  />
                 ))}
               </div>
             ))}

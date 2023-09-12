@@ -1,5 +1,6 @@
 // 시간별 통계
 import {Div} from '../../Component'
+import {ResultClick} from '../../util'
 import ReactApexChart from 'react-apexcharts'
 
 export function ByTime() {
@@ -7,8 +8,12 @@ export function ByTime() {
   const state = {
     series: [
       {
-        name: 'Desktops',
+        name: '탄소배출량',
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      },
+      {
+        name: '원재료 수익',
+        data: [1, 2, 3, 4, 5, 6, 7, 8, 9]
       }
     ],
     options: {
@@ -67,6 +72,8 @@ export function ByTime() {
     }
   }
 
+  const selfInput = () => {}
+
   return (
     <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
       <div className="flex justify-around flex-grow mb-8">
@@ -76,7 +83,8 @@ export function ByTime() {
         <button className="btn-day">6개월</button>
         <button className="btn-day">직접 입력</button>
       </div>
-      <Div className="w-2/3 p-8 m-auto bg-white rounded-2xl">
+      <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
+        <ResultClick />
         <ReactApexChart options={state.options} series={state.series} type="line" height={350} />
       </Div>
     </Div>

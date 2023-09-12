@@ -55,20 +55,20 @@ export function IntroSection({showIntroAnimation}) {
     <section className="relative top-0 flex items-center justify-center w-full h-full">
       <img src={papercup} className="absolute top-0 object-cover w-full h-full bg-[#2A4435]" />
       <p
-        className={`w-[550px] h-[198px] z-10 text-[99px] text-left text-white mr-6 relative bottom-40 ${
+        className={`w-[550px] h-[198px] z-10 text-[99px] text-left text-white ml-6 mr-6 relative bottom-40 lg:text-[80px] md:text-[65px] sm:text-[50px] ${
           showIntroAnimation ? 'animate-zoom-in' : ''
         }`}>
         <span className="w-[550px] h-[198px] text-left font-porter-sans ">ECO</span>
         <br />
         <span className="w-[550px] h-[198px] text-left font-porter-sans">TRACE</span>
       </p>
-      <p className="w-[407px] relative z-10 text-left text-white translate-y-4 bottom-40">
+      <p className="w-[407px] relative z-10 text-left text-white translate-y-4 bottom-40 ">
         {Array.from(landingText).map((char, index) => {
           if (index < 8 || index > 25) {
             return (
               <span
                 key={index}
-                className={`text-[38px] font-poppins font-semibold text-left text-white ${
+                className={`text-[38px] font-poppins font-semibold text-left text-white md:text-[30px] sm:text-[25px] ${
                   showIntroAnimation ? 'animate-type-in' : ''
                 }`}>
                 {char}
@@ -78,7 +78,9 @@ export function IntroSection({showIntroAnimation}) {
             return <br key={index} />
           } else {
             return (
-              <span key={index} className="text-[34px] font-light font-poppins text-left text-white animate-type-in">
+              <span
+                key={index}
+                className="text-[34px] font-light font-poppins text-left text-white animate-type-in md:text-[27px] sm:text-[22px]">
                 {char}
               </span>
             )

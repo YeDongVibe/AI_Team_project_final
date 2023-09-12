@@ -47,7 +47,8 @@ export default function MainPage() {
   useEffect(() => {
     // console.log(currentSection)
     if (currentSection === 1) setShowIntroAnimation(true)
-    else setShowIntroAnimation(false)
+    else if (currentSection >= 4) {
+    } else setShowIntroAnimation(false)
 
     const mainDiv = mainDivRef.current
 

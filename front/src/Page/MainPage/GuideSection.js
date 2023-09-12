@@ -15,14 +15,16 @@ export function GuideSection({currentSection}) {
   }, [currentSection])
 
   return (
-    <section className="w-full h-full bg-gradient-to-b from-[#EEFFE7] pt-[120px]">
+    <section className="w-full h-screen bg-gradient-to-b from-[#EEFFE7] pt-[120px]">
       <div className="w-full h-full border-y-2">
-        <div className="w-full pt-10 pr-10 text-6xl font-bold text-right font-Notable">RECYLING TIP & GUIDE</div>
-        <div className="flex w-full pt-10">
+        <div className="w-full pt-10 pr-10 text-6xl font-bold text-right font-Notable md:text-5xl sm:text-4xl ">
+          RECYLING TIP & GUIDE
+        </div>
+        <div className="flex w-full pt-10 md:flex-col md:items-center sm:items-center sm:flex-col">
           <div className="w-1/2">
-            <img src={recyling_tip} alt="" className="p-10 pl-[150px]" />
+            <img src={recyling_tip} className="p-10 pl-[150px] object-cover md:pl-[120px] sm:pl-[100px]" />
           </div>
-          <div className="flex flex-col items-end justify-around w-1/2 pr-20">
+          <div className="flex flex-col items-end justify-around w-1/2 pr-20 md:pr-0 sm:pr-0">
             <p className="text-right">
               올바르게 분리된 쓰레기는 자원을 보호하며 <br />
               재활용 가능한 물질을 새롭게 활용하는 기회를 제공합니다.
@@ -39,10 +41,12 @@ export function GuideSection({currentSection}) {
         </div>
 
         {/*  */}
-        <div className="relative w-full mt-10">
-          <img src={footer_1} alt="" className="w-full " />
-          <p className="absolute font-bold text-white left-16 top-6 text-7xl font-Notable">Be a Recycling Hero</p>
-          <p className="absolute text-4xl text-white font-poppins left-16 bottom-6">
+        <div className="relative w-full mt-6 max-h-56">
+          <img src={footer_1} alt="" className="w-full" />
+          <p className="absolute font-bold text-white left-16 top-6 text-7xl font-Notable md:text-5xl sm:text-3xl">
+            Be a Recycling Hero
+          </p>
+          <p className="absolute text-4xl text-white font-poppins left-16 bottom-6 md:text-2xl sm:text-lg">
             Every item you recycle brings us closer to a<span className="font-semibold"> greener future! </span>
           </p>
         </div>
