@@ -59,7 +59,7 @@ export default function GuideTipPage() {
         <p className="absolute text-3xl font-bold text-black font-poppins">Guide & Tip</p>
       </div>
 
-      <div className="flex justify-center w-full h-full my-10 ">
+      <div className="flex justify-center w-full h-full mb-10 mt-[100px] ">
         {/* <div className="w-full ">{renderCards()}</div> */}
         <div className="flex flex-wrap justify-between w-4/5 h-full md:justify-center sm:justify-center">
           {cardData.map((data, index) => (
