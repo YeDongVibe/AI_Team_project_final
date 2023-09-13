@@ -8,15 +8,31 @@ export function ByType() {
   // TODO: 배열말고 key: value 형태의 객체로 해결해야 할 듯
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    data: [30, 40, 45, 50, 39, 60, 70]
+    types: ['plastic', 'glass', 'paper', 'paperpack', 'vinyl', 'pet', 'can'],
+    ce: [30, 40, 45, 50, 39, 60, 70],
+    rm: [30, 40, 45, 50, 39, 60, 70]
   }
   const [trashType, setTrashType] = useState(byType)
 
   useEffect(() => {
-    //
-    fetch(`${process.env.REACT_APP_SERVER_URL}/statistics/types/{type}`)
+    // 재활용 종류별 통계
+    fetch(`${process.env.REACT_APP_SERVER_URL}/statistics/types/plastic`)
       .then(resp => resp.json())
-      .then(data => console.log(data))
+      .then(datalist => {
+        console.log(datalist)
+        const datelists = datalist.map(dataa => dataa['date'])
+        console.log(datelists)
+
+        // 원자재 수익 합
+        const datarm = datalist.map(data => data['rm'])
+        const rmSum = datarm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        console.log('rmSum: ', rmSum)
+
+        // 탄소 배출량 합
+        const datace = datalist.map(data => data['ce'])
+        const ceSum = datace.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        console.log('ceSum', ceSum)
+      })
       .catch(err => console.error(err))
   }, [])
 
@@ -38,11 +54,11 @@ export function ByType() {
     series: [
       {
         name: '탄소배출량',
-        data: trashType.data
+        data: trashType.ce
       },
       {
         name: '원재료 수익',
-        data: trashType.data
+        data: trashType.rm
       }
     ]
   }
@@ -64,11 +80,11 @@ export function ByType() {
     series: [
       {
         name: '탄소배출량',
-        data: trashType.data
+        data: trashType.ce
       },
       {
         name: '원재료 수익',
-        data: trashType.data
+        data: trashType.rm
       }
     ]
   }
@@ -90,11 +106,11 @@ export function ByType() {
     series: [
       {
         name: '탄소배출량',
-        data: trashType.data
+        data: trashType.ce
       },
       {
         name: '원재료 수익',
-        data: trashType.data
+        data: trashType.rm
       }
     ]
   }

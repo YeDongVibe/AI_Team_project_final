@@ -34,7 +34,6 @@ export function Nav() {
 
   useEffect(() => {
     window.addEventListener('wheel', MouseWheelScroll)
-    console.log('navVisible:2 ', navVisible)
     return () => {
       window.removeEventListener('wheel', MouseWheelScroll)
     }

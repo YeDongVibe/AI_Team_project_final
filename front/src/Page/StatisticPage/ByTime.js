@@ -1,4 +1,5 @@
 // 시간별 통계
+import {useEffect} from 'react'
 import {Div} from '../../Component'
 import {ResultClick} from '../../util'
 import ReactApexChart from 'react-apexcharts'
@@ -72,17 +73,42 @@ export function ByTime() {
     }
   }
 
+  useEffect(() => {
+    //일자별 통계
+    // fetch(`${process.env.REACT_APP_SERVER_URL}/days/${day}/${day2}`)
+    //   .then(response => response.json())
+    //   .then(data => console.log(data))
+    //   .catch(err => err.message)
+  }, [])
+
   const selfInput = () => {}
 
   return (
     <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
       <div className="flex justify-around flex-grow mb-8">
-        <button className="btn-day">오늘</button>
+        <select className="btn-day" defaultChecked="오늘">
+          <options className="text-black">오늘</options>
+        </select>
         <button className="btn-day">1개월</button>
         <button className="btn-day">3개월</button>
         <button className="btn-day">6개월</button>
-        <button className="btn-day">직접 입력</button>
+        <button className="btn-day" onClick={selfInput}>
+          직접 입력
+        </button>
       </div>
+
+      {/* 시간대 input */}
+      {/* <div>
+        <select></select>
+      </div> */}
+
+      {/* 직접 입력 창 */}
+      <div className="w-full ">
+        <input type="date" />
+        <span>~</span>
+        <input type="date" />
+      </div>
+
       <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
         <ResultClick />
         <ReactApexChart options={state.options} series={state.series} type="line" height={350} />

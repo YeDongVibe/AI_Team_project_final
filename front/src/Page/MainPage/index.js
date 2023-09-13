@@ -48,11 +48,8 @@ export default function MainPage() {
         })
       }
       if (newSection > 4) {
-        console.log(newSection)
         navVisibleFalse()
-        console.log('navVisible: ', navVisible)
       } else {
-        console.log('t')
         navVisibleTrue()
       }
     }

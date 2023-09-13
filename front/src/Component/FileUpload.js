@@ -18,7 +18,7 @@ export const FileUpload = () => {
 
       // fetch data
       await axios
-        .post(`${process.env.REACT_APP_SERVER_URL}`, formData)
+        .post(`${process.env.REACT_APP_SERVER_URL}/fileupload`, formData)
         .then(resp => console.log('upload success', resp.data))
       // console.log(response.data); // Upload 결과 확인
     } catch (error) {
@@ -41,7 +41,7 @@ export const FileUpload = () => {
         <label htmlFor="file" className="flex items-center w-3/5 pl-4 bg-gray-300 border border-gray-200 text-xm ">
           {fileName ? fileName : '파일 찾기'}
         </label>
-        <button className="p-4 ml-10 text-white btn btn-info btn-xm" onClick={handleUpload}>
+        <button className="p-4 ml-10 text-white btn btn-success" onClick={handleUpload}>
           업로드
         </button>
       </div>

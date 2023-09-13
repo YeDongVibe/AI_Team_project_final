@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-AiProjectK3Application<AI_Project_K3>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "edu.pnu.AiProjectK3Application",
+      "projectName": "AI_Project_K3",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
