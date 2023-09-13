@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.material-icons {
+  font-family: 'Material Icons', sans-serif;
+  display: inline-block;
+}
+
 @font-face {
   font-family: 'porter-sans-block';
   src: url('./fonts/porter-sans-inline-block-webfont.woff') format('woff');
@@ -38,7 +43,7 @@
 }
 
 .btn-day {
-  @apply btn bg-white px-8 py-4 text-black;
+  @apply px-8 py-4 text-black bg-white btn;
 }
 
 body {

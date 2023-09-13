@@ -21,7 +21,7 @@ export const ModalContents = ({className, children, onColseIcon, closeIconClassN
     return (
       <Div className={ModalContentsClassName}>
         <Div className="absolute right-2 top-2">
-          <Icon name="close" className={CloseIconClassName} onClick={onCloseIconClicked}></Icon>
+          <Icon name="close" className={CloseIconClassName} onClick={onCloseIconClicked} />
         </Div>
         {children}
       </Div>

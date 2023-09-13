@@ -41,19 +41,23 @@ export default function DataInquiryPage() {
   }
   return (
     <section className="w-full pt-[120px]">
-      <div className="m-8 text-3xl font-bold ">파일 업로드</div>
-      <FileUpload />
+      <div className="w-full mb-16">
+        <div className="m-8 text-3xl font-bold ">파일 업로드</div>
+        <FileUpload />
+      </div>
 
-      <div className="m-8 text-3xl font-bold">이미지 업로드</div>
-      <ImageUpload />
+      <div className="w-full mb-16">
+        <div className="m-8 text-3xl font-bold">이미지 업로드</div>
+        <ImageUpload />
+      </div>
 
-      <div className="flex justify-center my-10 ">
+      <div className="flex my-10 justify-evenly ">
         <Chart options={state.options} series={state.series} type="donut" width="380" />
         <Chart options={state.options} series={state.series} type="donut" width="380" />
       </div>
       {/*  */}
 
-      <table className="items-center w-3/4 m-auto border-collapse rounded-xl">
+      <table className="items-center w-3/4 m-auto mb-8 border-collapse rounded-xl">
         <thead>
           <tr className="w-full">
             <th className="w-1/5 px-6 border">종류</th>
@@ -74,7 +78,7 @@ export default function DataInquiryPage() {
         </tbody>
       </table>
 
-      {/* <ImageModal open={modalOpen} /> */}
+      <ImageModal open={modalOpen} setOpen={setModalOpen} />
     </section>
   )
 }
