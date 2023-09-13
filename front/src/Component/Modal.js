@@ -9,19 +9,19 @@ export const Modal = ({open, className, ...props}) => {
 }
 
 export const ModalContents = ({className, children, onColseIcon, closeIconClassName, onCloseIconClicked, ...props}) => {
-  const ModalContentsClassName = ['modal-box', className].join(' ')
+  const ModalContentsClassName = ['modal-box', 'relative', className].join(' ')
 
   // 모달 창 오른쪽 위 닫기 버튼 스타일링
   const CloseIconClassName = closeIconClassName
     ? closeIconClassName
-    : ['btn', 'btn-info', 'btn-sm', 'btn-outline', 'text-white'].join(' ')
+    : ['btn', 'btn-info', 'btn-sm', 'btn-outline', 'text-white h-100'].join(' ')
 
   // 모달 창 닫는 x버튼 생성 할 건지 여부 판단 후 생성 한다면?
   if (onColseIcon) {
     return (
       <Div className={ModalContentsClassName}>
-        <Div className="absolute" right="0.5rem" top="0.5rem">
-          <Icon name="close" className={CloseIconClassName} onClick={onCloseIconClicked} />
+        <Div className="absolute right-2 top-2">
+          <Icon name="close" className={CloseIconClassName} onClick={onCloseIconClicked}></Icon>
         </Div>
         {children}
       </Div>

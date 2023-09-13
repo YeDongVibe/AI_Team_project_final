@@ -30,6 +30,17 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Sunflower';
+  src: url('./fonts/Sunflower-Medium.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.btn-day {
+  @apply btn bg-white px-8 py-4 text-black;
+}
+
 body {
   margin: 0;
   font-family: 'poppins', 'porter-sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
@@ -40,4 +51,7 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.apexcharts-menu-icon {
 }
