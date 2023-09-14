@@ -46,9 +46,9 @@ public class UserCommentServiceImpl implements UserCommentService {
 		commentRepo.save(rv);
 	}
 
-	// read table(안됨) -> boardid unique 때문에 ?
+	// 해결
 	@Override
-	public List<UserComment> commentLists(Integer id) {
+	public List<UserCommentDTO> commentLists(Integer id) {
 		List<UserComment> newComment = commentRepo.getByBoardid(id);
 		List<UserCommentDTO> newList = new ArrayList<>();
 		for(UserComment b: newComment) {
@@ -61,11 +61,10 @@ public class UserCommentServiceImpl implements UserCommentService {
 					.time(b.getTime())
 					.build()
 					);
-		}
-		
-		return newComment;
-
+			}
+		return newList;	
 	}
+		
 	
 //	이것도 안됨 ! 
 //	public List<UserComment> commentLists(){

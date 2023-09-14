@@ -32,7 +32,7 @@ public class UserCommentController {
 	}
 
 	@GetMapping("/readComment/{id}")
-	private List<UserComment> readRV(@PathVariable Integer id) {
+	private List<UserCommentDTO> readRV(@PathVariable Integer id) {
 		return commentService.commentLists(id);
 	}
 

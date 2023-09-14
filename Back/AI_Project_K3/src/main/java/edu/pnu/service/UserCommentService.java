@@ -11,7 +11,7 @@ public interface UserCommentService {
 	public void insertComment(UserCommentDTO comment);
 	
 	//리뷰 리스트
-	public List<UserComment> commentLists(Integer id);
+	public List<UserCommentDTO> commentLists(Integer id);
 	
 	//리뷰 수정
 	public void updateComment(Integer id, UserCommentDTO comment) throws Exception;
