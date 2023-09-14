@@ -25,7 +25,8 @@ export const Login = () => {
         alert(`${username}님 환영합니다`)
         Navigate('/')
       })
-      .catch(() => {
+      .catch(error => {
+        console.log(error.message)
         alert('로그인 실패')
       })
   }

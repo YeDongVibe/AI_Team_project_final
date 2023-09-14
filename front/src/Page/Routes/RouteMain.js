@@ -11,6 +11,7 @@ import StatisticPage from '../StatisticPage'
 import DataInquiryPage from '../DataInquiryPage'
 import GuideTipPage from '../GuideTipPage'
 import CustomerCenterPage from '../CustomerCenterPage'
+import {WriteBoard} from '../CustomerCenterPage/WriteBoard'
 
 export function RouteMain() {
   return (
@@ -25,6 +26,7 @@ export function RouteMain() {
           <Route path="/inquiry" element={<DataInquiryPage />} />
           <Route path="/guide" element={<GuideTipPage />} />
           <Route path="/customer" element={<CustomerCenterPage />} />
+          <Route path="/customer/write" element={<WriteBoard />} />
         </Route>
       </Routes>
     </BrowserRouter>

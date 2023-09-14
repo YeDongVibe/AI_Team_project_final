@@ -52,7 +52,7 @@ export function ImageUpload() {
     // for (let i = 0; i < imgFile.length; i++) {
     //   formData.append('imageFile', imgFile[i])
     // }
-    fetch(`${process.env.REACT_APP_SERVER_URL}/image`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/manager/files/image`, {
       method: 'post',
       body: formData
     }).catch(err => err.message)
