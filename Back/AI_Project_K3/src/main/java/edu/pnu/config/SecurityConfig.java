@@ -38,11 +38,11 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(authorize -> {
 			try {
-				authorize.requestMatchers("/manager/**").hasAnyRole("MANAGER")
+				authorize.requestMatchers("/hi").hasAnyRole("MANAGER")
 //											.requestMatchers("/admin/**")
 //											.hasRole("ADMIN")
 											// 권한 설정 추가 기억이겅 !!
-											.requestMatchers("/public/**").permitAll();
+											.requestMatchers("/public/**","/manager/**").permitAll();
 //											.anyRequest().permitAll();
 //											.authenticated()
 //											.and().exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntryPoint());

@@ -12,35 +12,12 @@ export function ByType() {
     rm: [30, 40, 45, 50, 39, 60, 70]
   }
 
-  // const byType2 = {
-  //   type: [
-  //     {
-  //       type: 'plastic',
-  //       ce: 0,
-  //       rm: 0,
-  //       yearData: 0,
-  //       monthData: 0,
-  //       todayData: 0
-  //     },
-  //     {
-  //       type: 'glass',
-  //       ce: 0,
-  //       rm: 0,
-  //       yearData: 0,
-  //       monthData: 0,
-  //       todayData: 0
-  //     },
-  //     {type: 'paper', ce: 0, rm: 0, yearData: 0, monthData: 0, todayData: 0},
-  //     {type: 'paperpack', ce: 0, rm: 0, yearData: 0, monthData: 0, todayData: 0},
-  //     {type: 'vinyl', ce: 0, rm: 0, yearData: 0, monthData: 0, todayData: 0},
-  //     {type: 'pet', ce: 0, rm: 0, yearData: 0, monthData: 0, todayData: 0},
-  //     {type: 'can', ce: 0, rm: 0, yearData: 0, monthData: 0, todayData: 0}
-  //   ]
-  // }
   const [trashYearType, setTrashYearType] = useState(byType)
+  const [trashMonthType, setTrashMonthType] = useState(byType)
+  const [trashTodayType, setTrashTodayType] = useState(byType)
 
-  useEffect(() => {
-    // 재활용 종류별 통계
+  // 재활용 종류별 통계를 가져오는 함수
+  const fetchTrashStatisticsByType = async type => {
     const currentDate = new Date()
     const [currentYear, currentMonth, currentDay] = [
       currentDate.getFullYear(),
@@ -48,80 +25,92 @@ export function ByType() {
       currentDate.getDate()
     ]
 
-    // 재활용 종류별 통계를 가져오는 함수
-    const fetchTrashStatisticsByType = async type => {
-      const index = byType[type].indexOf()
-      console.log(index)
-      try {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/statistics/types/${type}`)
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        const datalist = await response.json()
-
-        // 데이터 가공
-        const matchingYearData = datalist.filter(dataa => {
-          const dataYear = dataa['date'][0]
-          return dataYear === currentYear
-        })
-        const matchingMonthData = datalist.filter(dataa => {
-          const [dataYear, dataMonth, dataDay] = dataa['date']
-          return dataYear === currentYear && dataMonth === currentMonth
-        })
-        const matchingTodayData = datalist.filter(dataa => {
-          const [dataYear, dataMonth, dataDay] = dataa['date']
-          return dataYear === currentYear && dataMonth === currentMonth && dataDay === currentDay
-        })
-        // 가공한 데이터로 상태 업데이트
-        setTrashYearType(prev => ({
-          ...prev,
-          ce: prev[type].ce,
-          rm: prev[type].rm
-        }))
-        console.log(trashYearType)
-      } catch (error) {
-        console.error('Error fetching data:', error)
+    const index = byType['types'].indexOf(type)
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/types/${type}`)
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
       }
+      const datalist = await response.json()
+
+      // 데이터 가공
+      const matchingYearData = datalist.filter(dataa => {
+        const dataYear = dataa['date'][0]
+        return dataYear === currentYear
+      })
+      const matchingMonthData = datalist.filter(dataa => {
+        const [dataYear, dataMonth, dataDay] = dataa['date']
+        return dataYear === currentYear && dataMonth === currentMonth
+      })
+      const matchingTodayData = datalist.filter(dataa => {
+        const [dataYear, dataMonth, dataDay] = dataa['date']
+        return dataYear === currentYear && dataMonth === currentMonth && dataDay === currentDay
+      })
+      // 년별 원자재 수익 합, 탄소 배출량 합
+      const dataYearrm = matchingYearData.map(data => data['rm'])
+      const rmYearSum = dataYearrm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      const dataYearce = matchingYearData.map(data => data['ce'])
+      const ceYearSum = dataYearce.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+
+      // 월별 원자재 수익 합, 탄소 배출량 합
+      const dataMonthrm = matchingMonthData.map(data => data['rm'])
+      const rmMonthSum = dataMonthrm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      const dataMonthce = matchingMonthData.map(data => data['ce'])
+      const ceMonthSum = dataMonthce.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+
+      // 일별 원자재 수익 합, 탄소 배출량 합
+      const dataTodayrm = matchingTodayData.map(data => data['rm'])
+      const rmTodaySum = dataTodayrm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      const dataTodayce = matchingTodayData.map(data => data['ce'])
+      const ceTodaySum = dataTodayce.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+
+      // 가공한 데이터로 상태 업데이트
+      setTrashYearType(prev => {
+        const updatedCE = [...prev.ce]
+        updatedCE[index] = ceYearSum
+
+        const updatedRM = [...prev.rm]
+        updatedRM[index] = rmYearSum
+        return {
+          ...prev,
+          ce: updatedCE,
+          rm: updatedRM
+        }
+      })
+      setTrashMonthType(prev => {
+        const updatedCE = [...prev.ce]
+        updatedCE[index] = ceMonthSum
+
+        const updatedRM = [...prev.rm]
+        updatedRM[index] = rmMonthSum
+        return {
+          ...prev,
+          ce: updatedCE,
+          rm: updatedRM
+        }
+      })
+      setTrashTodayType(prev => {
+        const updatedCE = [...prev.ce]
+        updatedCE[index] = ceTodaySum
+
+        const updatedRM = [...prev.rm]
+        updatedRM[index] = rmTodaySum
+        return {
+          ...prev,
+          ce: updatedCE,
+          rm: updatedRM
+        }
+      })
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
+  }
+
+  useEffect(() => {
+    // 재활용 종류별 통계
     byType.types.forEach(type => {
-      // console.log(type)
       fetchTrashStatisticsByType(type)
     })
-
-    // fetch(`${process.env.REACT_APP_SERVER_URL}/statistics/types/plastic`)
-    //   .then(resp => resp.json())
-    //   .then(datalist => {
-    //     console.log(datalist)
-
-    //     const matchingYearData = datalist.filter(dataa => {
-    //       const dataYear = dataa['date'][0]
-    //       return dataYear === currentYear
-    //     })
-    //     console.log('matchingYearData: ', matchingYearData)
-
-    //     const matchingMonthData = datalist.filter(dataa => {
-    //       const [dataYear, dataMonth, dataDay] = dataa['date']
-    //       return dataYear === currentYear && dataMonth === currentMonth
-    //     })
-    //     console.log('matchingMonthData: ', matchingMonthData)
-
-    //     const matchingTodayData = datalist.filter(dataa => {
-    //       const [dataYear, dataMonth, dataDay] = dataa['date']
-    //       return dataYear === currentYear && dataMonth === currentMonth && dataDay === currentDay
-    //     })
-    //     console.log('matchingTodayData: ', matchingTodayData)
-
-    //     // 원자재 수익 합
-    //     const datarm = matchingYearData.map(data => data['rm'])
-    //     const rmSum = datarm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    //     console.log('rmSum: ', rmSum)
-
-    //     // 탄소 배출량 합
-    //     const datace = matchingYearData.map(data => data['ce'])
-    //     const ceSum = datace.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    //     console.log('ceSum', ceSum)
-    //   })
-    //   .catch(err => console.error(err))
   }, [])
 
   // 일별 막대 그래프 데이터
@@ -136,17 +125,17 @@ export function ByType() {
         align: 'center'
       },
       xaxis: {
-        categories: trashYearType.type
+        categories: trashTodayType.type
       }
     },
     series: [
       {
         name: '탄소배출량',
-        data: trashYearType.ce
+        data: trashTodayType.ce
       },
       {
         name: '원재료 수익',
-        data: trashYearType.rm
+        data: trashTodayType.rm
       }
     ]
   }
@@ -162,17 +151,17 @@ export function ByType() {
         align: 'center'
       },
       xaxis: {
-        categories: trashYearType.type
+        categories: trashMonthType.type
       }
     },
     series: [
       {
         name: '탄소배출량',
-        data: trashYearType.ce
+        data: trashMonthType.ce
       },
       {
         name: '원재료 수익',
-        data: trashYearType.rm
+        data: trashMonthType.rm
       }
     ]
   }
@@ -205,49 +194,30 @@ export function ByType() {
 
   const TypeClicked = types => {
     setTrashYearType(prev => {
-      if (prev.types.includes(types)) {
-        const typeIndex = prev.types.indexOf(types)
-        const updatedTypes = prev.types.filter(item => item !== types)
-        const updatedCE = prev.ce.slice()
-        const updatedRM = prev.rm.slice()
-        updatedCE.splice(typeIndex, 1)
-        updatedRM.splice(typeIndex, 1)
+      if (prev.type.includes(types)) {
+        const updatedType = prev.type.filter(item => item !== types)
+        const updatedCE = prev.ce.filter((_, index) => updatedType.includes(prev.type[index]))
+        const updatedRM = prev.rm.filter((_, index) => updatedType.includes(prev.type[index]))
+        return {...prev, type: updatedType, ce: updatedCE, rm: updatedRM}
+      } else {
+        const index = byType['type'].indexOf(types)
+
+        fetchTrashStatisticsByType(byType['types'][index])
+
+        const updatedType = [...prev.type, types]
+        const updatedCE = [...prev.ce, trashYearType.ce[index]]
+        const updatedRM = [...prev.rm, trashYearType.rm[index]]
+
         return {
           ...prev,
-          types: updatedTypes,
+          type: updatedType,
           ce: updatedCE,
           rm: updatedRM
-        }
-      } else {
-        const typeIndex = byType.types.indexOf(types)
-        return {
-          ...prev,
-          types: [...prev.types, types],
-          ce: [...prev.ce, byType.ce[typeIndex]],
-          rm: [...prev.rm, byType.rm[typeIndex]]
         }
       }
     })
   }
 
-  // const TypeClicked = types => {
-  //   setTrashYearType(prev => {
-  //     console.log(prev)
-  //     if (prev.type.includes(types)) {
-  //       const updatedType = prev.type.filter(item => item !== types)
-  //       const updatedData = prev.data.filter((_, index) => updatedType.includes(prev.type[index]))
-  //       return {...prev, type: updatedType, data: updatedData}
-  //     } else {
-  //       const typeIndex = byType.type.indexOf(types)
-  //       const typelength = byType.type.length
-  //       let updatedData = [...prev.data]
-  //       updatedData = updatedData
-  //         .slice(0, typeIndex)
-  //         .concat(byType.data[typeIndex], updatedData.slice(typeIndex, typelength))
-  //       return {...prev, type: [...prev.type, types], data: updatedData}
-  //     }
-  //   })
-  // }
   const AllTypeClicked = () => {
     setTrashYearType(prev => {
       return {
@@ -257,22 +227,22 @@ export function ByType() {
         rm: [30, 40, 45, 50, 39, 60, 70]
       }
     })
-    // setTrashMonthType(prev => {
-    //   return {
-    //     ...prev,
-    //     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    //     ce: [30, 40, 45, 50, 39, 60, 70],
-    //     rm: [30, 40, 45, 50, 39, 60, 70]
-    //   }
-    // })
-    // setTrashTodayType(prev => {
-    //   return {
-    //     ...prev,
-    //     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    //     ce: [30, 40, 45, 50, 39, 60, 70],
-    //     rm: [30, 40, 45, 50, 39, 60, 70]
-    //   }
-    // })
+    setTrashMonthType(prev => {
+      return {
+        ...prev,
+        type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
+        ce: [30, 40, 45, 50, 39, 60, 70],
+        rm: [30, 40, 45, 50, 39, 60, 70]
+      }
+    })
+    setTrashTodayType(prev => {
+      return {
+        ...prev,
+        type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
+        ce: [30, 40, 45, 50, 39, 60, 70],
+        rm: [30, 40, 45, 50, 39, 60, 70]
+      }
+    })
   }
 
   return (

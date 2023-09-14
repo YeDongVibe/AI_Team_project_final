@@ -2,6 +2,7 @@ package edu.pnu.controller;
 
 import java.util.Optional;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,13 @@ public class UserController {
 		}
 	}
 
+	// put Manager authority
+	@PostMapping("/test")
+	public ResponseEntity<String> test(){
+		userService.testDB();
+		return ResponseEntity.ok("success !");
+	}
+
 	// get x , post o
 	// login
 	@PostMapping("/login")
@@ -52,7 +60,12 @@ public class UserController {
 			if(findUser.isPresent() && passwordEncoder.matches(password,findUser.get().getPassword())) {
 				
 				String token = jwtProvider.create(username, authority);
-				return ResponseEntity.ok(token);
+				HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Bearer " + token);
+            
+            return ResponseEntity.ok()
+                .headers(headers)
+                .body("Login successful");
 			}else {
 				return ResponseEntity.badRequest().body("Invalid id or password");
 			}

@@ -6,13 +6,18 @@ import {ImageModal} from './ImageModal'
 import {ImageUpload} from './ImageUpload'
 
 export default function DataInquiryPage() {
-  const [modalOpen, setModalOpen] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const [fetchData, setFetchData] = useState()
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/statistics/readAllRecycle`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
       .then(resp => resp.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
+      .then(datalist => {
+        console.log(datalist)
+        // datalist.map((data) => )
+      })
+      .catch(err => err.message)
   }, [])
 
   const byType = {
@@ -78,7 +83,7 @@ export default function DataInquiryPage() {
         </tbody>
       </table>
 
-      <ImageModal open={modalOpen} setOpen={setModalOpen} />
+      {/* <ImageModal open={modalOpen} setOpen={setModalOpen} /> */}
     </section>
   )
 }

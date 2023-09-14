@@ -23,7 +23,7 @@ export const getUserInfoFromToken = () => {
   const cookies = document.cookie.split('; ')
 
   // 저장 한 쿠키 이름 확인 필요함,,
-  const tokenCookie = cookies.find(cookie => cookie.startsWith('accessJwtToken:='))
+  const tokenCookie = cookies.find(cookie => cookie.startsWith('accessToken'))
 
   if (tokenCookie) {
     const token = tokenCookie.split('=')[1].trim() // 앞뒤 공백 제거
@@ -33,7 +33,7 @@ export const getUserInfoFromToken = () => {
     try {
       const decodedToken = jwtDecode(token) // 해독된 토큰의 형태
       // console.log(decodedToken)
-      const userInfo = decodedToken.userId
+      const userInfo = decodedToken.username
       return userInfo
     } catch (error) {
       console.error('토큰 해독 에러:', error)

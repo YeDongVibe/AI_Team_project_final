@@ -14,11 +14,9 @@ export const FileUpload = () => {
     formData.append('file', file)
 
     try {
-      // let url = 'http://localhost:8080/file'
-
       // fetch data
       await axios
-        .post(`${process.env.REACT_APP_SERVER_URL}/fileupload`, formData)
+        .post(`${process.env.REACT_APP_SERVER_URL}/manager/files/fileupload`, formData)
         .then(resp => console.log('upload success', resp.data))
       // console.log(response.data); // Upload 결과 확인
     } catch (error) {

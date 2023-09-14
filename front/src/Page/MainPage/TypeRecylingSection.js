@@ -58,7 +58,7 @@ export function TypeRecylingSection() {
   return (
     <section className="relative flex items-center pt-[120px] w-full h-full bg-[#2A4435]">
       <div className="flex w-full h-5/6 md:flex-col sm:flex-col">
-        <div className="flex flex-col w-5/12 text-left pl-[150px] sm:pl-[80px] md:flex-row md:w-full md:mb-6 sm:w-full sm:flex-row sm:mb-6">
+        <div className="flex flex-col w-5/12 text-left pl-[170px] sm:pl-[80px] md:flex-row md:w-full md:mb-6 sm:w-full sm:flex-row sm:mb-6">
           <div className="text-[#666666] p-2 font-Notable font-bold text-2xl ">RECYCLING TYPE</div>
           <div className="p-2 text-6xl font-bold text-white font-Notable ">
             <span>CHECK</span>
@@ -73,7 +73,7 @@ export function TypeRecylingSection() {
           </div>
         </div>
 
-        <div className="flex w-7/12 overflow-hidden md:w-2/3 md:m-auto sm:m-auto sm:w-2/3">
+        <div className="flex w-7/12 mr-20 overflow-hidden md:w-2/3 md:m-auto sm:m-auto sm:w-2/3">
           <div ref={sliderRef} className="flex w-full transition-all duration-300 min-w-max">
             {Array.from({length: 2}).map((_, index) => (
               <div className="flex" key={index}>

@@ -8,6 +8,33 @@ export function ByTime() {
   const startDateRef = useRef(null)
   const endDateRef = useRef(null)
 
+  const [isTime, setIsTime] = useState(false)
+  const [fetchData, setFetchData] = useState({})
+  const [fetchCE, setFetchCE] = useState([])
+  const [fetchRM, setFetchRM] = useState([])
+
+  // 오늘 날짜
+  const currentDate = new Date()
+  const [currentYear, currentMonth, currentDay] = [
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() + 1) : currentDate.getMonth() + 1,
+    currentDate.getDate()
+  ]
+
+  const oneMonth = currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth()) : currentDate.getMonth()
+  const threeMonth =
+    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() - 2) : currentDate.getMonth() - 2
+  const sixMonth =
+    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() - 5) : currentDate.getMonth() - 5
+
+  const today = currentYear + '-' + currentMonth + '-' + currentDay
+  const oneMonthBtn = currentYear + '-' + oneMonth + '-' + currentDay
+  const threeMonthBtn = currentYear + '-' + threeMonth + '-' + currentDay
+  const sixMonthBtn = currentYear + '-' + sixMonth + '-' + currentDay
+
+  const monthType = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const minite = [0, 10, 20, 30, 40, 50]
+
   // redux로 뺄지 고민 중
   const [isSelfInput, setIsSelfInput] = useState(false)
   const timeRanges = [
@@ -42,11 +69,11 @@ export function ByTime() {
     series: [
       {
         name: '탄소배출량',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        data: fetchCE
       },
       {
         name: '원재료 수익',
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        data: fetchRM
       }
     ],
     options: {
@@ -78,7 +105,7 @@ export function ByTime() {
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+        categories: isTime ? minite : monthType
       },
       toolbar: {
         tools: {
@@ -107,10 +134,7 @@ export function ByTime() {
 
   useEffect(() => {
     //일자별 통계
-    // fetch(`${process.env.REACT_APP_SERVER_URL}/days/${day}/${day2}`)
-    //   .then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(err => err.message)
+    FetchByTime(today, today)
   }, [])
 
   const selfInput = () => {
@@ -119,21 +143,70 @@ export function ByTime() {
   }
 
   const TimeSelectOnChange = e => {
+    // 시간별 통계
     const selectValue = e.target.value
+    setIsTime(true)
     console.log(selectValue)
 
     if (selectValue === '오늘') {
+      setIsTime(false)
     } else {
-    }
+      const startTime = selectValue.slice(0, 5)
+      const endTime = selectValue.slice(8)
 
-    // 시간별 통계
-    fetch(`${process.env.REACT_APP_SERVER_URL}/times/01/02`)
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => error.message)
+      fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/times/${startTime}/${endTime}`)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => error.message)
+    }
   }
 
-  const DateSelectOnClicked = () => {}
+  const DateSelectOnClicked = () => {
+    const startDate = startDateRef.current?.value
+    const endDate = endDateRef.current?.value
+    FetchByTime(startDate, endDate)
+  }
+
+  const FetchByTime = (date1, date2) => {
+    setFetchData({})
+    setIsTime(false)
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
+      .then(response => response.json())
+      .then(datalist => {
+        console.log(datalist)
+        // 데이터를 날짜로 그룹화하는 객체 생성
+        const dataByDate = {}
+
+        // 데이터를 날짜별로 그룹화
+        datalist.forEach(data => {
+          const dateKey = monthType[data['date'][1]]
+          if (!dataByDate[dateKey]) {
+            dataByDate[dateKey] = []
+          }
+          dataByDate[dateKey].push(data)
+        })
+
+        // 그룹화된 데이터 확인
+        setFetchData(dataByDate)
+        const CEData = []
+        const RMData = []
+        monthType.forEach(month => {
+          if (dataByDate[month]) {
+            const ceSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['ce'], 0)
+            const rmSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['rm'], 0)
+            CEData.push(ceSum)
+            RMData.push(rmSum)
+          } else {
+            CEData.push(0)
+            RMData.push(0)
+          }
+        })
+        setFetchCE(CEData)
+        setFetchRM(RMData)
+      })
+      .catch(err => err.message)
+  }
 
   return (
     <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
@@ -146,9 +219,15 @@ export function ByTime() {
             </option>
           ))}
         </select>
-        <button className="btn-day">1개월</button>
-        <button className="btn-day">3개월</button>
-        <button className="btn-day">6개월</button>
+        <button className="btn-day" onClick={() => FetchByTime(oneMonthBtn, today)}>
+          1개월
+        </button>
+        <button className="btn-day" onClick={() => FetchByTime(threeMonthBtn, today)}>
+          3개월
+        </button>
+        <button className="btn-day" onClick={() => FetchByTime(sixMonthBtn, today)}>
+          6개월
+        </button>
         <button className="btn-day" onClick={selfInput}>
           직접 입력
         </button>

@@ -2,8 +2,16 @@ import {Div} from '../../Component'
 import {CustomerBoardItem} from './CustomerBoardItem'
 import {CustomerBoard} from './CustomerBoard'
 import customerimg from '../../images/customerService.png'
+import {useEffect} from 'react'
 
 export default function CustomerCenterPage() {
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/boardList`)
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(err => err.message)
+  }, [])
+
   return (
     <Div className="pt-[120px] w-full h-full">
       <div className="relative flex items-center justify-center w-full">

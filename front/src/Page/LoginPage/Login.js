@@ -1,23 +1,33 @@
 import {useState, useRef} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {LoginInput} from '../../Component'
 import axios from 'axios'
 import LoginBg from './LoginBg'
+import {setCookie, getUserInfoFromToken} from '../../util/Cookie'
 
 export const Login = () => {
+  const Navigate = useNavigate()
   const [user_Id, setUser_Id] = useState('')
   const [pw, setPw] = useState('')
 
   // 로그인 버튼 클릭 시
   const SignInBtnClicked = () => {
     axios
-      .post('http://10.125.121.177:8080/login', {
-        Username: user_Id,
-        Password: pw
+      .post(`${process.env.REACT_APP_SERVER_URL}/public/member/login`, {
+        username: user_Id,
+        password: pw
       })
-      .then(response => response.json())
-      .then(data => console.log('data: ', data))
-      .catch(error => error.message)
+      .then(response => {
+        const headers = response.headers
+        const jwtToken = headers['authorization']
+        setCookie('accessToken', jwtToken.slice(7))
+        const username = getUserInfoFromToken()
+        alert(`${username}님 환영합니다`)
+        Navigate('/')
+      })
+      .catch(() => {
+        alert('로그인 실패')
+      })
   }
   console.log('id', user_Id)
   console.log('pw', pw)

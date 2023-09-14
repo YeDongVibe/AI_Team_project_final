@@ -3,7 +3,7 @@ import {useRef, useState} from 'react'
 export function ImageUpload() {
   const imgRef = useRef(null)
 
-  const [imgFile, setImgFile] = useState('')
+  const [imgFile, setImgFile] = useState([])
 
   // 이미지 미리보기
   const saveImgFile = () => {
@@ -11,7 +11,7 @@ export function ImageUpload() {
     console.log('file: ', files)
     if (files) {
       const imgPreview = []
-
+      setImgFile([])
       // 각 이미지 파일에 대해 루프를 돌며 미리보기 URL을 생성합니다
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
@@ -25,7 +25,7 @@ export function ImageUpload() {
 
             // 모든 이미지 파일의 미리보기 URL이 준비되면 상태 업데이트를 통해 화면에 표시할 수 있습니다.
             if (imgPreview.length === files.length) {
-              console.log(imgPreview)
+              // console.log(imgPreview)
               setImgFile(imgPreview)
             }
           }
@@ -36,22 +36,26 @@ export function ImageUpload() {
 
   // 이미지 업로드 버튼 클릭 시
   const ImgUploadClicked = () => {
-    console.log(imgFile[0])
+    if (imgFile.length === 0) {
+      console.error('이미지를 선택해주세요.') // 예외 처리
+      return
+    }
+    // console.log(imgFile[0])
 
     const formData = new FormData()
     formData.append('imageFile', imgFile[0])
 
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0], pair[1])
+    // }
+
     // for (let i = 0; i < imgFile.length; i++) {
     //   formData.append('imageFile', imgFile[i])
     // }
-    // fetch(`${process.env.REACT_APP_SERVER_URL}/image`, {
-    fetch(`http://localhost:8080/image`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/image`, {
       method: 'post',
       body: formData
-    })
-      .then(response => response.text())
-      .then(data => console.log(data))
-      .catch(err => console.error(err.message))
+    }).catch(err => err.message)
   }
 
   return (

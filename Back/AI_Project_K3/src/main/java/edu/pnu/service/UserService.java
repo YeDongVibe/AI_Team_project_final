@@ -10,5 +10,5 @@ public interface UserService {
 	void createUser(UserEntity user);
 	List<UserEntity> getAllUsers();
 	UserEntity authenticate(String id, String pw);
-		
+	UserEntity testDB();	
 }

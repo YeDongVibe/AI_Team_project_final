@@ -1,14 +1,16 @@
 // 회원가입 페이지
 import {Input} from '../../Component'
 import {useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import LoginBg from './LoginBg'
 
 export function SignUp() {
+  const Navigate = useNavigate()
+
   const [data, setData] = useState({
-    user_id: '',
-    user_pw: '',
+    username: '',
+    password: '',
     user_pw_chk: '',
     name: '',
     email: '',
@@ -22,14 +24,16 @@ export function SignUp() {
       ...prevFormData,
       [name]: value
     }))
-    // console.log('data: ', data)
   }
 
   // 서버에 회원가입 요청
   const SubmitBtnClicked = () => {
     axios
-      .post('http://localhost:8080/signup', data)
-      .then(response => console.log(response.data))
+      .post(`${process.env.REACT_APP_SERVER_URL}/public/member/signup`, data)
+      .then(response => {
+        console.log(response.data)
+        // Navigate('/login')
+      })
       .catch(error => error.message)
   }
 

@@ -17,6 +17,7 @@ public class CorsConfig implements WebMvcConfigurer{
 	                .allowedOrigins("http://localhost:3000", "http://localhost:5000/process_image")
 	                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 	                .allowedHeaders("*")
-	                .allowCredentials(true);
+	                .allowCredentials(true)
+									.exposedHeaders("Authorization"); //헤더에 (Authorization) 포함;
 	    }
 }

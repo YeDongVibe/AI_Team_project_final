@@ -4,8 +4,12 @@ import {useSelector} from 'react-redux'
 import {useEffect, useState} from 'react'
 import {useNavVisibleTrue, useNavVisibleFalse} from '../../util'
 import logo from '../../images/logo.png'
+import {getCookie, getUserInfoFromToken, removeCookie} from '../../util'
 
 export function Nav() {
+  const [isLogin, setIsLogin] = useState(false)
+  const [loginText, setLoginText] = useState('')
+
   // redux
   const navVisible = useSelector(state => state.rootReducer.navVisible)
   const navColor = useSelector(state => state.rootReducer.navColor)
@@ -33,6 +37,15 @@ export function Nav() {
   }
 
   useEffect(() => {
+    const cookie = getCookie('accessToken')
+    if (cookie) {
+      const username = getUserInfoFromToken()
+      setIsLogin(true)
+      setLoginText(`${username}님 환영합니다.`)
+    } else setIsLogin(false)
+  }, [])
+
+  useEffect(() => {
     window.addEventListener('wheel', MouseWheelScroll)
     return () => {
       window.removeEventListener('wheel', MouseWheelScroll)
@@ -43,12 +56,18 @@ export function Nav() {
     Navigate('/')
   }
 
+  const logoutClicked = () => {
+    removeCookie('accessToken')
+    setIsLogin(false)
+    setLoginText('')
+  }
+
   return (
     <nav
       className={`w-full h-[120px] fixed ${navVisible ? 'z-50' : '-z-10'} flex justify-between items-center
     ${navVisible ? 'opacity-100 transition-all duration-500' : 'opacity-0 '}`}>
       <div className="w-1/5">
-        <img src={logo} className="w-1/4 cursor-pointer h-1/4" onClick={logoClicked} />
+        <img src={logo} className="w-1/4 ml-6 cursor-pointer h-1/4" onClick={logoClicked} />
       </div>
       <div className={`flex items-center justify-center w-3/5 text-xl ${navColor} lg:text-base md:text-sm sm:text-xs`}>
         <Link to="/static">
@@ -64,14 +83,25 @@ export function Nav() {
           <p className="h-full font-semibold text-center align-middle mr-14 font-poppins">고객센터</p>
         </Link>
       </div>
-      <div className={`flex items-center text-lg justify-center w-1/5 ${navColor} lg:text-base md:text-sm sm:text-xs`}>
-        <Link to="/login">
-          <p className="h-full mr-8 text-center align-middle font-Inconsolata ">SIGN IN</p>
-        </Link>
-        <Link to="/signup">
-          <p className="h-full text-center align-middle font-Inconsolata">SIGN UP</p>
-        </Link>
-      </div>
+      {!isLogin ? (
+        <div
+          className={`flex items-center text-lg justify-center w-1/5 ${navColor} lg:text-base md:text-sm sm:text-xs`}>
+          <Link to="/login">
+            <p className="h-full mr-8 text-center align-middle font-Inconsolata ">SIGN IN</p>
+          </Link>
+          <Link to="/signup">
+            <p className="h-full text-center align-middle font-Inconsolata">SIGN UP</p>
+          </Link>
+        </div>
+      ) : (
+        <div
+          className={`flex items-center text-lg justify-center w-1/5 ${navColor} lg:text-base md:text-sm sm:text-xs`}>
+          <p className="h-full mr-8 text-center align-middle font-Inconsolata ">{loginText}</p>
+          <p className="h-full mr-8 text-center align-middle cursor-pointer font-Inconsolata" onClick={logoutClicked}>
+            Log Out
+          </p>
+        </div>
+      )}
     </nav>
   )
 }
