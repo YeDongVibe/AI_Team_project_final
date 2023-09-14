@@ -10,22 +10,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.pnu.domain.Recycling;
 import edu.pnu.dto.RecycleDTO;
 import edu.pnu.service.RecyclingService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/statistics")
+@RequestMapping("/public/statistics")
 public class RecycleController {
 
 	private final RecyclingService recycleService;
 
-//	// 모든 리스트 가져오기
-//	@GetMapping("/readAllRecycle")
-//	public List<Recycling> readDB() {
-//		return recycleService.getAllRecyclings();
-//	}
+	// 모든 리스트 가져오기
+	@GetMapping("/readAllRecycle")
+	public List<Recycling> readDB() {
+		return recycleService.getAllRecyclings();
+	}
 
 	// 분리수거 종류별 통계
 	@GetMapping("types/{type}")

@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/public/comments")
+@RequestMapping("/public/comments") //comment 안됨
 public class UserCommentController {
 
 	private final UserCommentService commentService;
@@ -31,8 +31,8 @@ public class UserCommentController {
 		return ResponseEntity.ok("upload Success.");
 	}
 
-	@GetMapping("/readComment")
-	private List<UserComment> readRV(@RequestParam Integer id) {
+	@GetMapping("/readComment/{id}")
+	private List<UserComment> readRV(@PathVariable Integer id) {
 		return commentService.commentLists(id);
 	}
 

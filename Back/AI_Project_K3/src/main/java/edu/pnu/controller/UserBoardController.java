@@ -58,7 +58,7 @@ public class UserBoardController {
 	}
 	
 	@GetMapping("/searchBoard/nickname")
-	public List<UserBoard> searchList(@RequestParam("nickname") String nickname){
+	public List<UserBoardDTO> searchList(@RequestParam("nickname") String nickname){
 		return boardService.searchNickname(nickname);
 	}
 	

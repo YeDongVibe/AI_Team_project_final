@@ -1,13 +1,12 @@
 package edu.pnu.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.pnu.domain.UserEntity;
@@ -17,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/public/member")
 public class UserController {
 
 	private final UserService userService;
@@ -48,11 +48,11 @@ public class UserController {
 			
 			
 			Optional<UserEntity> findUser = userService.getUser(user);
-//			String authority = 
+			String authority = findUser.get().getAuthority().toString();
 			if(findUser.isPresent() && passwordEncoder.matches(password,findUser.get().getPassword())) {
 				
-//				String token = jwtProvider.create(username, authority);
-				return ResponseEntity.ok("ok");
+				String token = jwtProvider.create(username, authority);
+				return ResponseEntity.ok(token);
 			}else {
 				return ResponseEntity.badRequest().body("Invalid id or password");
 			}

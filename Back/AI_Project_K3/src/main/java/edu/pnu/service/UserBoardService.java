@@ -13,7 +13,7 @@ public interface UserBoardService {
 	// 글 수정
 	public void updateBoard(Integer id, UserBoardDTO board) throws Exception;
 	// 글 검색(닉네임, 내용 + 제목, 제목 검색)
-	public List<UserBoard> searchNickname(String nickname);
+	public List<UserBoardDTO> searchNickname(String nickname);
 	
 	public List<UserBoard> searchTitle(String title);
 	

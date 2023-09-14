@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 // json & xml 형태의 데이터를 반환하는 컨트롤러에 사용
 @RestController
 @RequiredArgsConstructor
+//@RequestMapping("/manager/files")
 // 해당 컨트롤러 클래스 내의 모든 메서드에 대한 url 경로가 upload로 시작됨
 // 다 안됨 지랄
 public class FileUploadController {
@@ -42,7 +44,7 @@ public class FileUploadController {
 	private String uploadDirectory;
 
 	// @CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping("/fileupload")
+	@PostMapping("/manager/files/fileupload")
 	public String uploadCSVFile(@RequestParam("file") MultipartFile file) {
 		if (!file.isEmpty()) {
 			try {
@@ -62,13 +64,13 @@ public class FileUploadController {
 		return "error ! Excel 파일만 업로드 가능합니다";
 	}
 
-	@PostMapping("/imagefile")
+	@PostMapping("/manager/files/imagefile")
 	public String registerImageFile(@RequestParam("imageFile") MultipartFile imageFile) {
 		List<String> imageUrls = fileUploadService.imageFileUpload(imageFile);
 		return "Image registered successfully. Image URL: " + imageUrls;
 	}
 
-	@PostMapping("/image")
+	@PostMapping("/manager/files/image")
 	public String registerImage(@RequestParam("imageFile") MultipartFile imageFile) {
 		String imageUrls = fileUploadService.imageUpload(imageFile);
 		return "Image registered successfully. Image URL: " + imageUrls;

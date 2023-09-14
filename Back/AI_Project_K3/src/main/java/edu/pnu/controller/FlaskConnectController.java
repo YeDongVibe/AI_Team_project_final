@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/public/prediction")
+@RequestMapping("/manager/prediction")
 public class FlaskConnectController {
 
 	private final FlaskCallService flaskService;

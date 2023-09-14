@@ -41,7 +41,7 @@ public class Recycling {
 	private String state;
 	private Integer ce;
 	private Integer rm;
-	private String reason;
+
 	
 
 	@OneToMany(mappedBy = "detect_log_id", cascade = CascadeType.REMOVE)

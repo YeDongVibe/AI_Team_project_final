@@ -20,15 +20,10 @@ public class RecyclingServiceImpl implements RecyclingService {
 	private final RecyclingRepository recycleRepo;
 	private final RecycleResultRepository recycleResRepo;
 
-//	@Override
-//	public List<Recycling> getAllRecyclings() {
-//		List<Object[]> list =  recycleRepo.findRecycleStatisticsAll();
-//		List<RecycleDTO> ret = new ArrayList<>();
-//		for(Object[] objs : list){
-//			ret.add();
-//		}
-//		return ret;
-//	}
+	@Override
+	public List<Recycling> getAllRecyclings() {
+		return recycleRepo.findRecyclingAll();
+	}
 
 	@Override
 	public List<RecycleDTO> getRecycleType(String type) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import edu.pnu.domain.UserBoard;
 import edu.pnu.domain.UserComment;
 import edu.pnu.domain.UserEntity;
+import edu.pnu.dto.UserBoardDTO;
 import edu.pnu.dto.UserCommentDTO;
 import edu.pnu.persistence.UserBoardRepository;
 import edu.pnu.persistence.UserCommentRepository;
@@ -48,11 +49,28 @@ public class UserCommentServiceImpl implements UserCommentService {
 	// read table(안됨) -> boardid unique 때문에 ?
 	@Override
 	public List<UserComment> commentLists(Integer id) {
-		List<UserComment> newComment = commentRepo.findByBoardid(id);
+		List<UserComment> newComment = commentRepo.getByBoardid(id);
+		List<UserCommentDTO> newList = new ArrayList<>();
+		for(UserComment b: newComment) {
+			newList.add(UserCommentDTO.builder()
+					.id(b.getId())
+					.username(b.getUsername().getUsername())
+					.boardid(b.getBoardid().getId())
+					.content(b.getContent())
+					.date(b.getDate())
+					.time(b.getTime())
+					.build()
+					);
+		}
 		
 		return newComment;
 
 	}
+	
+//	이것도 안됨 ! 
+//	public List<UserComment> commentLists(){
+//		return commentRepo.findAll();
+//	}
 
 	// update table
 	@Override

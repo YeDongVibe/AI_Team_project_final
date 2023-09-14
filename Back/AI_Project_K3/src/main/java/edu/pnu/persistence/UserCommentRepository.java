@@ -17,7 +17,7 @@ public interface UserCommentRepository extends JpaRepository<UserComment, String
 //	List<UserCommentDTO> findByBoardid(Integer boardId);
 //	unique id는 결과가 여러개이면 반환이 안됨;
 	@Query("SELECT c FROM UserComment c WHERE c.boardid.id = ?1")
-	List<UserComment> findByBoardid(Integer id);
+	List<UserComment> getByBoardid(Integer id);
 	
 	Optional<UserComment> deleteById(Integer id);
 	

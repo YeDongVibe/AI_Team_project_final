@@ -37,7 +37,7 @@ public class UserComment {
 	private UserEntity username;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "board_id", referencedColumnName = "id")
+	@JoinColumn(name = "boardid")
 	private UserBoard boardid;
 	
 	private String content;

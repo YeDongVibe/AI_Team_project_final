@@ -1,8 +1,6 @@
 package edu.pnu.service;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;

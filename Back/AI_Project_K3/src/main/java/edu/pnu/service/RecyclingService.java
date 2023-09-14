@@ -9,7 +9,7 @@ import edu.pnu.dto.RecycleDTO;
 
 public interface RecyclingService {
 
-//	public List<RecycleDTO> getAllRecyclings();
+	public List<Recycling> getAllRecyclings();
 
 	public List<RecycleDTO> getRecycleType(String type);
 

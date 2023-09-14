@@ -7,9 +7,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -149,7 +152,6 @@ public class FileUploadServiceImpl implements FileUploadService {
 				String state = columns.get(5);
 				Integer ce = columns.get(6).isEmpty() ? 0 : Integer.parseInt(columns.get(6));
 				Integer rm = columns.get(7).isEmpty() ? 0 : Integer.parseInt(columns.get(7));
-				String reason = columns.get(8);
 
 				// gyo pt 에게 부탁..
 				// Parse Json data
@@ -165,7 +167,6 @@ public class FileUploadServiceImpl implements FileUploadService {
 				recycle.setState(state);
 				recycle.setCe(ce);
 				recycle.setRm(rm);
-				recycle.setReason(columns.get(8).isEmpty() ? null : reason);
 
 				recyclingRepo.save(recycle);
 
@@ -238,7 +239,6 @@ public class FileUploadServiceImpl implements FileUploadService {
 					Cell state = row.getCell(5);
 					Cell ce = row.getCell(6);
 					Cell rm = row.getCell(7);
-					Cell reason = row.getCell(8);
 
 					// 셀 데이터를 추출하여 필요한 처리를 수행
 					double detectLogId = detectLogID.getNumericCellValue();
@@ -247,16 +247,40 @@ public class FileUploadServiceImpl implements FileUploadService {
 					Long detect_Id = (long) deviceID;
 					// =======
 					String ai_res = jsonStr.getStringCellValue();
-					Double numericDate = date.getNumericCellValue();
+//					Double numericDate = date.getNumericCellValue();
 					// 여기에 이상한 값이 들어가있음?? 오잉 도잉
-					LocalDate dates = LocalDate.parse(numericDate.toString(),
-							DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					Date util = date.getDateCellValue();
+					LocalDate dates = util.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					// =======
 					// 시간 데이터 형식 맞추기
 					LocalTime times;
+//					if (time.getCellType() == CellType.NUMERIC) {
+//						LocalDateTime timeN = time.getLocalDateTimeCellValue();
+//						String timeString = String.valueOf(timeN);
+//						if (timeString.length() < 8) {
+//							String[] tList = timeString.split(":");
+//							StringBuilder sb = new StringBuilder();
+//							for (int i = 0; i < tList.length; i++) {
+//								if (i != 0) {
+//									sb.append(":");
+//								}
+//								if (tList[i].length() == 2) {
+//									sb.append(tList[i]);
+//								} else {
+//									sb.append("0" + tList[i]);
+//								}
+//							}
+//							timeString = sb.toString();
+//						}
+//						times = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+//					} else {
+//						times = LocalTime.parse(String.valueOf(time.getLocalDateTimeCellValue()),
+//								DateTimeFormatter.ofPattern("HH:mm:ss"));
+//					}
 					if (time.getCellType() == CellType.NUMERIC) {
-						Double timeN = time.getNumericCellValue();
-						String timeString = String.valueOf(timeN);
+						LocalDateTime timeN = time.getLocalDateTimeCellValue();
+						LocalTime timeValue = timeN.toLocalTime();
+						String timeString = String.valueOf(timeValue);
 						if (timeString.length() < 8) {
 							String[] tList = timeString.split(":");
 							StringBuilder sb = new StringBuilder();
@@ -274,13 +298,12 @@ public class FileUploadServiceImpl implements FileUploadService {
 						}
 						times = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
 					} else {
-						times = LocalTime.parse(String.valueOf(time.getNumericCellValue()),
-								DateTimeFormatter.ofPattern("HH:mm:ss"));
+						LocalDateTime timeN = time.getLocalDateTimeCellValue();
+						times = timeN.toLocalTime();
 					}
 					String states = state.getStringCellValue();
 					Integer ce_1 = (int) ce.getNumericCellValue();
 					Integer rm_1 = (int) rm.getNumericCellValue();
-					String reasons = reason.getStringCellValue();
 
 					// CSV 파일의 splitString 함수를 통해 각 열의 데이터를 가공하여 추출
 					List<String> columns = splitString(ai_res);
@@ -296,7 +319,6 @@ public class FileUploadServiceImpl implements FileUploadService {
 					recycle.setState(states);
 					recycle.setCe(ce_1);
 					recycle.setRm(rm_1);
-					recycle.setReason(reasons);
 
 					recyclingRepo.save(recycle);
 
@@ -364,7 +386,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 		return imageUrl;
 	}
-	
+
 	@Override
 	public List<String> imageFileUpload(MultipartFile folder) {
 		List<String> imageUrls = new ArrayList<>();

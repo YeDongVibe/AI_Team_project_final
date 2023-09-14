@@ -8,15 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import edu.pnu.domain.Recycling;
+import edu.pnu.dto.RecycleDTO;
 
 public interface RecyclingRepository extends JpaRepository<Recycling, String> {
 
 	// query method
 	// DTO 문제 
-//	 @Query("select * " 
-//	 	+ " from Recycling tr"
-//	 	+ " join tr.RecycleRes rl")
-//	 List<Object[]> findRecyclingAll();
+	 @Query("select tr " 
+	 	+ " from Recycling tr"
+	 	+ " join tr.recycleRes")
+	 List<Recycling> findRecyclingAll();
 
 	@Query("select r.rm, r.ce, r.date, r.time, rr.category, rr.count"
 			+ " from Recycling r "

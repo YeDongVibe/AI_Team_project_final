@@ -73,9 +73,21 @@ public class UserBoardServiceImpl implements UserBoardService {
 
 	// search
 	@Override
-	public List<UserBoard> searchNickname(String nickname) {
+	public List<UserBoardDTO> searchNickname(String nickname) {
 		// TODO Auto-generated method stub
-		return boardRepo.getByUsernameContaining(nickname);
+		List<UserBoard> list = boardRepo.getByUsernameContaining(nickname);
+		List<UserBoardDTO> newList = new ArrayList<>();
+		for(UserBoard b : list) {
+			newList.add(UserBoardDTO.builder()
+				.id(b.getId())
+				.username(b.getUsername().getUsername())
+				.title(b.getTitle())
+				.content(b.getContent())
+				.date(b.getDate())
+				.time(b.getTime())
+				.viewcnt(b.getViewcnt()).build());
+		}
+		return newList;
 	}
 
 	@Override
