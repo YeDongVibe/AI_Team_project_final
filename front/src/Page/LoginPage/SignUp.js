@@ -13,8 +13,7 @@ export function SignUp() {
     password: '',
     user_pw_chk: '',
     name: '',
-    email: '',
-    nickname: ''
+    email: ''
   })
 
   // input에 사용자 입력 값 가져오기
@@ -24,6 +23,7 @@ export function SignUp() {
       ...prevFormData,
       [name]: value
     }))
+    console.log(data)
   }
 
   // 서버에 회원가입 요청
@@ -32,9 +32,13 @@ export function SignUp() {
       .post(`${process.env.REACT_APP_SERVER_URL}/public/member/signup`, data)
       .then(response => {
         console.log(response.data)
-        // Navigate('/login')
+        alert('회원가입 완료')
+        Navigate('/login')
       })
-      .catch(error => error.message)
+      .catch(error => {
+        console.log(error.message)
+        alert('회원가입 실패')
+      })
   }
 
   return (
@@ -64,7 +68,7 @@ export function SignUp() {
             />
             <Input
               type="text"
-              name="user_id"
+              name="username"
               placeholder="Id"
               className="w-full my-4"
               onChange={event => DataOnChange(event)}
@@ -80,13 +84,6 @@ export function SignUp() {
               type="password"
               name="user_pw_chk"
               placeholder="Password Check"
-              className="w-full my-4"
-              onChange={event => DataOnChange(event)}
-            />
-            <Input
-              type="text"
-              name="nickname"
-              placeholder="Nickname"
               className="w-full my-4"
               onChange={event => DataOnChange(event)}
             />

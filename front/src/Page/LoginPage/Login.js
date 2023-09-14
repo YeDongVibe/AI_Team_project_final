@@ -29,8 +29,6 @@ export const Login = () => {
         alert('로그인 실패')
       })
   }
-  console.log('id', user_Id)
-  console.log('pw', pw)
 
   return (
     <section className="flex w-full h-screen">

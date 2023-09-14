@@ -78,7 +78,7 @@ export default function MainPage() {
       const eventTimeout = setTimeout(() => {
         mainDiv.addEventListener('wheel', MouseWheelScroll, {passive: false})
       }, 800)
-      console.log('currentSection: ', currentSection)
+      // console.log('currentSection: ', currentSection)
 
       return () => {
         clearTimeout(eventTimeout)
