@@ -38,7 +38,7 @@ public class SecurityConfig {
 
 		http.authorizeHttpRequests(authorize -> {
 			try {
-				authorize.requestMatchers("/hi").hasAnyRole("MANAGER")
+				authorize.requestMatchers("admin/**").hasAnyRole("MANAGER")
 //											.requestMatchers("/admin/**")
 //											.hasRole("ADMIN")
 											// 권한 설정 추가 기억이겅 !!

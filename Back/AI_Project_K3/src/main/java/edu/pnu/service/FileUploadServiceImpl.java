@@ -9,10 +9,8 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -249,38 +247,26 @@ public class FileUploadServiceImpl implements FileUploadService {
 					String ai_res = jsonStr.getStringCellValue();
 //					Double numericDate = date.getNumericCellValue();
 					// 여기에 이상한 값이 들어가있음?? 오잉 도잉
-					Date util = date.getDateCellValue();
-					LocalDate dates = util.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					LocalDate dates;
+					// 안되면 if문 삭제하고 date.getcelltype 여기 안에 코드 넣기
+
+					String utils = date.getStringCellValue();
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+					dates = LocalDate.parse(utils, formatter);
+//	
+//					else if (DateUtil.isCellDateFormatted(date)) {
+//						Date util = date.getDateCellValue();
+//						dates = util.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//					}
+//					else {
+//						dates = null;
+//					}
 					// =======
 					// 시간 데이터 형식 맞추기
 					LocalTime times;
-//					if (time.getCellType() == CellType.NUMERIC) {
-//						LocalDateTime timeN = time.getLocalDateTimeCellValue();
-//						String timeString = String.valueOf(timeN);
-//						if (timeString.length() < 8) {
-//							String[] tList = timeString.split(":");
-//							StringBuilder sb = new StringBuilder();
-//							for (int i = 0; i < tList.length; i++) {
-//								if (i != 0) {
-//									sb.append(":");
-//								}
-//								if (tList[i].length() == 2) {
-//									sb.append(tList[i]);
-//								} else {
-//									sb.append("0" + tList[i]);
-//								}
-//							}
-//							timeString = sb.toString();
-//						}
-//						times = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
-//					} else {
-//						times = LocalTime.parse(String.valueOf(time.getLocalDateTimeCellValue()),
-//								DateTimeFormatter.ofPattern("HH:mm:ss"));
-//					}
 					if (time.getCellType() == CellType.NUMERIC) {
 						LocalDateTime timeN = time.getLocalDateTimeCellValue();
-						LocalTime timeValue = timeN.toLocalTime();
-						String timeString = String.valueOf(timeValue);
+						String timeString = String.valueOf(timeN);
 						if (timeString.length() < 8) {
 							String[] tList = timeString.split(":");
 							StringBuilder sb = new StringBuilder();
@@ -297,13 +283,32 @@ public class FileUploadServiceImpl implements FileUploadService {
 							timeString = sb.toString();
 						}
 						times = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+					} else if (time.getCellType() == CellType.STRING) {
+						times = LocalTime.parse(time.getStringCellValue(), DateTimeFormatter.ofPattern("HH:mm:ss"));
 					} else {
-						LocalDateTime timeN = time.getLocalDateTimeCellValue();
-						times = timeN.toLocalTime();
+						times = LocalTime.parse(time.getStringCellValue(), DateTimeFormatter.ofPattern("HH:mm:ss"));
 					}
-					String states = state.getStringCellValue();
-					Integer ce_1 = (int) ce.getNumericCellValue();
-					Integer rm_1 = (int) rm.getNumericCellValue();
+
+					String states = null;
+					if (state.getCellType() == CellType.BOOLEAN) {
+						states = String.valueOf(state.getBooleanCellValue());
+					} else {
+						state.getStringCellValue();
+					}
+					Integer ce_1 = 0;
+					if(ce == null) {
+						ce_1 = 0;
+					}else if (ce!=null && ce.getCellType() == CellType.NUMERIC) {
+						ce_1 = (int) ce.getNumericCellValue();
+					}
+
+					Integer rm_1 = 0 ;
+					if(rm == null) {
+						rm_1 = 0;
+					}
+					else if (rm.getCellType() == CellType.NUMERIC) {
+						rm_1 = (int) rm.getNumericCellValue();
+					} 
 
 					// CSV 파일의 splitString 함수를 통해 각 열의 데이터를 가공하여 추출
 					List<String> columns = splitString(ai_res);

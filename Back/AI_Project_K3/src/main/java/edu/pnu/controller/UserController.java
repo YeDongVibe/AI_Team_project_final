@@ -38,13 +38,6 @@ public class UserController {
 		}
 	}
 
-	// put Manager authority
-	@PostMapping("/test")
-	public ResponseEntity<String> test(){
-		userService.testDB();
-		return ResponseEntity.ok("success !");
-	}
-
 	// get x , post o
 	// login
 	@PostMapping("/login")
@@ -60,12 +53,9 @@ public class UserController {
 			if(findUser.isPresent() && passwordEncoder.matches(password,findUser.get().getPassword())) {
 				
 				String token = jwtProvider.create(username, authority);
-				HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + token);
-            
-            return ResponseEntity.ok()
-                .headers(headers)
-                .body("Login successful");
+				   HttpHeaders headers = new HttpHeaders();
+		            headers.add("Authorization", "Bearer " + token);
+				return ResponseEntity.ok().headers(headers).body("login success");
 			}else {
 				return ResponseEntity.badRequest().body("Invalid id or password");
 			}

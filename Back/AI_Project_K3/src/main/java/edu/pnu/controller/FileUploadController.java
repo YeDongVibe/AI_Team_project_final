@@ -30,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 //@RequestMapping("/manager/files")
 // 해당 컨트롤러 클래스 내의 모든 메서드에 대한 url 경로가 upload로 시작됨
-// 다 안됨 지랄
 public class FileUploadController {
 
 	private final ResourceLoader resourceLoader;

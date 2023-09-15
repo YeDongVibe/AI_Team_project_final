@@ -1,6 +1,5 @@
 package edu.pnu.service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.pnu.domain.UserEntity;
+import edu.pnu.dto.UserDTO;
 import edu.pnu.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -25,20 +25,6 @@ public class UserServiceImpl implements UserService {
 		// find user
 		return userRepo.findByUsername(user.getUsername());
 
-	}
-
-	@Override
-	public UserEntity testDB(){
-			UserEntity user = new UserEntity();
-				 user.setUsername("test");
-				 user.setPassword(passwordEncoder.encode("1234"));
-				 user.setUser_pw_chk(passwordEncoder.encode("1234"));
-				 user.setName("test");
-				 user.setEmail("test@test.co.kr");
-				 user.setBirth(LocalDate.now());
-				 user.setAuthority("ROLE_MANAGER");
-				 
-				 return userRepo.save(user);
 	}
 
 	// sign up
