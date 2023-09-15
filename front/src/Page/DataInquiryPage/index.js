@@ -1,7 +1,7 @@
 import {FileUpload} from '../../Component'
 import Chart from 'react-apexcharts'
 import {useEffect, useState} from 'react'
-
+import {getCookie, getUserInfoFromToken} from '../../util/Cookie'
 import {ImageModal} from './ImageModal'
 import {ImageUpload} from './ImageUpload'
 
@@ -10,7 +10,17 @@ export default function DataInquiryPage() {
 
   const [fetchData, setFetchData] = useState()
 
+  const [isManager, setIsManager] = useState(false)
+
   useEffect(() => {
+    const cookie = getCookie('accessToken')
+    if (cookie) {
+      const user = getUserInfoFromToken()
+      console.log(user)
+      if (user.authority === '[ROLE_MANAGER]') setIsManager(true)
+      else setIsManager(false)
+    }
+
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
       .then(resp => resp.json())
       .then(datalist => {
@@ -18,7 +28,7 @@ export default function DataInquiryPage() {
         // datalist.map((data) => )
       })
       .catch(err => err.message)
-  }, [])
+  }, [isManager])
 
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
@@ -46,15 +56,19 @@ export default function DataInquiryPage() {
   }
   return (
     <section className="w-full pt-[120px]">
-      <div className="w-full mb-16">
-        <div className="m-8 text-3xl font-bold ">파일 업로드</div>
-        <FileUpload />
-      </div>
+      {isManager && (
+        <div className="w-full mb-16">
+          <div className="m-8 text-3xl font-bold ">파일 업로드</div>
+          <FileUpload />
+        </div>
+      )}
 
-      <div className="w-full mb-16">
-        <div className="m-8 text-3xl font-bold">이미지 업로드</div>
-        <ImageUpload />
-      </div>
+      {isManager && (
+        <div className="w-full mb-16">
+          <div className="m-8 text-3xl font-bold">이미지 업로드</div>
+          <ImageUpload />
+        </div>
+      )}
 
       <div className="flex my-10 justify-evenly ">
         <Chart options={state.options} series={state.series} type="donut" width="380" />

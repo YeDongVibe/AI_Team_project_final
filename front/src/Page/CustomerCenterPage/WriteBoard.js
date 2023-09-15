@@ -1,25 +1,36 @@
-import {Link} from 'react-router-dom'
-import {useRef, useState, useEffect} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import {useRef, useEffect} from 'react'
+import {getCookie, getUserInfoFromToken} from '../../util'
 import customerimg from '../../images/customerService.png'
 
 export function WriteBoard() {
-  // private Integer id;
-  // private String username;
-  // private String title;
-  // private String content;
-  // private LocalDate date;
-  // private LocalTime time;
-  // private Integer viewcnt;
+  const Navigate = useNavigate()
 
   const titleRef = useRef(null)
   const contentRef = useRef(null)
-  const imgRef = useRef(null)
 
-  const saveImgFile = () => {}
+  useEffect(() => {}, [])
 
   const registerBtnClick = () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/insertBoard`)
+    const cookie = getCookie('accessToken')
+    const user = getUserInfoFromToken()
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/insertBoard`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: titleRef.current?.value,
+        content: contentRef.current?.textContent,
+        username: user.username
+      })
+    })
       .then(response => response.data)
+      .then(() => {
+        alert('게시글이 등록되었습니다.')
+        Navigate('/customer')
+      })
       .catch(err => err.message)
   }
 
@@ -34,22 +45,12 @@ export function WriteBoard() {
       <div className="flex flex-col items-center p-8 mt-4">
         <div className="flex items-center justify-center w-full mt-8 border-y-2">
           <div className="mt-4 mb-4 mr-4">제목</div>
-          <input
-            type="text"
-            className="w-2/5 mt-4 mb-4 border-gray-300 input"
-            ref={titleRef}
-            // defaultValue={location}
-          />
+          <input type="text" className="w-2/5 mt-4 mb-4 border-gray-300 input" ref={titleRef} />
         </div>
         <div className="flex flex-col items-center w-full mt-4">
           <div>내용</div>
           <div className="w-4/5 mt-4 border-gray-300 input h-96" contentEditable="true" ref={contentRef}></div>
         </div>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <input type="file" multiple accept="image/*" id="Img" ref={imgRef} onChange={saveImgFile} />
-        <div className="mt-4">{/* <img src={} alt="이미지" /> */}</div>
       </div>
 
       <div className="flex justify-center p-4 m-4">

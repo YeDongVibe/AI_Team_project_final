@@ -41,7 +41,7 @@ export function Nav() {
     if (cookie) {
       const username = getUserInfoFromToken()
       setIsLogin(true)
-      setLoginText(`${username}님 환영합니다.`)
+      setLoginText(`${username.username}님 환영합니다.`)
     } else setIsLogin(false)
   }, [])
 
@@ -60,6 +60,7 @@ export function Nav() {
     removeCookie('accessToken')
     setIsLogin(false)
     setLoginText('')
+    window.location.reload()
   }
 
   return (

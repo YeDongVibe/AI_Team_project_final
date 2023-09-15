@@ -12,6 +12,7 @@ import DataInquiryPage from '../DataInquiryPage'
 import GuideTipPage from '../GuideTipPage'
 import CustomerCenterPage from '../CustomerCenterPage'
 import {WriteBoard} from '../CustomerCenterPage/WriteBoard'
+import {CustomerBoardPage} from '../CustomerCenterPage/CustomerBoard'
 
 export function RouteMain() {
   return (
@@ -27,6 +28,7 @@ export function RouteMain() {
           <Route path="/guide" element={<GuideTipPage />} />
           <Route path="/customer" element={<CustomerCenterPage />} />
           <Route path="/customer/write" element={<WriteBoard />} />
+          <Route path="/customer/:boardId" element={<CustomerBoardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
