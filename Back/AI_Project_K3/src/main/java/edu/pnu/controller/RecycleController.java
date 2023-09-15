@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.pnu.domain.Recycling;
+import edu.pnu.dto.AllRecycleDTO;
 import edu.pnu.dto.RecycleDTO;
 import edu.pnu.service.RecyclingService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class RecycleController {
 
 	// 모든 리스트 가져오기
 	@GetMapping("/readAllRecycle")
-	public List<Recycling> readDB() {
+	public List<AllRecycleDTO> readDB() {
 		return recycleService.getAllRecyclings();
 	}
 

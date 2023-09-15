@@ -4,14 +4,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface RecycleStaticsProjection {
-	
-	Integer getRm();
 
-	Integer getCe();
+	Long getDetect_log_id();
+
+	Long getDevice_id();
 
 	LocalDate getDate();
 
 	LocalTime getTime();
+
+	String getState();
+
+	Integer getCe();
+
+	Integer getRm();
+
+	Long getId();
 
 	String getCategory();
 

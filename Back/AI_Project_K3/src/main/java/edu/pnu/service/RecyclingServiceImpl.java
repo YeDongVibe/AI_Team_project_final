@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import edu.pnu.domain.RecycleStaticsProjection;
 import edu.pnu.domain.Recycling;
+import edu.pnu.dto.AllRecycleDTO;
 import edu.pnu.dto.RecycleDTO;
 import edu.pnu.persistence.RecycleResultRepository;
 import edu.pnu.persistence.RecyclingRepository;
@@ -21,8 +23,13 @@ public class RecyclingServiceImpl implements RecyclingService {
 	private final RecycleResultRepository recycleResRepo;
 
 	@Override
-	public List<Recycling> getAllRecyclings() {
-		return recycleRepo.findRecyclingAll();
+	public List<AllRecycleDTO> getAllRecyclings() {
+		List<Object[]> list = recycleRepo.findRecyclingAndRecycleRes();
+		List<AllRecycleDTO> recycle = new ArrayList<>();
+		for(Object[] r : list) {
+			recycle.add(new AllRecycleDTO(r));
+		}
+		return recycle;
 	}
 
 	@Override

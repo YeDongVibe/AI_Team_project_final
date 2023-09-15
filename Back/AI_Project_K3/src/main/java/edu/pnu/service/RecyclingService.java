@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import edu.pnu.domain.Recycling;
+import edu.pnu.dto.AllRecycleDTO;
 import edu.pnu.dto.RecycleDTO;
 
 public interface RecyclingService {
 
-	public List<Recycling> getAllRecyclings();
+	public List<AllRecycleDTO> getAllRecyclings();
 
 	public List<RecycleDTO> getRecycleType(String type);
 

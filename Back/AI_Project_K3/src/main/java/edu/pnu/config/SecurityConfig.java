@@ -42,7 +42,7 @@ public class SecurityConfig {
 //											.requestMatchers("/admin/**")
 //											.hasRole("ADMIN")
 											// 권한 설정 추가 기억이겅 !!
-											.requestMatchers("/public/**","/manager/**").permitAll();
+											.requestMatchers("/public/**","/manager/**","/images/**").permitAll();
 //											.anyRequest().permitAll();
 //											.authenticated()
 //											.and().exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntryPoint());

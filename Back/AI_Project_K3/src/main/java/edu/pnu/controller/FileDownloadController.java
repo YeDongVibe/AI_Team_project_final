@@ -1,5 +1,6 @@
 package edu.pnu.controller;
 
+
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,16 @@ public class FileDownloadController {
 
   private final FileDownloadService fileDownloadService;
 
-  @GetMapping("/download/{filename}")
-  private ResponseEntity<UrlResource> downloadImg(@PathVariable String fileName){
-    return fileDownloadService.downloadImage(fileName);
-  }
+   @GetMapping("/download/{filename}")
+   private ResponseEntity<UrlResource> downloadImg(@PathVariable String
+   fileName){
+   return fileDownloadService.downloadImage(fileName);
+  
+   }
+
+//  @GetMapping("/download/{filename}")
+//  public String test(@PathVariable String filename, Model model) {
+//    model.addAttribute("filename", fileDownloadService.downloadImage(filename));
+//    return "test";
+//  }
 }

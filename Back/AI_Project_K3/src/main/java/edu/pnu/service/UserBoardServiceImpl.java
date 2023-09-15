@@ -44,7 +44,19 @@ public class UserBoardServiceImpl implements UserBoardService {
 	// list
 	@Override
 	public List<UserBoard> readBoardLists() {
-		return boardRepo.findAll();
+		List<UserBoard> list = boardRepo.findAll();
+//		List<UserBoardDTO> dtoList = new ArrayList<>();
+//		for(UserBoard b : list) {
+//			dtoList.add(UserBoardDTO.builder()
+//						.id(b.getId())
+//						.username(b.getUsername().getUsername())
+//						.title(b.getTitle())
+//						.content(b.getContent())
+//						.date(b.getDate())
+//						.time(b.getTime())
+//						.viewcnt(b.getViewcnt()).build());
+//		}
+		return list;
 	}
 
 	// update
