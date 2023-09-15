@@ -30,7 +30,7 @@ export function SignUp() {
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/public/member/signup`, data)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         alert('회원가입 완료')
         Navigate('/login')
       })
@@ -74,7 +74,7 @@ export function SignUp() {
             />
             <Input
               type="password"
-              name="user_pw"
+              name="password"
               placeholder="Password"
               className="w-full my-4"
               onChange={event => DataOnChange(event)}

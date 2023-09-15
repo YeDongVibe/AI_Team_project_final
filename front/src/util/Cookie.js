@@ -33,8 +33,8 @@ export const getUserInfoFromToken = () => {
     try {
       const decodedToken = jwtDecode(token) // 해독된 토큰의 형태
       // console.log(decodedToken)
-      const userInfo = decodedToken.username
-      return userInfo
+      // const userInfo = decodedToken.username
+      return decodedToken
     } catch (error) {
       console.error('토큰 해독 에러:', error)
       return null

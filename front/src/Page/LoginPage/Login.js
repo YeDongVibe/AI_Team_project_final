@@ -19,10 +19,11 @@ export const Login = () => {
       })
       .then(response => {
         const headers = response.headers
+        // console.log(headers)
         const jwtToken = headers['authorization']
         setCookie('accessToken', jwtToken.slice(7))
         const username = getUserInfoFromToken()
-        alert(`${username}님 환영합니다`)
+        alert(`${username.username}님 환영합니다`)
         Navigate('/')
       })
       .catch(error => {
