@@ -12,25 +12,92 @@
 |   [@suho0815](https://github.com/suho0815)  |     [@JIeunhuh](https://github.com/JIeunhuh)  |    [@YeDongVibe](https://github.com/YeDongVibe)  |
 
 
-
-## 목차 📗
-3. [프로젝트 소개](#3-프로젝트-소개📢)
-4. [시작 가이드](#4-시작-가이드요구사항-설치-및-실행-✏)
-5. [기술 스택](#5-기술-스택-🏆)
-6. [주요 기능](#6-주요-기능-📦)
-7. [아키텍쳐](#7-아키텍쳐-💻)
-
-## 3. 프로젝트 소개📢  
+##  프로젝트 소개   
  
-## 4. 시작 가이드(요구사항, 설치 및 실행) ✏     
+##  시작 가이드(요구사항, 설치 및 실행)        
 
 
 ## -- 추가 될 수 있음 --  
     
-## 5. 기술 스택 🏆  
+##  기술 스택  
 
 
-## 6. 주요 기능 📦  
+## ERD  
+```mermaid
+erDiagram
+    TOTAL_RECYCLE{
+        Long detect_log_id
+        Long device_id
+        String state
+        LocalDate date
+        Localtime time
+        Integer ce
+        Inter rm
+    }
+
+    RESULT_LIST{
+        Long id
+        String category
+        Integer count
+        TOTAL_RECYCLE detect_log_id
+    }
+
+    IMAGE{
+        Long id
+        String caption
+        String name
+        String url
+        TOTAL_RECYCLE logid
+    }
+
+    USER_DB{
+        Long id
+        String authority
+        Date birth
+        String name
+        String username
+        String password
+        String email
+    }
+
+    BOARD{
+        Long id
+        String content
+        USER_DB username
+        String title
+        Date date
+        Time time
+    }
+
+    COMMENT{
+        Long id
+        String content
+        Date date
+        Time time
+        USER_DB username
+        BOARD boardid
+    }
+
+    USER ||--o{ BOARD : writes
+    USER ||--o{ COMMENT : writes
+    BOARD ||--o{ COMMENT : has
+    
+
+```
++-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+
+|   TOTAL_RECYCLE   |         |    RESULT_LIST    |         |       IMAGE       |         |      USER_DB     |         |       BOARD       |         |     COMMENT     |
++-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+
+| - detect_log_id: Long |    | - id: Long               |       | - id: Long                   |      | - id: Long                   |     | - id: Long                  |
+| - device_id: Long   |    | - category: String    |       | - caption: String       |      | - authority: String       |     | - content: String         |
+| - state: String          |    | - count: Integer         |       | - name: String            |      | - birth: Date               |     | - title: String             |
+| - date: LocalDate     |    | - detect_log_id: Long |       | - url: String               |      | - name: String           |     | - date: Date                  |
+| - time: LocalTime     |                                            | - logid: TOTAL_RECYCLE|      | - username: String      |     | - time: Time                  |
+| - ce: Integer               |                                            +-------------------+         | - password: String       |                                      | - username: USER_DB|
+| - rm: Inter                  |                                                                                                       | - email: String               |                                      | - date: Date                    |
++-------------------+                                                                                                      +-------------------+         | - time: Time                    |
+                                                                                                                                                                                   +-------------------+
+
+##  주요 기능   
 
 
-## 7. 아키텍쳐 💻  
+##  아키텍쳐   
