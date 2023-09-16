@@ -20,23 +20,22 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/public/comments") //comment 안됨
 public class UserCommentController {
 
 	private final UserCommentService commentService;
 
-	@PostMapping("/insertComment")
+	@PostMapping("/manager/comments/insertComment")
 	private ResponseEntity<String> insertRV(@RequestBody UserCommentDTO comment) {
 		commentService.insertComment(comment);
 		return ResponseEntity.ok("upload Success.");
 	}
 
-	@GetMapping("/readComment/{id}")
+	@GetMapping("public/comments/readComment/{id}")
 	private List<UserCommentDTO> readRV(@PathVariable Integer id) {
 		return commentService.commentLists(id);
 	}
 
-	@PutMapping("/updateComment/{id}")
+	@PutMapping("/manager/comments/updateComment/{id}")
 	private String updateRV(@PathVariable Integer id, @RequestBody UserCommentDTO comment) {
 		try {
 			commentService.updateComment(id, comment);
@@ -44,11 +43,12 @@ public class UserCommentController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "error occured : "+ e.getMessage();
+			return "error occured : " + e.getMessage();
 		}
 	}
+
 	// 실행 안됨 ! 뿌이뿌이뿌
-	@DeleteMapping("/deleteComment/{id}")
+	@DeleteMapping("/manager/comments/deleteComment/{id}")
 	private ResponseEntity<String> deleteRV(@PathVariable Integer id) {
 		commentService.deleteComment(id);
 		return ResponseEntity.ok("Delete Success");
