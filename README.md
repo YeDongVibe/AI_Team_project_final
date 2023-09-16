@@ -78,24 +78,13 @@ erDiagram
         BOARD boardid
     }
 
-    USER ||--o{ BOARD : writes
-    USER ||--o{ COMMENT : writes
+    USER_DB ||--o{ BOARD : writes
+    USER_DB ||--o{ COMMENT : writes
     BOARD ||--o{ COMMENT : has
-    
+    TOTAL_RECYCLE ||--o{ RESULT_LIST : has
+    TOTAL_RECYCLE ||--o{ IMAGE : has
 
 ```
-+-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+
-|   TOTAL_RECYCLE   |         |    RESULT_LIST    |         |       IMAGE       |         |      USER_DB     |         |       BOARD       |         |     COMMENT     |
-+-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+         +-------------------+
-| - detect_log_id: Long |    | - id: Long               |       | - id: Long                   |      | - id: Long                   |     | - id: Long                  |
-| - device_id: Long   |    | - category: String    |       | - caption: String       |      | - authority: String       |     | - content: String         |
-| - state: String          |    | - count: Integer         |       | - name: String            |      | - birth: Date               |     | - title: String             |
-| - date: LocalDate     |    | - detect_log_id: Long |       | - url: String               |      | - name: String           |     | - date: Date                  |
-| - time: LocalTime     |                                            | - logid: TOTAL_RECYCLE|      | - username: String      |     | - time: Time                  |
-| - ce: Integer               |                                            +-------------------+         | - password: String       |                                      | - username: USER_DB|
-| - rm: Inter                  |                                                                                                       | - email: String               |                                      | - date: Date                    |
-+-------------------+                                                                                                      +-------------------+         | - time: Time                    |
-                                                                                                                                                                                   +-------------------+
 
 ##  주요 기능   
 
