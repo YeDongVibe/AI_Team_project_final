@@ -55,15 +55,6 @@
 | --- | --- | --- | --- |
 | 1 | POST | /process_image | 이미지 캡셔닝 |
 
-
-
-
-
-### Flask
-| ID | Method | URI | Params | Return | Description |
-| --- | --- | --- | --- | --- | --- |
-| 3 | POST | /main/record | MultipartFile file | LogDto | 로그 기록 |
-
 ## ERD  
 ```mermaid
 erDiagram
