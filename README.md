@@ -31,17 +31,16 @@
 ##  __🔎 시작 가이드(요구사항, 설치 및 실행)__  
           
 > Back-End  
-- Java : v JDK 17.0
-- Spring Boot : 
-- PostgresQL :
+- Java : v- JDK 18.0.2.1
+- Spring Boot : v.3.1.2
+- PostgresQL : v.11.2
 > Front-End  
-- Node.js : 
-- React : 
-- HTML / CSS : HTML5, v3  
+- Node.js : v.18.16.0
+- React : v.18.2.0
 > D/A  
 - 가상 환경 구성 후 필요한 라이브러리 설치 
-- Python : v3.10  
-- transformers : v4.33.1  
+- Python : v.3.10  
+- transformers : v.4.33.1  
 
 
 
