@@ -47,8 +47,8 @@
 | 20 | POST | /manager/comments/insertComment | 게시글 댓글 작성 |
 | 21 | PUT | /manager/comments/updateComment/{id} | 게시글 댓글 수정 |
 | 22 | DELETE | /manager/comments/deleteComment/{id} | 게시글 댓글 삭제 |
-| 23 | GET | public/comments/readComment/{id} | 댓글 목록 |
-| 24 | POST | manager/prediction/put_image | 이미지 분석 캡션 반환|  
+| 23 | GET | /public/comments/readComment/{id} | 댓글 목록 |
+| 24 | POST | /manager/prediction/put_image | 이미지 분석 캡션 반환|  
   
 ### Flask
 | ID | Method | URI | Description |
