@@ -45,8 +45,10 @@ export function CustomerBoardPage() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/deleteBoard/${location.state.num}`, {
       method: 'delete'
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
+      .then(() => {
+        listOnClicked()
+        alert('게시글이 삭제되었습니다.')
+      })
       .catch(error => error.message)
   }
 
@@ -58,20 +60,19 @@ export function CustomerBoardPage() {
       if (user.username === location.state.username) setIsUser(true)
       else setIsUser(false)
 
-      console.log('content: ', commentRef.current?.value)
-      console.log('username: ', user.username)
-      console.log('boardid: ', location.state.num)
-
+      const headers = {
+        'Content-Type': 'application/json'
+      }
       fetch(`${process.env.REACT_APP_SERVER_URL}/manager/comments/insertComment`, {
         method: 'post',
+        headers: headers,
         body: JSON.stringify({
           content: commentRef.current?.value,
           username: user.username,
           boardid: location.state.num
         })
       })
-        .then(response => response.json())
-        .then(data => console.log(data))
+        .then(() => window.location.reload())
         .catch(error => error.message)
     } else {
       alert('로그인 후 이용해주세요.')
@@ -87,7 +88,7 @@ export function CustomerBoardPage() {
 
       <div className="flex flex-col items-center p-8 mt-4">
         <div className="flex w-full mt-8 border-y-2">
-          <div className="flex justify-center w-full mt-4 mb-4 mr-4">{location.state.title}</div>
+          <div className="flex justify-center w-full mt-4 mb-4 mr-4 font-bold">{location.state.title}</div>
           <div className="flex items-center justify-end">
             <button className="mr-4 btn" onClick={UpdateBoardOnClick}>
               수정
@@ -104,11 +105,13 @@ export function CustomerBoardPage() {
         {/* 댓글 */}
         <div className="w-full mt-4 border-y-2">
           <div className="w-full p-4">
-            <div className="mb-4 font-bold font-poppins">댓글 작성</div>
-            <input type="text" ref={commentRef} className="w-3/4 mr-4 border-2 border-gray-200 input" />
-            <button className="btn" onClick={InsertReplyOnClick}>
-              등록
-            </button>
+            <div className="mb-4 ml-8 font-bold font-poppins">댓글 작성</div>
+            <div className="flex justify-center w-full">
+              <input type="text" ref={commentRef} className="w-3/4 mr-4 border-2 border-gray-200 input" />
+              <button className="btn" onClick={InsertReplyOnClick}>
+                등록
+              </button>
+            </div>
           </div>
 
           <div className="flex w-full border-gray-200 border-y-2">

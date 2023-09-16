@@ -1,4 +1,4 @@
-import {FileUpload} from '../../Component'
+import {FileUpload, Pagination} from '../../Component'
 import Chart from 'react-apexcharts'
 import {useEffect, useState} from 'react'
 import {getCookie, getUserInfoFromToken} from '../../util/Cookie'
@@ -9,10 +9,16 @@ export default function DataInquiryPage() {
   const [modalOpen, setModalOpen] = useState(false)
 
   const [fetchData, setFetchData] = useState()
+  const [fetchDate, setFetchDate] = useState()
   const [chartData, setChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
   const [nonChartData, setNonChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
 
   const [isManager, setIsManager] = useState(false)
+
+  const [page, setPage] = useState(1)
+  const limit = 30
+  const [total, setTotal] = useState(0)
+  const offset = (page - 1) * limit
 
   useEffect(() => {
     const cookie = getCookie('accessToken')
@@ -26,13 +32,14 @@ export default function DataInquiryPage() {
       .then(resp => resp.json())
       .then(datalist => {
         console.log(datalist)
+        setTotal(datalist.length)
         const data = datalist.map((data, index) => (
           <tr className="w-full" key={index}>
             <td className="px-6 border ">{data.category}</td>
             <td className="px-6 border ">{data.state === 'true' ? '가능' : '불가능'}</td>
             <td className="px-6 border ">{data.ce}</td>
             <td className="px-6 border ">{data.rm}</td>
-            <td className="px-6 border cursor-pointer" onClick={ImageOnClicked}>
+            <td className="px-6 border cursor-pointer" onClick={() => ImageOnClicked(data['date'], data['time'])}>
               이미지 보기
             </td>
           </tr>
@@ -54,8 +61,8 @@ export default function DataInquiryPage() {
       .catch(err => err.message)
   }, [isManager])
 
-  const ImageOnClicked = () => {
-    console.log('test')
+  const ImageOnClicked = (date, time) => {
+    setFetchDate({dates: date, times: time})
     setModalOpen(true)
   }
 
@@ -70,7 +77,7 @@ export default function DataInquiryPage() {
       plotOptions: {
         pie: {
           donut: {
-            dataLabels: {
+            labels: {
               show: true,
               name: {
                 show: true
@@ -88,7 +95,7 @@ export default function DataInquiryPage() {
       plotOptions: {
         pie: {
           donut: {
-            dataLabels: {
+            labels: {
               show: true,
               name: {
                 show: true
@@ -134,10 +141,14 @@ export default function DataInquiryPage() {
             <th className="w-1/5 px-6 border">이미지 상세보기</th>
           </tr>
         </thead>
-        <tbody>{fetchData}</tbody>
+        <tbody>{fetchData && fetchData.slice(offset, offset + limit).map(data => data)}</tbody>
       </table>
 
-      <ImageModal open={modalOpen} setOpen={setModalOpen} />
+      <Pagination total={total} limit={limit} page={page} setPage={setPage} />
+
+      {fetchDate && (
+        <ImageModal open={modalOpen} setOpen={setModalOpen} date={fetchDate.dates} time={fetchDate.times} />
+      )}
     </section>
   )
 }

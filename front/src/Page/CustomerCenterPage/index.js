@@ -1,4 +1,4 @@
-import {Div} from '../../Component'
+import {Div, Pagination} from '../../Component'
 import {CustomerBoardItem} from './CustomerBoardItem'
 import customerimg from '../../images/customerService.png'
 import {useEffect, useRef, useState} from 'react'
@@ -9,6 +9,10 @@ export default function CustomerCenterPage() {
   const [total, setTotal] = useState(0)
   const [isLogin, setIsLogin] = useState(false)
   const [boardDatas, setBoardDatas] = useState([])
+
+  const [page, setPage] = useState(1)
+  const limit = 10
+  const offset = (page - 1) * limit
 
   const serachRef = useRef(null)
   const Navigate = useNavigate()
@@ -70,20 +74,24 @@ export default function CustomerCenterPage() {
         <div className="relative flex flex-col w-4/5 h-full m-auto mb-6 border-black border-y-2">
           {/* 게시글 리스트 */}
           {/* {boardDatas} */}
-          {boardDatas.map((data, index) => (
-            <div className="w-full " key={index}>
-              <CustomerBoardItem
-                num={data['id']}
-                title={data.title}
-                writer={data.username.username}
-                date={data.date}
-                content={data.content}
-              />
-            </div>
-          ))}
+          {boardDatas
+            .map((data, index) => (
+              <div className="w-full " key={index}>
+                <CustomerBoardItem
+                  num={data['id']}
+                  title={data.title}
+                  writer={data.username.username}
+                  date={data.date}
+                  content={data.content}
+                />
+              </div>
+            ))
+            .slice(offset, offset + limit)}
         </div>
 
         {/* 페이지네이션 */}
+
+        <Pagination total={total} limit={limit} page={page} setPage={setPage} />
       </div>
     </Div>
   )
