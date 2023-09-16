@@ -1,22 +1,39 @@
 // 고객센터 상세페이지
 import {useLocation, useNavigate} from 'react-router-dom'
 import customerimg from '../../images/customerService.png'
-import {useEffect} from 'react'
+import {CustomerBoardReply} from './CustomerBoardReply'
+import {useEffect, useState, useRef} from 'react'
 import {Div} from '../../Component'
+import {getCookie, getUserInfoFromToken} from '../../util'
 
 export function CustomerBoardPage() {
+  const [isUser, setIsUser] = useState(false)
+  const [commentList, setCommnetList] = useState()
+
+  const commentRef = useRef(null)
+
   const location = useLocation()
   const Navigate = useNavigate()
-  console.log(location.state)
+  // console.log(location.state)
 
   const listOnClicked = () => {
     Navigate('/customer')
   }
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/comments/readComment`)
+    const cookie = getCookie('accessToken')
+    if (cookie) {
+      const user = getUserInfoFromToken()
+      if (user.username === location.state.username) setIsUser(true)
+      else setIsUser(false)
+    }
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/comments/readComment/${location.state.num}`)
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(datalist => {
+        console.log(datalist)
+        setCommnetList(datalist)
+      })
       .catch(error => error.message)
   }, [])
 
@@ -25,17 +42,40 @@ export function CustomerBoardPage() {
   }
 
   const DeleteBoardOnClick = () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/deleteBoard/${location.state.num}`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/deleteBoard/${location.state.num}`, {
+      method: 'delete'
+    })
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => error.message)
   }
 
   const InsertReplyOnClick = () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/comments/insertComment`)
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => error.message)
+    const cookie = getCookie('accessToken')
+    if (cookie) {
+      const user = getUserInfoFromToken()
+
+      if (user.username === location.state.username) setIsUser(true)
+      else setIsUser(false)
+
+      console.log('content: ', commentRef.current?.value)
+      console.log('username: ', user.username)
+      console.log('boardid: ', location.state.num)
+
+      fetch(`${process.env.REACT_APP_SERVER_URL}/manager/comments/insertComment`, {
+        method: 'post',
+        body: JSON.stringify({
+          content: commentRef.current?.value,
+          username: user.username,
+          boardid: location.state.num
+        })
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => error.message)
+    } else {
+      alert('로그인 후 이용해주세요.')
+    }
   }
 
   return (
@@ -46,11 +86,15 @@ export function CustomerBoardPage() {
       </div>
 
       <div className="flex flex-col items-center p-8 mt-4">
-        <div className="flex items-center justify-center w-full mt-8 border-y-2">
-          <div className="mt-4 mb-4 mr-4">{location.state.title}</div>
-          <div>
-            <button>수정</button>
-            <button>삭제</button>
+        <div className="flex w-full mt-8 border-y-2">
+          <div className="flex justify-center w-full mt-4 mb-4 mr-4">{location.state.title}</div>
+          <div className="flex items-center justify-end">
+            <button className="mr-4 btn" onClick={UpdateBoardOnClick}>
+              수정
+            </button>
+            <button className="btn" onClick={DeleteBoardOnClick}>
+              삭제
+            </button>
           </div>
         </div>
         <div className="flex flex-col items-center w-full mt-4">
@@ -58,8 +102,29 @@ export function CustomerBoardPage() {
         </div>
 
         {/* 댓글 */}
-        <div className="w-full border-y-2">
-          <div></div>
+        <div className="w-full mt-4 border-y-2">
+          <div className="w-full p-4">
+            <div className="mb-4 font-bold font-poppins">댓글 작성</div>
+            <input type="text" ref={commentRef} className="w-3/4 mr-4 border-2 border-gray-200 input" />
+            <button className="btn" onClick={InsertReplyOnClick}>
+              등록
+            </button>
+          </div>
+
+          <div className="flex w-full border-gray-200 border-y-2">
+            <div className="w-full p-2">
+              {commentList &&
+                commentList.map((data, index) => (
+                  <CustomerBoardReply
+                    key={index}
+                    writer={data.username}
+                    num={data.id}
+                    content={data.content}
+                    regdate={data.date}
+                  />
+                ))}
+            </div>
+          </div>
         </div>
 
         <div className="flex justify-end w-full mt-10">

@@ -9,6 +9,8 @@ export default function DataInquiryPage() {
   const [modalOpen, setModalOpen] = useState(false)
 
   const [fetchData, setFetchData] = useState()
+  const [chartData, setChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+  const [nonChartData, setNonChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
 
   const [isManager, setIsManager] = useState(false)
 
@@ -16,7 +18,6 @@ export default function DataInquiryPage() {
     const cookie = getCookie('accessToken')
     if (cookie) {
       const user = getUserInfoFromToken()
-      console.log(user)
       if (user.authority === '[ROLE_MANAGER]') setIsManager(true)
       else setIsManager(false)
     }
@@ -25,17 +26,46 @@ export default function DataInquiryPage() {
       .then(resp => resp.json())
       .then(datalist => {
         console.log(datalist)
-        // datalist.map((data) => )
+        const data = datalist.map((data, index) => (
+          <tr className="w-full" key={index}>
+            <td className="px-6 border ">{data.category}</td>
+            <td className="px-6 border ">{data.state === 'true' ? '가능' : '불가능'}</td>
+            <td className="px-6 border ">{data.ce}</td>
+            <td className="px-6 border ">{data.rm}</td>
+            <td className="px-6 border cursor-pointer" onClick={ImageOnClicked}>
+              이미지 보기
+            </td>
+          </tr>
+        ))
+        setFetchData(data)
+        const chartDatas = [0, 0, 0, 0, 0, 0, 0, 0]
+        const nonChartDatas = [0, 0, 0, 0, 0, 0, 0, 0]
+        datalist.forEach(data => {
+          const index = byType.types.indexOf(data.category)
+          if (data.state === 'true') {
+            chartDatas[index] += data.count
+            setChartData(chartDatas)
+          } else {
+            nonChartDatas[index] += data.count
+            setNonChartData(nonChartDatas)
+          }
+        })
       })
       .catch(err => err.message)
   }, [isManager])
 
-  const byType = {
-    type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    data: [30, 40, 45, 50, 39, 60, 70]
+  const ImageOnClicked = () => {
+    console.log('test')
+    setModalOpen(true)
   }
 
-  const state = {
+  const byType = {
+    type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔', '기타'],
+    types: ["'plastic'", "'glass'", "'paper'", "'paperpack'", "'vinyl'", "'pet'", "'can'", 'etc'],
+    data: [30, 40, 45, 50, 39, 60, 70, 10]
+  }
+
+  const stateTrue = {
     options: {
       plotOptions: {
         pie: {
@@ -44,16 +74,34 @@ export default function DataInquiryPage() {
               show: true,
               name: {
                 show: true
-              },
-              value: {series: [44, 55, 41, 17, 15]}
+              }
             }
           }
         }
       },
       labels: byType.type
     },
-    series: byType.data
+    series: chartData
   }
+  const stateFalse = {
+    options: {
+      plotOptions: {
+        pie: {
+          donut: {
+            dataLabels: {
+              show: true,
+              name: {
+                show: true
+              }
+            }
+          }
+        }
+      },
+      labels: byType.type
+    },
+    series: nonChartData
+  }
+
   return (
     <section className="w-full pt-[120px]">
       {isManager && (
@@ -71,8 +119,8 @@ export default function DataInquiryPage() {
       )}
 
       <div className="flex items-center my-10 justify-evenly md:flex-col sm:flex-col">
-        <Chart options={state.options} series={state.series} type="donut" width="380" />
-        <Chart options={state.options} series={state.series} type="donut" width="380" />
+        <Chart options={stateTrue.options} series={stateTrue.series} type="donut" width="380" />
+        <Chart options={stateFalse.options} series={stateFalse.series} type="donut" width="380" />
       </div>
       {/*  */}
 
@@ -86,18 +134,10 @@ export default function DataInquiryPage() {
             <th className="w-1/5 px-6 border">이미지 상세보기</th>
           </tr>
         </thead>
-        <tbody>
-          <tr className="w-full">
-            <td className="px-6 border ">test</td>
-            <td className="px-6 border ">test</td>
-            <td className="px-6 border ">test</td>
-            <td className="px-6 border ">test</td>
-            <td className="px-6 border ">test</td>
-          </tr>
-        </tbody>
+        <tbody>{fetchData}</tbody>
       </table>
 
-      {/* <ImageModal open={modalOpen} setOpen={setModalOpen} /> */}
+      <ImageModal open={modalOpen} setOpen={setModalOpen} />
     </section>
   )
 }

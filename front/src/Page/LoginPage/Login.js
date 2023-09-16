@@ -38,8 +38,8 @@ export const Login = () => {
         <div className="flex flex-col items-center justify-center bg-white rounded-r-[40px] shadow h-full">
           <div className="flex flex-col items-center w-2/3 p-6 space-y-6">
             <h1 className="w-full m-4 text-4xl font-bold text-left font-poppins">Login</h1>
-            <div className="flex w-full mt-4 text-sm">
-              <button className="mr-4 btn">Continue with Google</button>
+            <div className="flex w-full mt-4 text-sm md:flex-col sm:flex-col">
+              <button className="mr-4 btn md:mr-0 sm:mr-0 md:mb-4 sm:mb-4">Continue with Google</button>
               <button className="btn">Continue with Facebook</button>
             </div>
             <div className="w-full space-y-6">

@@ -47,8 +47,8 @@ export function SignUp() {
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="w-2/3">
             <h1 className="m-4 text-4xl font-bold text-left font-poppins">Create Account</h1>
-            <div className="flex mt-4 text-sm">
-              <button className="mr-4 btn">Continue with Google</button>
+            <div className="flex mt-4 text-sm md:flex-col sm:flex-col">
+              <button className="mr-4 btn md:mr-0 sm:mr-0 md:mb-4 sm:mb-4">Continue with Google</button>
               <button className="btn">Continue with Facebook</button>
             </div>
             <Input

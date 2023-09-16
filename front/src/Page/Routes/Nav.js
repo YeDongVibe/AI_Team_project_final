@@ -61,7 +61,7 @@ export function Nav() {
     removeCookie('accessToken')
     setIsLogin(false)
     setLoginText('')
-    window.location.reload()
+    Navigate('/')
   }
 
   const CloseHamberger = () => {
@@ -74,7 +74,7 @@ export function Nav() {
       className={`w-full h-[120px] fixed ${navVisible ? 'z-40' : '-z-10'} flex justify-between items-center
     ${navVisible ? 'opacity-100 transition-all duration-500' : 'opacity-0 '}`}>
       <div className="w-1/5">
-        <img src={logo} className="w-2/4 h-full ml-6 cursor-pointer" onClick={logoClicked} />
+        <img src={logo} className="w-2/4 h-full ml-6 cursor-pointer md:w-3/4 sm:w-full" onClick={logoClicked} />
       </div>
       <div className={`flex items-center justify-center w-3/5 text-xl ${navColor} lg:text-base md:text-sm sm:hidden`}>
         <Link to="/static">
