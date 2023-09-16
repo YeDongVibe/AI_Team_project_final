@@ -70,7 +70,7 @@ export default function DataInquiryPage() {
         </div>
       )}
 
-      <div className="flex my-10 justify-evenly ">
+      <div className="flex items-center my-10 justify-evenly md:flex-col sm:flex-col">
         <Chart options={state.options} series={state.series} type="donut" width="380" />
         <Chart options={state.options} series={state.series} type="donut" width="380" />
       </div>

@@ -52,7 +52,7 @@ export default function CustomerCenterPage() {
         <div className="flex w-full m-8 justify-evenly">
           <div className="w-1/4 ml-6 font-poppins">Total : {total}</div>
           <div className="relative w-2/4">
-            <input type="text" className="w-full border border-gray-300 input bg-gray-50" ref={serachRef} />
+            <input type="text" className="w-full pr-16 border border-gray-300 input bg-gray-50" ref={serachRef} />
             <button className="absolute right-0 border-gray-300 w-2/7 btn" onClick={SearchBoard}>
               검색
             </button>
