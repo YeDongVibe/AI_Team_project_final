@@ -70,6 +70,7 @@ export function ImageUpload() {
       .post(`${process.env.REACT_APP_SERVER_URL}/manager/files/image`, formData)
       .then(response => {
         console.log(response.data)
+        alert('이미지 업로드가 완료 되었습니다.');
       })
       .catch(error => {
         console.error(error)
