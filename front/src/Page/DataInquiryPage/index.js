@@ -27,6 +27,7 @@ export default function DataInquiryPage() {
       if (user.authority === '[ROLE_MANAGER]') setIsManager(true)
       else setIsManager(false)
     }
+    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
       .then(resp => resp.json())

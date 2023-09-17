@@ -7,7 +7,7 @@ import ReactApexChart from 'react-apexcharts'
 export function ByType() {
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    types: ["'plastic'", "'glass'", "'paper'", "'paperpack'", "'vinyl'", "'pet'", "'can'"],
+    types: ['plastic', 'glass', 'paper', 'paperpack', 'vinyl', 'pet', 'can'],
     ce: [0, 0, 0, 0, 0, 0, 0],
     rm: [0, 0, 0, 0, 0, 0, 0]
   }
@@ -29,10 +29,12 @@ export function ByType() {
 
     const index = byType['types'].indexOf(type)
     try {
+      console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/types/${type}`)
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/types/${type}`)
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
+      console.log(response)
       const datalist = await response.json()
       console.log(datalist)
 

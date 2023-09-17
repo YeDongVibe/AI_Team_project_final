@@ -24,13 +24,16 @@ export function ImageModal({open, setOpen, date, time}) {
   }, [date, time])
 
   const ImgDownloadClick = () => {
-    let a = document.createElement('a')
-    a.href = `http://localhost:8080/public/download/Wimple_2023_08_17_10_13_00.png`
-    a.download = `${imgFileName}.png` // 파일명을 원하는대로 변경하세요.
-    a.style.display = 'none'
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+    // 이미지 다운로드 URL 생성
+    const downloadUrl = `${process.env.REACT_APP_SERVER_URL}/public/download/${imgFileName}`
+
+    // 새 탭 열기
+    const newTab = window.open(downloadUrl, '_blank')
+
+    // 새 탭이 열린 후 이미지가 다운로드되면 새 탭을 닫기
+    newTab.onload = () => {
+      newTab.close()
+    }
   }
 
   return (
