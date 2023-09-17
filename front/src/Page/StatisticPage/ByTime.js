@@ -9,6 +9,7 @@ export function ByTime() {
   const endDateRef = useRef(null)
 
   const [isTime, setIsTime] = useState(false)
+  const [isToday, setIsToday] = useState(true)
   const [fetchData, setFetchData] = useState({})
   const [fetchCE, setFetchCE] = useState([])
   const [fetchRM, setFetchRM] = useState([])
@@ -42,9 +43,6 @@ export function ByTime() {
   const threeMonthBtn = `${threeMonthsAgoYear}-${threeMonthsAgoMonth}-${threeMonthsAgoDay}`
   const sixMonthBtn = `${sixMonthsAgoYear}-${sixMonthsAgoMonth}-${sixMonthsAgoDay}`
 
-  const monthType = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const minite = [0, 10, 20, 30, 40, 50]
-
   // redux로 뺄지 고민 중
   const [isSelfInput, setIsSelfInput] = useState(false)
   const timeRanges = [
@@ -73,9 +71,12 @@ export function ByTime() {
     {start: '22:00', end: '23:00'},
     {start: '23:00', end: '00:00'}
   ]
+  const endTimes = timeRanges.map(range => range.end)
+  const monthType = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const minite = ['10분', '20분', '30분', '40분', '50분', '60분']
 
   // LineChart
-  const state = {
+  const line = {
     series: [
       {
         name: '탄소배출량',
@@ -91,15 +92,10 @@ export function ByTime() {
         selection: {
           enabled: true
         },
-        height: 350,
-        type: 'line',
         zoom: {
           enabled: false
         },
         background: '#FFFFFF'
-      },
-      dataLabels: {
-        enabled: false
       },
       stroke: {
         curve: 'straight'
@@ -115,21 +111,18 @@ export function ByTime() {
         }
       },
       xaxis: {
-        categories: isTime ? minite : monthType
+        categories: isTime ? minite : isToday ? endTimes : monthType
       },
       toolbar: {
         tools: {
-          download: '<img src="/static/icons/download.png" className="text-2xl ico-download" width="40">'
+          download: true
         },
         export: {
           csv: {
             filename: undefined,
             columnDelimiter: ',',
             headerCategory: 'category',
-            headerValue: 'value',
-            dateFormatter(timestamp) {
-              return new Date(timestamp).toDateString()
-            }
+            headerValue: 'value'
           },
           svg: {
             filename: 1
@@ -144,7 +137,7 @@ export function ByTime() {
 
   useEffect(() => {
     //일자별 통계
-    FetchByTime(today, today)
+    FetchByToday()
   }, [])
 
   const selfInput = () => {
@@ -156,17 +149,53 @@ export function ByTime() {
     // 시간별 통계
     const selectValue = e.target.value
     setIsTime(true)
-    // console.log(selectValue)
+    setFetchCE([0, 0, 0, 0, 0, 0])
+    setFetchRM([0, 0, 0, 0, 0, 0])
+    let initialCEData = [0, 0, 0, 0, 0, 0]
+    let initialRMData = [0, 0, 0, 0, 0, 0]
 
     if (selectValue === '오늘') {
       setIsTime(false)
+      setIsToday(true)
+
+      let TodayCEArray = new Array(24).fill(0)
+      let TodayRMArray = new Array(24).fill(0)
+      setFetchCE(TodayCEArray)
+      setFetchRM(TodayRMArray)
     } else {
       const startTime = selectValue.slice(0, 5)
       const endTime = selectValue.slice(8)
 
       fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/times/${startTime}/${endTime}`)
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(datalist => {
+          console.log(datalist)
+          // 데이터를 CE와 RM 데이터로 분리하여 합산
+          datalist.forEach(data => {
+            const timeValue = data.time[1]
+            if (timeValue >= 0 && timeValue < 10) {
+              initialCEData[0] += data.ce
+              initialRMData[0] += data.rm
+            } else if (timeValue >= 10 && timeValue < 20) {
+              initialCEData[1] += data.ce
+              initialRMData[1] += data.rm
+            } else if (timeValue >= 20 && timeValue < 30) {
+              initialCEData[2] += data.ce
+              initialRMData[2] += data.rm
+            } else if (timeValue >= 30 && timeValue < 40) {
+              initialCEData[3] += data.ce
+              initialRMData[3] += data.rm
+            } else if (timeValue >= 40 && timeValue < 50) {
+              initialCEData[4] += data.ce
+              initialRMData[4] += data.rm
+            } else if (timeValue >= 50) {
+              initialCEData[5] += data.ce
+              initialRMData[5] += data.rm
+            }
+          })
+          setFetchCE(initialCEData)
+          setFetchRM(initialRMData)
+        })
         .catch(error => error.message)
     }
   }
@@ -177,9 +206,37 @@ export function ByTime() {
     FetchByTime(startDate, endDate)
   }
 
+  const FetchByToday = () => {
+    setIsTime(false)
+    setIsToday(true)
+
+    let TodayCEArray = new Array(24).fill(0)
+    let TodayRMArray = new Array(24).fill(0)
+    setFetchCE(TodayCEArray)
+    setFetchRM(TodayRMArray)
+
+    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${today}/${today}`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${today}/${today}`)
+      .then(response => response.json())
+      .then(datalist => {
+        console.log(datalist)
+        datalist.forEach(data => {
+          const timeValue = data.time[0]
+          if (timeValue >= 1 && timeValue <= 24) {
+            TodayCEArray[timeValue - 1] += data.ce
+            TodayRMArray[timeValue - 1] += data.rm
+          }
+        })
+        setFetchCE(TodayCEArray)
+        setFetchRM(TodayRMArray)
+      })
+      .catch(error => error.message)
+  }
+
   const FetchByTime = (date1, date2) => {
     setFetchData({})
     setIsTime(false)
+    setIsToday(false)
 
     console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
@@ -257,8 +314,8 @@ export function ByTime() {
       )}
 
       <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
-        <ResultClick />
-        <ReactApexChart options={state.options} series={state.series} type="line" height={350} />
+        <ResultClick linechart={JSON.stringify(line)} />
+        <ReactApexChart options={line.options} series={line.series} type="line" height={350} />
       </Div>
     </Div>
   )

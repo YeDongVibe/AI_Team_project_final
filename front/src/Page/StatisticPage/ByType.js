@@ -16,6 +16,8 @@ export function ByType() {
   const [trashMonthType, setTrashMonthType] = useState(byType)
   const [trashTodayType, setTrashTodayType] = useState(byType)
 
+  const [fetchData, setFetchData] = useState()
+
   // 재활용 종류별 통계를 가져오는 함수
   const fetchTrashStatisticsByType = async type => {
     const currentDate = new Date()
@@ -39,14 +41,18 @@ export function ByType() {
         const dataYear = dataa['date'][0]
         return dataYear === currentYear
       })
+      // console.log('matchingYearData: ', matchingYearData)
       const matchingMonthData = datalist.filter(dataa => {
         const [dataYear, dataMonth, dataDay] = dataa['date']
         return dataYear === currentYear && dataMonth === currentMonth
       })
+      // console.log('matchingMonthData: ', matchingMonthData)
       const matchingTodayData = datalist.filter(dataa => {
         const [dataYear, dataMonth, dataDay] = dataa['date']
         return dataYear === currentYear && dataMonth === currentMonth && dataDay === currentDay
       })
+      // console.log('matchingTodayData: ', matchingTodayData)
+
       // 년별 원자재 수익 합, 탄소 배출량 합
       const dataYearrm = matchingYearData.map(data => data['rm'])
       const rmYearSum = dataYearrm.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
@@ -74,6 +80,8 @@ export function ByType() {
         updatedRM[index] = rmYearSum
         return {
           ...prev,
+          type: byType.type,
+          types: byType.types,
           ce: updatedCE,
           rm: updatedRM
         }
@@ -86,6 +94,8 @@ export function ByType() {
         updatedRM[index] = rmMonthSum
         return {
           ...prev,
+          type: byType.type,
+          types: byType.types,
           ce: updatedCE,
           rm: updatedRM
         }
@@ -98,6 +108,8 @@ export function ByType() {
         updatedRM[index] = rmTodaySum
         return {
           ...prev,
+          type: byType.type,
+          types: byType.types,
           ce: updatedCE,
           rm: updatedRM
         }
@@ -109,12 +121,6 @@ export function ByType() {
 
   useEffect(() => {
     // 재활용 종류별 통계
-    // fetchTrashStatisticsByType("'plastic'")
-
-    // fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/types/plastic`)
-    //   .then(response => response.json())
-    //   .then(data => console.log('data: ', data))
-    //   .catch(error => error.message)
     byType.types.forEach(type => {
       fetchTrashStatisticsByType(type)
     })
@@ -274,29 +280,8 @@ export function ByType() {
   }
 
   const AllTypeClicked = () => {
-    setTrashYearType(prev => {
-      return {
-        ...prev,
-        type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-        ce: [30, 40, 45, 50, 39, 60, 70],
-        rm: [30, 40, 45, 50, 39, 60, 70]
-      }
-    })
-    setTrashMonthType(prev => {
-      return {
-        ...prev,
-        type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-        ce: [30, 40, 45, 50, 39, 60, 70],
-        rm: [30, 40, 45, 50, 39, 60, 70]
-      }
-    })
-    setTrashTodayType(prev => {
-      return {
-        ...prev,
-        type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-        ce: [30, 40, 45, 50, 39, 60, 70],
-        rm: [30, 40, 45, 50, 39, 60, 70]
-      }
+    byType.types.forEach(type => {
+      fetchTrashStatisticsByType(type)
     })
   }
 
@@ -315,7 +300,7 @@ export function ByType() {
 
       <Div className="relative flex w-11/12 p-16 m-auto bg-white rounded-[45px]">
         {/*  */}
-        <ResultClick />
+        <ResultClick chart={[day, month, year]} />
         {/*  */}
         <div className="w-1/3">
           <ReactApexChart options={day.options} series={day.series} type="bar" height={350} />

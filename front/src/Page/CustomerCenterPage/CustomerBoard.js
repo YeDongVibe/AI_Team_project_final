@@ -14,7 +14,7 @@ export function CustomerBoardPage() {
 
   const location = useLocation()
   const Navigate = useNavigate()
-  // console.log(location.state)
+  console.log(location.state)
 
   const listOnClicked = () => {
     Navigate('/customer')
@@ -38,7 +38,7 @@ export function CustomerBoardPage() {
   }, [])
 
   const UpdateBoardOnClick = () => {
-    Navigate('/customer/write', location.state)
+    Navigate('/customer/write', {state: {location: location.state}})
   }
 
   const DeleteBoardOnClick = () => {

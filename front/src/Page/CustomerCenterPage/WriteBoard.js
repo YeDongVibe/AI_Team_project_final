@@ -1,37 +1,65 @@
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, useLocation} from 'react-router-dom'
 import {useRef, useEffect} from 'react'
 import {getCookie, getUserInfoFromToken} from '../../util'
 import customerimg from '../../images/customerService.png'
 
 export function WriteBoard() {
   const Navigate = useNavigate()
+  const location = useLocation()
 
+  console.log(location)
   const titleRef = useRef(null)
   const contentRef = useRef(null)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (location.state !== null) {
+      titleRef.current.value = location.state.location.title
+      contentRef.current.textContent = location.state.location.content
+      console.log(location.state.location.content)
+    }
+  }, [])
 
   const registerBtnClick = () => {
     const cookie = getCookie('accessToken')
     const user = getUserInfoFromToken()
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/insertBoard`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: titleRef.current?.value,
-        content: contentRef.current?.textContent,
-        username: user.username
+    if (location.state !== null) {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/updateBoard/${location.state.location.num}`, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: titleRef.current?.value,
+          content: contentRef.current?.textContent,
+          username: user.username
+        })
       })
-    })
-      .then(response => response.data)
-      .then(() => {
-        alert('게시글이 등록되었습니다.')
-        Navigate('/customer')
+        .then(response => response.data)
+        .then(() => {
+          alert('게시글이 수정되었습니다.')
+          Navigate('/customer')
+        })
+        .catch(err => err.message)
+    } else {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/insertBoard`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: titleRef.current?.value,
+          content: contentRef.current?.textContent,
+          username: user.username
+        })
       })
-      .catch(err => err.message)
+        .then(response => response.data)
+        .then(() => {
+          alert('게시글이 등록되었습니다.')
+          Navigate('/customer')
+        })
+        .catch(err => err.message)
+    }
   }
 
   return (
