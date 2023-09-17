@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 // json & xml 형태의 데이터를 반환하는 컨트롤러에 사용
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/manager/files")
+// @RequestMapping("/manager/files")
 // 해당 컨트롤러 클래스 내의 모든 메서드에 대한 url 경로가 upload로 시작됨
 public class FileUploadController {
 
@@ -92,4 +91,14 @@ public class FileUploadController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+
+	@Value("${image.dir}")
+	private String imageDir;
+
+	@PostMapping("/testimg")
+	private ResponseEntity<String> updateImg() {
+		fileUploadService.updateImgTest(imageDir);
+		return ResponseEntity.ok("Image URLs updated successfully");
+	}
+
 }
