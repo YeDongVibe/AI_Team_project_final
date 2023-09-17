@@ -52,7 +52,10 @@ export default function CustomerCenterPage() {
     console.log(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => {
+        setTotal(data.length)
+        setBoardDatas(data)
+      })
       .catch(error => error.message)
   }
 
@@ -63,9 +66,7 @@ export default function CustomerCenterPage() {
         <p className="absolute text-3xl font-bold text-black font-poppins">문의 게시판</p>
       </div>
 
-      {/*  */}
       <div className="w-full h-full mt-20">
-        {/* info */}
         <div className="flex w-full m-8 justify-evenly">
           <div className="w-1/4 ml-6 font-poppins">Total : {total}</div>
           <div className="relative flex w-2/4">
@@ -88,10 +89,7 @@ export default function CustomerCenterPage() {
           </div>
         </div>
 
-        {/* 게시글 */}
         <div className="relative flex flex-col w-4/5 h-full m-auto mb-6 border-black border-y-2">
-          {/* 게시글 리스트 */}
-          {/* {boardDatas} */}
           {boardDatas
             .map((data, index) => (
               <div className="w-full " key={index}>
@@ -106,8 +104,6 @@ export default function CustomerCenterPage() {
             ))
             .slice(offset, offset + limit)}
         </div>
-
-        {/* 페이지네이션 */}
 
         <Pagination total={total} limit={limit} page={page} setPage={setPage} />
       </div>

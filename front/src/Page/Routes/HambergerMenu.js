@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import {Div, Icon} from '../../Component'
 import {Link} from 'react-router-dom'
+import logo from '../../images/Logo2.png'
 
 export function HambergerMenu({isHamberger, setIsHamberger, logoutClicked, loginText}) {
   // const [isHamberger, setIsHamberger] = useState(false)
@@ -23,15 +24,11 @@ export function HambergerMenu({isHamberger, setIsHamberger, logoutClicked, login
         transition: '.4s ease-out' // 애니메이션 시간과 이징 함수 설정
       }}>
       <div className="w-full h-16 bg-white">
-        <Div className="absolute left-0 top-3 ">
-          <Link to="/">
-            이미지
-            {/* <img src={navdog} alt="" className=" h-36" /> */}
+        <Div className="flex justify-center mt-6">
+          <Link to="/" className="">
+            <img src={logo} alt="" className="" />
           </Link>
         </Div>
-        {/* <button className="fixed right-0 z-40 w-16 h-16 top-4 " onClick={() => CloseHamberger()}>
-          <Icon name="close" className="w-full h-full text-mint" style={{fontSize: '60px'}}></Icon>
-        </button> */}
       </div>
 
       <div className="flex flex-col pt-16">

@@ -10,8 +10,6 @@ export function ResultBox() {
   const [chart, setChart] = useState()
 
   useEffect(() => {
-    console.log(location.state)
-
     if (location.state.chart === undefined) {
       const jsonString = location.state.linechart
       const parseObject = JSON.parse(jsonString)
@@ -20,7 +18,6 @@ export function ResultBox() {
           <ReactApexChart options={parseObject.options} series={parseObject.series} type="line" height={350} />
         </Div>
       )
-      console.log(parseObject)
     } else {
       const chartdata = location.state.chart.map((data, index) => (
         <div className="w-1/3" key={index}>

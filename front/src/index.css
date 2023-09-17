@@ -43,7 +43,7 @@
 }
 
 .btn-day {
-  @apply px-8 py-4 text-black bg-white btn;
+  @apply px-8 py-4 text-black btn;
 }
 
 :root {

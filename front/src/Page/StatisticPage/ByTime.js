@@ -45,7 +45,6 @@ export function ByTime() {
   const threeMonthBtn = `${threeMonthsAgoYear}-${threeMonthsAgoMonth}-${threeMonthsAgoDay}`
   const sixMonthBtn = `${sixMonthsAgoYear}-${sixMonthsAgoMonth}-${sixMonthsAgoDay}`
 
-  // redux로 뺄지 고민 중
   const [isSelfInput, setIsSelfInput] = useState(false)
   const timeRanges = [
     {start: '00:00', end: '01:00'},
@@ -151,13 +150,14 @@ export function ByTime() {
     // 시간별 통계
     const selectValue = e.target.value
     setIsTime(true)
+    setFetchData({})
     setFetchCE([0, 0, 0, 0, 0, 0])
     setFetchRM([0, 0, 0, 0, 0, 0])
     let initialCEData = [0, 0, 0, 0, 0, 0]
     let initialRMData = [0, 0, 0, 0, 0, 0]
     setTitle(`${selectValue} 시간의 탄소배출량, 원재료 수익 그래프`)
 
-    if (selectValue === '오늘') {
+    if (selectValue === '당일') {
       setIsTime(false)
       setIsToday(true)
 
@@ -165,6 +165,8 @@ export function ByTime() {
       let TodayRMArray = new Array(24).fill(0)
       setFetchCE(TodayCEArray)
       setFetchRM(TodayRMArray)
+
+      FetchByToday()
     } else {
       const startTime = selectValue.slice(0, 5)
       const endTime = selectValue.slice(8)
@@ -173,6 +175,7 @@ export function ByTime() {
         .then(response => response.json())
         .then(datalist => {
           console.log(datalist)
+          setFetchData(datalist)
           // 데이터를 CE와 RM 데이터로 분리하여 합산
           datalist.forEach(data => {
             const timeValue = data.time[1]
@@ -210,22 +213,22 @@ export function ByTime() {
   }
 
   const FetchByToday = () => {
+    setFetchData({})
     setIsTime(false)
     setIsToday(true)
-    console.log(selectRef.current)
 
-    setTitle(`오늘 시간대별 탄소배출량, 원재료수익 그래프`)
+    setTitle(`당일 시간대별 탄소배출량, 원재료수익 그래프`)
 
     let TodayCEArray = new Array(24).fill(0)
     let TodayRMArray = new Array(24).fill(0)
     setFetchCE(TodayCEArray)
     setFetchRM(TodayRMArray)
 
-    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${today}/${today}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${today}/${today}`)
       .then(response => response.json())
       .then(datalist => {
-        console.log(datalist)
+        // console.log(datalist)
+        setFetchData(datalist)
         datalist.forEach(data => {
           const timeValue = data.time[0]
           if (timeValue >= 1 && timeValue <= 24) {
@@ -244,20 +247,22 @@ export function ByTime() {
     setIsTime(false)
     setIsToday(false)
 
+    selectRef.current.value = '시간대별'
+
     setFetchCE([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setFetchRM([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setTitle(`${date1} ~ ${date2} 기간의 탄소배출량, 원재료수익 그래프`)
-    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
       .then(response => response.json())
       .then(datalist => {
         console.log(datalist)
+        setFetchData(datalist)
         // 데이터를 날짜로 그룹화하는 객체 생성
         const dataByDate = {}
 
         // 데이터를 날짜별로 그룹화
         datalist.forEach(data => {
-          const dateKey = monthType[data['date'][1]]
+          const dateKey = monthType[data['date'][1] - 1]
           if (!dataByDate[dateKey]) {
             dataByDate[dateKey] = []
           }
@@ -265,11 +270,13 @@ export function ByTime() {
         })
 
         // 그룹화된 데이터 확인
-        setFetchData(dataByDate)
+        // setFetchData(dataByDate)
         const CEData = []
         const RMData = []
         monthType.forEach(month => {
           if (dataByDate[month]) {
+            // console.log(month)
+            // console.log(dataByDate[month])
             const ceSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['ce'], 0)
             const rmSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['rm'], 0)
             CEData.push(ceSum)
@@ -289,21 +296,22 @@ export function ByTime() {
     <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
       <div className="flex justify-around flex-grow mb-8">
         <select className="h-full px-8 py-2 text-black bg-white btn" ref={selectRef} onChange={TimeSelectOnChange}>
-          <option value="오늘">오늘</option>
+          <option value="시간대별">시간대별</option>
+          <option value="당일">당일</option>
           {timeRanges.map((timeRange, index) => (
             <option key={index} value={`${timeRange.start} ~ ${timeRange.end}`}>
               {`${timeRange.start} ~ ${timeRange.end}`}
             </option>
           ))}
         </select>
-        <button className="btn-day" onClick={() => FetchByTime(oneMonthBtn, today)}>
-          1개월
+        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(oneMonthBtn, today)}>
+          최근 1개월
         </button>
-        <button className="btn-day" onClick={() => FetchByTime(threeMonthBtn, today)}>
-          3개월
+        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(threeMonthBtn, today)}>
+          최근 3개월
         </button>
-        <button className="btn-day" onClick={() => FetchByTime(sixMonthBtn, today)}>
-          6개월
+        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(sixMonthBtn, today)}>
+          최근 6개월
         </button>
         <button className="btn-day" onClick={selfInput}>
           직접 입력
@@ -323,7 +331,7 @@ export function ByTime() {
       )}
 
       <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
-        <ResultClick linechart={JSON.stringify(line)} />
+        <ResultClick linechart={JSON.stringify(line)} data={fetchData} />
         <ReactApexChart options={line.options} series={line.series} type="line" height={350} />
       </Div>
     </Div>

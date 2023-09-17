@@ -34,13 +34,15 @@ export default function DataInquiryPage() {
       .then(datalist => {
         setTotal(datalist.length)
         const data = datalist.map((data, index) => (
-          <tr className="w-full" key={index}>
-            <td className="px-6 border ">{data.detect_log_id}</td>
-            <td className="px-6 border ">{data.category}</td>
-            <td className="px-6 border ">{data.state === 'true' ? '가능' : '불가능'}</td>
-            <td className="px-6 border ">{data.ce}</td>
-            <td className="px-6 border ">{data.rm}</td>
-            <td className="px-6 border cursor-pointer" onClick={() => ImageOnClicked(data['date'], data['time'])}>
+          <tr className="w-full md:text-sm sm:text-xs" key={index}>
+            <td className="px-6 text-center border-4">{data.detect_log_id}</td>
+            <td className="px-6 text-center border-4">{data.category}</td>
+            <td className="px-6 text-center border-4">{data.state === 'true' ? '가능' : '불가능'}</td>
+            <td className="px-6 text-right border-4">{data.ce}</td>
+            <td className="px-6 text-right border-4">{data.rm}</td>
+            <td
+              className="px-6 text-sm text-center border-4 cursor-pointer hover:bg-lime-200"
+              onClick={() => ImageOnClicked(data['date'], data['time'])}>
               이미지 보기
             </td>
           </tr>
@@ -140,15 +142,15 @@ export default function DataInquiryPage() {
       </div>
       {/*  */}
 
-      <table className="items-center w-3/4 m-auto mb-8 border-collapse rounded-xl">
+      <table className="items-center w-3/4 m-auto mb-8 border-4 border-collapse rounded-xl">
         <thead>
-          <tr className="w-full">
-            <th className="w-1/6 px-6 border">번호</th>
-            <th className="w-1/6 px-6 border">종류</th>
-            <th className="w-1/6 px-6 border">재활용 가능 여부</th>
-            <th className="w-1/6 px-6 border">탄소배출량</th>
-            <th className="w-1/6 px-6 border">원재료 수익</th>
-            <th className="w-1/6 px-6 border">이미지 상세보기</th>
+          <tr className="w-full md:text-sm sm:text-xs">
+            <th className="w-1/6 px-6 border-4">번호</th>
+            <th className="w-1/6 px-6 border-4">종류</th>
+            <th className="w-1/6 px-6 border-4">재활용 가능 여부</th>
+            <th className="w-1/6 px-6 border-4">탄소배출량</th>
+            <th className="w-1/6 px-6 border-4">원재료 수익</th>
+            <th className="w-1/6 px-6 border-4">이미지 상세보기</th>
           </tr>
         </thead>
         <tbody>{fetchData && fetchData.slice(offset, offset + limit).map(data => data)}</tbody>

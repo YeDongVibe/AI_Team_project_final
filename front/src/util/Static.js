@@ -1,12 +1,12 @@
 import {useNavigate} from 'react-router-dom'
 
-export function ResultClick({linechart, chart}) {
+export function ResultClick({linechart, chart, data}) {
   const Navigate = useNavigate()
 
   const detailClicked = () => {
     console.log('linechart: ', linechart)
     const path = '/static/result'
-    Navigate(path, {state: {chart: chart, linechart: linechart}})
+    Navigate(path, {state: {chart: chart, linechart: linechart, data: data}})
   }
 
   return (
