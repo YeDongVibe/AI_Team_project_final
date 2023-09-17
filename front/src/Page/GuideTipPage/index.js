@@ -11,7 +11,6 @@ import guide from '../../images/guide.png'
 import {useNavigate} from 'react-router-dom'
 
 export default function GuideTipPage() {
-  // transform -translate-x-1/2 translate-y-1/2 top-1/2 left-1/2
   const cardData = [
     {imgsrc: pet, typeName: 'pet'},
     {imgsrc: glass, typeName: 'glass'},
@@ -24,33 +23,8 @@ export default function GuideTipPage() {
 
   const navigate = useNavigate()
 
-  // 3개씩 나누어 렌더링
-  // const renderCards = () => {
-  //   const columns = 3
-  //   const cardGroups = []
-
-  //   for (let i = 0; i < cardData.length; i += columns) {
-  //     const cardGroup = cardData.slice(i, i + columns)
-  //     cardGroups.push(
-  //       <div className="flex w-3/4 m-auto mb-12 md:w-1/2 sm:w-full" key={i}>
-  //         {cardGroup.map((card, cardIndex) => (
-  //           <Card
-  //             key={cardIndex}
-  //             imgsrc={card.imgsrc}
-  //             typeName={card.typeName}
-  //             className="mr-8 "
-  //             onClick={() => CardClicked(card.typeName)}
-  //           />
-  //         ))}
-  //       </div>
-  //     )
-  //   }
-
-  //   return cardGroups
-  // }
-
-  const CardClicked = () => {
-    navigate('/static/result', {state: {data: cardData.typeName}})
+  const CardClicked = data => {
+    navigate(`/guide/${data}`, {state: {data: data}})
   }
   return (
     <Div className="pt-[120px] w-full h-full">
@@ -60,7 +34,6 @@ export default function GuideTipPage() {
       </div>
 
       <div className="flex justify-center w-full h-full mb-10 mt-[100px] ">
-        {/* <div className="w-full ">{renderCards()}</div> */}
         <div className="flex flex-wrap justify-between w-4/5 h-full md:justify-center sm:justify-center">
           {cardData.map((data, index) => (
             <Card

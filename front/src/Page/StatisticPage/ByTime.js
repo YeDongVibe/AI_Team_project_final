@@ -5,6 +5,7 @@ import {ResultClick} from '../../util'
 import ReactApexChart from 'react-apexcharts'
 
 export function ByTime() {
+  const selectRef = useRef(null)
   const startDateRef = useRef(null)
   const endDateRef = useRef(null)
 
@@ -209,6 +210,7 @@ export function ByTime() {
   const FetchByToday = () => {
     setIsTime(false)
     setIsToday(true)
+    console.log(selectRef.current)
 
     let TodayCEArray = new Array(24).fill(0)
     let TodayRMArray = new Array(24).fill(0)
@@ -237,6 +239,9 @@ export function ByTime() {
     setFetchData({})
     setIsTime(false)
     setIsToday(false)
+
+    setFetchCE([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+    setFetchRM([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
     console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
@@ -279,7 +284,7 @@ export function ByTime() {
   return (
     <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
       <div className="flex justify-around flex-grow mb-8">
-        <select className="h-full px-8 py-2 text-black bg-white btn" onChange={TimeSelectOnChange}>
+        <select className="h-full px-8 py-2 text-black bg-white btn" ref={selectRef} onChange={TimeSelectOnChange}>
           <option value="오늘">오늘</option>
           {timeRanges.map((timeRange, index) => (
             <option key={index} value={`${timeRange.start} ~ ${timeRange.end}`}>

@@ -46,6 +46,10 @@
   @apply px-8 py-4 text-black bg-white btn;
 }
 
+:root {
+  color-scheme: light only;
+}
+
 body {
   margin: 0;
   font-family: 'poppins', 'porter-sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',

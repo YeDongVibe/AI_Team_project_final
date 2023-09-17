@@ -13,6 +13,7 @@ import GuideTipPage from '../GuideTipPage'
 import CustomerCenterPage from '../CustomerCenterPage'
 import {WriteBoard} from '../CustomerCenterPage/WriteBoard'
 import {CustomerBoardPage} from '../CustomerCenterPage/CustomerBoard'
+import {GuideDetailPage} from '../GuideTipPage/GuideDetailPage'
 
 export function RouteMain() {
   return (
@@ -26,6 +27,7 @@ export function RouteMain() {
           <Route path="/static/result" element={<StatisticResultPage />} />
           <Route path="/inquiry" element={<DataInquiryPage />} />
           <Route path="/guide" element={<GuideTipPage />} />
+          <Route path="/guide/:item" element={<GuideDetailPage />} />
           <Route path="/customer" element={<CustomerCenterPage />} />
           <Route path="/customer/write" element={<WriteBoard />} />
           <Route path="/customer/:boardId" element={<CustomerBoardPage />} />

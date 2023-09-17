@@ -74,6 +74,10 @@ export default function DataInquiryPage() {
 
   const stateTrue = {
     options: {
+      title: {
+        text: '재활용 가능',
+        align: 'center'
+      },
       plotOptions: {
         pie: {
           donut: {
@@ -92,6 +96,10 @@ export default function DataInquiryPage() {
   }
   const stateFalse = {
     options: {
+      title: {
+        text: '재활용 불가능',
+        align: 'center'
+      },
       plotOptions: {
         pie: {
           donut: {

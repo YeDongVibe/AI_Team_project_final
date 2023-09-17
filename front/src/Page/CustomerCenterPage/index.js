@@ -15,6 +15,7 @@ export default function CustomerCenterPage() {
   const offset = (page - 1) * limit
 
   const serachRef = useRef(null)
+  const serachOptionRef = useRef(null)
   const Navigate = useNavigate()
 
   useEffect(() => {
@@ -36,8 +37,20 @@ export default function CustomerCenterPage() {
   }
 
   const SearchBoard = () => {
-    const serach = serachRef.current?.value
-    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/updateBoard/${serach}`)
+    const search = serachRef.current?.value
+    const searchOption = serachOptionRef.current?.value
+    let requestParam = ''
+    console.log(search)
+    console.log(searchOption)
+
+    if (searchOption === 'keyword') {
+      requestParam = `?kw=${search}`
+    } else {
+      requestParam = `?${searchOption}=${search}`
+    }
+    console.log(requestParam)
+    console.log(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => error.message)
@@ -55,7 +68,12 @@ export default function CustomerCenterPage() {
         {/* info */}
         <div className="flex w-full m-8 justify-evenly">
           <div className="w-1/4 ml-6 font-poppins">Total : {total}</div>
-          <div className="relative w-2/4">
+          <div className="relative flex w-2/4">
+            <select className="border border-gray-200 rounded-xl w-1/7" ref={serachOptionRef}>
+              <option value="nickname">사용자</option>
+              <option value="title">제목</option>
+              <option value="keyword">키워드</option>
+            </select>
             <input type="text" className="w-full pr-16 border border-gray-300 input bg-gray-50" ref={serachRef} />
             <button className="absolute right-0 border-gray-300 w-2/7 btn" onClick={SearchBoard}>
               검색

@@ -8,8 +8,8 @@ export function ByType() {
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
     types: ["'plastic'", "'glass'", "'paper'", "'paperpack'", "'vinyl'", "'pet'", "'can'"],
-    ce: [30, 40, 45, 50, 39, 60, 70],
-    rm: [30, 40, 45, 50, 39, 60, 70]
+    ce: [0, 0, 0, 0, 0, 0, 0],
+    rm: [0, 0, 0, 0, 0, 0, 0]
   }
 
   const [trashYearType, setTrashYearType] = useState(byType)
@@ -134,7 +134,7 @@ export function ByType() {
         id: 'basic-bar'
       },
       title: {
-        text: '일별 막대 그래프',
+        text: '일별 종류별 막대 그래프',
         align: 'center'
       },
       xaxis: {
@@ -160,7 +160,7 @@ export function ByType() {
         id: 'basic-bar'
       },
       title: {
-        text: '월별 막대 그래프',
+        text: '월별 종류별 막대 그래프',
         align: 'center'
       },
       xaxis: {
@@ -186,7 +186,7 @@ export function ByType() {
         id: 'basic-bar'
       },
       title: {
-        text: '년별 종류별 그래프',
+        text: '년별 종류별 막대 그래프',
         align: 'center'
       },
       xaxis: {
