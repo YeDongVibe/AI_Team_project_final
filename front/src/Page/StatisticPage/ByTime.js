@@ -15,22 +15,32 @@ export function ByTime() {
 
   // 오늘 날짜
   const currentDate = new Date()
-  const [currentYear, currentMonth, currentDay] = [
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() + 1) : currentDate.getMonth() + 1,
-    currentDate.getDate()
-  ]
+  const currentYear = currentDate.getFullYear()
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0')
+  const currentDay = currentDate.getDate().toString().padStart(2, '0')
 
-  const oneMonth = currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth()) : currentDate.getMonth()
-  const threeMonth =
-    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() - 2) : currentDate.getMonth() - 2
-  const sixMonth =
-    currentDate.getMonth() + 1 < 10 ? '0' + String(currentDate.getMonth() - 5) : currentDate.getMonth() - 5
+  const oneMonthAgoDate = new Date(currentDate)
+  oneMonthAgoDate.setMonth(currentDate.getMonth() - 1)
+  const oneMonthAgoYear = oneMonthAgoDate.getFullYear()
+  const oneMonthAgoMonth = (oneMonthAgoDate.getMonth() + 1).toString().padStart(2, '0')
+  const oneMonthAgoDay = oneMonthAgoDate.getDate().toString().padStart(2, '0')
 
-  const today = currentYear + '-' + currentMonth + '-' + currentDay
-  const oneMonthBtn = currentYear + '-' + oneMonth + '-' + currentDay
-  const threeMonthBtn = currentYear + '-' + threeMonth + '-' + currentDay
-  const sixMonthBtn = currentYear + '-' + sixMonth + '-' + currentDay
+  const threeMonthsAgoDate = new Date(currentDate)
+  threeMonthsAgoDate.setMonth(currentDate.getMonth() - 3)
+  const threeMonthsAgoYear = threeMonthsAgoDate.getFullYear()
+  const threeMonthsAgoMonth = (threeMonthsAgoDate.getMonth() + 1).toString().padStart(2, '0')
+  const threeMonthsAgoDay = threeMonthsAgoDate.getDate().toString().padStart(2, '0')
+
+  const sixMonthsAgoDate = new Date(currentDate)
+  sixMonthsAgoDate.setMonth(currentDate.getMonth() - 6)
+  const sixMonthsAgoYear = sixMonthsAgoDate.getFullYear()
+  const sixMonthsAgoMonth = (sixMonthsAgoDate.getMonth() + 1).toString().padStart(2, '0')
+  const sixMonthsAgoDay = sixMonthsAgoDate.getDate().toString().padStart(2, '0')
+
+  const today = `${currentYear}-${currentMonth}-${currentDay}`
+  const oneMonthBtn = `${oneMonthAgoYear}-${oneMonthAgoMonth}-${oneMonthAgoDay}`
+  const threeMonthBtn = `${threeMonthsAgoYear}-${threeMonthsAgoMonth}-${threeMonthsAgoDay}`
+  const sixMonthBtn = `${sixMonthsAgoYear}-${sixMonthsAgoMonth}-${sixMonthsAgoDay}`
 
   const monthType = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const minite = [0, 10, 20, 30, 40, 50]
@@ -146,7 +156,7 @@ export function ByTime() {
     // 시간별 통계
     const selectValue = e.target.value
     setIsTime(true)
-    console.log(selectValue)
+    // console.log(selectValue)
 
     if (selectValue === '오늘') {
       setIsTime(false)
@@ -171,6 +181,7 @@ export function ByTime() {
     setFetchData({})
     setIsTime(false)
 
+    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
       .then(response => response.json())
       .then(datalist => {

@@ -1,20 +1,22 @@
 import {useRef, useState} from 'react'
+import axios from 'axios'
 
 export function ImageUpload() {
   const imgRef = useRef(null)
 
   const [imgFile, setImgFile] = useState([])
+  const [imageName, setImageName] = useState('')
 
   // 이미지 미리보기
   const saveImgFile = () => {
     const files = imgRef.current?.files
-    console.log('file: ', files)
     if (files) {
       const imgPreview = []
       setImgFile([])
       // 각 이미지 파일에 대해 루프를 돌며 미리보기 URL을 생성합니다
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
+        setImageName(file.name)
         const reader = new FileReader()
         reader.readAsDataURL(file)
 
@@ -34,16 +36,27 @@ export function ImageUpload() {
     }
   }
 
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1])
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const ab = new ArrayBuffer(byteString.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([ab], {type: mimeString})
+  }
+
   // 이미지 업로드 버튼 클릭 시
   const ImgUploadClicked = () => {
     if (imgFile.length === 0) {
       console.error('이미지를 선택해주세요.') // 예외 처리
       return
     }
-    // console.log(imgFile[0])
-
+    console.log(dataURItoBlob(imgFile[0]))
+    // const imageName = 'myImage.png'
     const formData = new FormData()
-    formData.append('imageFile', imgFile[0])
+    formData.append('imageFile', dataURItoBlob(imgFile[0]), imageName)
 
     // for (const pair of formData.entries()) {
     //   console.log(pair[0], pair[1])
@@ -52,10 +65,15 @@ export function ImageUpload() {
     // for (let i = 0; i < imgFile.length; i++) {
     //   formData.append('imageFile', imgFile[i])
     // }
-    fetch(`${process.env.REACT_APP_SERVER_URL}/manager/files/image`, {
-      method: 'post',
-      body: formData
-    }).catch(err => err.message)
+
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/manager/files/image`, formData)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   return (

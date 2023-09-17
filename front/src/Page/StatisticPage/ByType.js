@@ -7,7 +7,7 @@ import ReactApexChart from 'react-apexcharts'
 export function ByType() {
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔'],
-    types: ['plastic', 'glass', 'paper', 'paperpack', 'vinyl', 'pet', 'can'],
+    types: ["'plastic'", "'glass'", "'paper'", "'paperpack'", "'vinyl'", "'pet'", "'can'"],
     ce: [30, 40, 45, 50, 39, 60, 70],
     rm: [30, 40, 45, 50, 39, 60, 70]
   }
@@ -32,6 +32,7 @@ export function ByType() {
         throw new Error('Network response was not ok')
       }
       const datalist = await response.json()
+      console.log(datalist)
 
       // 데이터 가공
       const matchingYearData = datalist.filter(dataa => {
@@ -108,6 +109,12 @@ export function ByType() {
 
   useEffect(() => {
     // 재활용 종류별 통계
+    // fetchTrashStatisticsByType("'plastic'")
+
+    // fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/types/plastic`)
+    //   .then(response => response.json())
+    //   .then(data => console.log('data: ', data))
+    //   .catch(error => error.message)
     byType.types.forEach(type => {
       fetchTrashStatisticsByType(type)
     })
@@ -194,6 +201,54 @@ export function ByType() {
 
   const TypeClicked = types => {
     setTrashYearType(prev => {
+      if (prev.type.includes(types)) {
+        const updatedType = prev.type.filter(item => item !== types)
+        const updatedCE = prev.ce.filter((_, index) => updatedType.includes(prev.type[index]))
+        const updatedRM = prev.rm.filter((_, index) => updatedType.includes(prev.type[index]))
+        return {...prev, type: updatedType, ce: updatedCE, rm: updatedRM}
+      } else {
+        const index = byType['type'].indexOf(types)
+
+        fetchTrashStatisticsByType(byType['types'][index])
+
+        const updatedType = [...prev.type, types]
+        const updatedCE = [...prev.ce, trashYearType.ce[index]]
+        const updatedRM = [...prev.rm, trashYearType.rm[index]]
+
+        return {
+          ...prev,
+          type: updatedType,
+          ce: updatedCE,
+          rm: updatedRM
+        }
+      }
+    })
+
+    setTrashMonthType(prev => {
+      if (prev.type.includes(types)) {
+        const updatedType = prev.type.filter(item => item !== types)
+        const updatedCE = prev.ce.filter((_, index) => updatedType.includes(prev.type[index]))
+        const updatedRM = prev.rm.filter((_, index) => updatedType.includes(prev.type[index]))
+        return {...prev, type: updatedType, ce: updatedCE, rm: updatedRM}
+      } else {
+        const index = byType['type'].indexOf(types)
+
+        fetchTrashStatisticsByType(byType['types'][index])
+
+        const updatedType = [...prev.type, types]
+        const updatedCE = [...prev.ce, trashYearType.ce[index]]
+        const updatedRM = [...prev.rm, trashYearType.rm[index]]
+
+        return {
+          ...prev,
+          type: updatedType,
+          ce: updatedCE,
+          rm: updatedRM
+        }
+      }
+    })
+
+    setTrashTodayType(prev => {
       if (prev.type.includes(types)) {
         const updatedType = prev.type.filter(item => item !== types)
         const updatedCE = prev.ce.filter((_, index) => updatedType.includes(prev.type[index]))
