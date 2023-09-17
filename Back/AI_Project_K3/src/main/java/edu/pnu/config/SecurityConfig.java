@@ -39,13 +39,14 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(authorize -> {
 			try {
 				authorize.requestMatchers("admin/**").hasAnyRole("MANAGER")
-//											.requestMatchers("/admin/**")
-//											.hasRole("ADMIN")
-											// 권한 설정 추가 기억이겅 !!
-											.requestMatchers("/public/**","/manager/**","/images/**").permitAll();
-//											.anyRequest().permitAll();
-//											.authenticated()
-//											.and().exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntryPoint());
+						// .requestMatchers("/admin/**")
+						// .hasRole("ADMIN")
+						// 권한 설정 추가 기억이겅 !!
+						.requestMatchers("/public/**", "/manager/**", "/images/**", "/testimg").permitAll();
+				// .anyRequest().permitAll();
+				// .authenticated()
+				// .and().exceptionHandling().authenticationEntryPoint(new
+				// FailedAuthenticationEntryPoint());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
