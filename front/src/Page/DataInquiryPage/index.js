@@ -31,10 +31,10 @@ export default function DataInquiryPage() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
       .then(resp => resp.json())
       .then(datalist => {
-        console.log(datalist)
         setTotal(datalist.length)
         const data = datalist.map((data, index) => (
           <tr className="w-full" key={index}>
+            <td className="px-6 border ">{data.detect_log_id}</td>
             <td className="px-6 border ">{data.category}</td>
             <td className="px-6 border ">{data.state === 'true' ? '가능' : '불가능'}</td>
             <td className="px-6 border ">{data.ce}</td>
@@ -68,8 +68,8 @@ export default function DataInquiryPage() {
 
   const byType = {
     type: ['플라스틱', '유리', '종이', '종이팩', '비닐', '패트', '캔', '기타'],
-    types: ["'plastic'", "'glass'", "'paper'", "'paperpack'", "'vinyl'", "'pet'", "'can'", 'etc'],
-    data: [30, 40, 45, 50, 39, 60, 70, 10]
+    types: ['plastic', 'glass', 'paper', 'paperpack', 'vinyl', 'pet', 'can', 'etc'],
+    data: [0, 0, 0, 0, 0, 0, 0, 0]
   }
 
   const stateTrue = {
@@ -142,11 +142,12 @@ export default function DataInquiryPage() {
       <table className="items-center w-3/4 m-auto mb-8 border-collapse rounded-xl">
         <thead>
           <tr className="w-full">
-            <th className="w-1/5 px-6 border">종류</th>
-            <th className="w-1/5 px-6 border">재활용 가능 여부</th>
-            <th className="w-1/5 px-6 border">탄소배출량</th>
-            <th className="w-1/5 px-6 border">원재료 수익</th>
-            <th className="w-1/5 px-6 border">이미지 상세보기</th>
+            <th className="w-1/6 px-6 border">번호</th>
+            <th className="w-1/6 px-6 border">종류</th>
+            <th className="w-1/6 px-6 border">재활용 가능 여부</th>
+            <th className="w-1/6 px-6 border">탄소배출량</th>
+            <th className="w-1/6 px-6 border">원재료 수익</th>
+            <th className="w-1/6 px-6 border">이미지 상세보기</th>
           </tr>
         </thead>
         <tbody>{fetchData && fetchData.slice(offset, offset + limit).map(data => data)}</tbody>

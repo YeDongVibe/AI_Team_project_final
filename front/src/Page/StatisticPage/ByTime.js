@@ -14,6 +14,7 @@ export function ByTime() {
   const [fetchData, setFetchData] = useState({})
   const [fetchCE, setFetchCE] = useState([])
   const [fetchRM, setFetchRM] = useState([])
+  const [title, setTitle] = useState('')
 
   // 오늘 날짜
   const currentDate = new Date()
@@ -102,7 +103,7 @@ export function ByTime() {
         curve: 'straight'
       },
       title: {
-        text: '특정 기간의 탄소배출량 원자재수익 그래프',
+        text: title,
         align: 'center'
       },
       grid: {
@@ -154,6 +155,7 @@ export function ByTime() {
     setFetchRM([0, 0, 0, 0, 0, 0])
     let initialCEData = [0, 0, 0, 0, 0, 0]
     let initialRMData = [0, 0, 0, 0, 0, 0]
+    setTitle(`${selectValue} 시간의 탄소배출량, 원재료 수익 그래프`)
 
     if (selectValue === '오늘') {
       setIsTime(false)
@@ -212,6 +214,8 @@ export function ByTime() {
     setIsToday(true)
     console.log(selectRef.current)
 
+    setTitle(`오늘 시간대별 탄소배출량, 원재료수익 그래프`)
+
     let TodayCEArray = new Array(24).fill(0)
     let TodayRMArray = new Array(24).fill(0)
     setFetchCE(TodayCEArray)
@@ -242,7 +246,7 @@ export function ByTime() {
 
     setFetchCE([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     setFetchRM([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-
+    setTitle(`${date1} ~ ${date2} 기간의 탄소배출량, 원재료수익 그래프`)
     console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
       .then(response => response.json())

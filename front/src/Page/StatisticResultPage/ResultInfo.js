@@ -8,11 +8,20 @@ export function ResultInfo() {
 
   useEffect(() => {
     console.log(location)
+
+    if (location.state.chart === undefined) {
+      const jsonString = location.state.linechart
+      const parseObject = JSON.parse(jsonString)
+
+      console.log(parseObject)
+    } else {
+      console.log(location.state.chart)
+    }
   }, [])
 
   return (
-    <div className="w-full h-full">
-      <table className="items-center w-3/4 m-auto mb-8 border-collapse rounded-xl">
+    <div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
+      <table className="items-center w-3/4 m-auto mb-8 bg-white border-collapse rounded-xl">
         <thead>
           <tr className="w-full">
             <th className="w-1/5 px-6 border">종류</th>
