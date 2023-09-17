@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -87,6 +90,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 			return result;
 		}
 		String jsonStr1 = jsonStr.replace("\"", "");
+
 		if (jsonStr1.equals("{}") || !jsonStr1.startsWith("{") || !jsonStr1.endsWith("}")) {
 			result.put("etc", 0);
 		} else {
@@ -94,8 +98,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 			String[] keyValuePairs = jsonStr1.split(",");
 			for (String pair : keyValuePairs) {
 				String[] keyValue = pair.split(":");
+				String key = keyValue[0].replaceAll("'", "");
 				if (keyValue.length == 2) {
-					result.put(keyValue[0].trim(), Integer.parseInt(keyValue[1].trim()));
+					result.put(key.trim(), Integer.parseInt(keyValue[1].trim()));
 				}
 			}
 		}
@@ -159,7 +164,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 				recycle.setDetect_log_id(detect_log_id);
 				recycle.setDevice_id(device_id);
-//				recycle.setAi_result(columns.get(2).isEmpty() ? null : jsonStr);
+				// recycle.setAi_result(columns.get(2).isEmpty() ? null : jsonStr);
 				recycle.setDate(date);
 				recycle.setTime(time);
 				recycle.setState(state);
@@ -173,14 +178,14 @@ public class FileUploadServiceImpl implements FileUploadService {
 				System.out.println("parseData : " + parseData);
 
 				// save result_list DB
-//				RecycleRes res = new RecycleRes();
-//				res.setDetect_log_id(device_id);
-//				for(String key : parseData.keySet()) {
-//					res.setCategory(key);
-//					res.setCount(parseData.get(key));
-//					
-//					recycleResRepo.save(res);
-//				}	-> problem : 객체를 반복문안에서 계속 사용하므로 새 객체가 계속 생성됨?
+				// RecycleRes res = new RecycleRes();
+				// res.setDetect_log_id(device_id);
+				// for(String key : parseData.keySet()) {
+				// res.setCategory(key);
+				// res.setCount(parseData.get(key));
+				//
+				// recycleResRepo.save(res);
+				// } -> problem : 객체를 반복문안에서 계속 사용하므로 새 객체가 계속 생성됨?
 
 				// save result_list DB
 				// db에 추가 안됨 와이..
@@ -245,7 +250,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 					Long detect_Id = (long) deviceID;
 					// =======
 					String ai_res = jsonStr.getStringCellValue();
-//					Double numericDate = date.getNumericCellValue();
+					// Double numericDate = date.getNumericCellValue();
 					// 여기에 이상한 값이 들어가있음?? 오잉 도잉
 					LocalDate dates;
 					// 안되면 if문 삭제하고 date.getcelltype 여기 안에 코드 넣기
@@ -253,14 +258,14 @@ public class FileUploadServiceImpl implements FileUploadService {
 					String utils = date.getStringCellValue();
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 					dates = LocalDate.parse(utils, formatter);
-//	
-//					else if (DateUtil.isCellDateFormatted(date)) {
-//						Date util = date.getDateCellValue();
-//						dates = util.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//					}
-//					else {
-//						dates = null;
-//					}
+					//
+					// else if (DateUtil.isCellDateFormatted(date)) {
+					// Date util = date.getDateCellValue();
+					// dates = util.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					// }
+					// else {
+					// dates = null;
+					// }
 					// =======
 					// 시간 데이터 형식 맞추기
 					LocalTime times;
@@ -296,24 +301,23 @@ public class FileUploadServiceImpl implements FileUploadService {
 						state.getStringCellValue();
 					}
 					Integer ce_1 = 0;
-					if(ce == null) {
+					if (ce == null) {
 						ce_1 = 0;
-					}else if (ce!=null && ce.getCellType() == CellType.NUMERIC) {
+					} else if (ce != null && ce.getCellType() == CellType.NUMERIC) {
 						ce_1 = (int) ce.getNumericCellValue();
 					}
 
-					Integer rm_1 = 0 ;
-					if(rm == null) {
+					Integer rm_1 = 0;
+					if (rm == null) {
 						rm_1 = 0;
-					}
-					else if (rm.getCellType() == CellType.NUMERIC) {
+					} else if (rm.getCellType() == CellType.NUMERIC) {
 						rm_1 = (int) rm.getNumericCellValue();
-					} 
+					}
 
 					// CSV 파일의 splitString 함수를 통해 각 열의 데이터를 가공하여 추출
 					List<String> columns = splitString(ai_res);
 					// JSON 데이터를 parseJsonString 함수를 통해 가공하여 추출
-					Map<String, Integer> parseData = parseJsonString(columns.get(0));
+					Map<String, Integer> parseData = parseJsonString(ai_res);
 
 					// Recycling 엔티티 생성 및 저장
 					Recycling recycle = new Recycling();
@@ -441,5 +445,39 @@ public class FileUploadServiceImpl implements FileUploadService {
 		}
 		return false;
 	}
+
+	public void updateImgTest(String imgDir) {
+		File folder = new File(imgDir);
+		File savdDir = new File(uploadDirectory);
+
+		if (folder.isDirectory() && savdDir.isDirectory()) {
+
+			File[] files = folder.listFiles();
+
+			if (files != null) {
+				for (File file : files) {
+					if (file.isFile() && (file.getName().endsWith(".jpg")) || (file.getName().endsWith(".png"))) {
+						String imageUrl = "http://localhost:8080/images/" + file.getName();
+						String filename = file.getName();
+
+						ImageEntity img = new ImageEntity();
+						img.setName(filename);
+						img.setUrl(imageUrl);
+						imageRepo.save(img);
+
+						Path sourceFilePath = Paths.get(imgDir, filename);
+						Path destinationFilePath = Paths.get(uploadDirectory, filename);
+
+						try {
+							Files.copy(sourceFilePath, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+
+	};
 
 }
