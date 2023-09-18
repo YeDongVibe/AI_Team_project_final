@@ -1,7 +1,8 @@
 package edu.pnu.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,13 @@ public class FlaskConnectController {
 
 	@PostMapping("/put_image")
 	public ResponseEntity<String> processImage(@RequestParam(name = "img", required = false) MultipartFile imgFile) {
-//	    String imageUrl = requestBody.get("image_url");
+		// String imageUrl = requestBody.get("image_url");
 		try {
 			// Flask 서버에 이미지 URL 전송
 			String flaskResponse = flaskService.sendImageToFlask(imgFile);
+			// List<MultipartFile> imageFiles = new ArrayList<>();
+			// imageFiles.add(imgFile);
+			// String flaskResponse = flaskService.sendImagesToFlask(imageFiles);
 
 			// Flask 서버에서 받은 응답을 JSON으로 파싱
 			// 예시: {"caption": "Generated caption for the image"}
