@@ -364,33 +364,57 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 	private final ImageRepository imageRepo;
 
+	// @Override
+	// public String imageUpload(MultipartFile file) {
+
+	// // 이미지를 서버에 저장하고 이미지 URL을 반환
+	// String imageFileName = file.getOriginalFilename();
+	// String imagePath = uploadDirectory + File.separator + imageFileName;
+
+	// // 이미지 저장
+	// try {
+	// file.transferTo(new File(imagePath));
+	// } catch (IllegalStateException e) {
+	// // TODO Auto-generated catch block
+	// System.out.println("error occured : " + e.getMessage());
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// System.out.println("error occured : " + e.getMessage());
+	// e.printStackTrace();
+	// }
+
+	// // 이미지 URL 생성
+	// String imageUrl = "http://localhost:8080/images/" + imageFileName;
+
+	// ImageEntity img = new ImageEntity();
+	// img.setUrl(imageUrl);
+	// img.setName(imageFileName);
+
+	// imageRepo.save(img);
+
+	// return imageUrl;
+	// }
+
 	@Override
 	public String imageUpload(MultipartFile file) {
-
-		// 이미지를 서버에 저장하고 이미지 URL을 반환
 		String imageFileName = file.getOriginalFilename();
 		String imagePath = uploadDirectory + File.separator + imageFileName;
 
-		// 이미지 저장
 		try {
 			file.transferTo(new File(imagePath));
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			System.out.println("error occured : " + e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("error occured : " + e.getMessage());
+		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
 
-		// 이미지 URL 생성
-		String imageUrl = "http://localhost:8080/images/" + imageFileName;
-
 		ImageEntity img = new ImageEntity();
-		img.setUrl(imageUrl);
 		img.setName(imageFileName);
+		imageRepo.save(img);
 
+		String imageUrl = "http://localhost:8080/images/" + img.getId(); // 여기서 img.getId()는 이미지의 DB ID입니다.
+
+		// 이미지의 URL을 업데이트합니다.
+		img.setUrl(imageUrl);
 		imageRepo.save(img);
 
 		return imageUrl;
@@ -446,22 +470,61 @@ public class FileUploadServiceImpl implements FileUploadService {
 		return false;
 	}
 
+	// public void updateImgTest(String imgDir) {
+	// File folder = new File(imgDir);
+	// File savdDir = new File(uploadDirectory);
+
+	// if (folder.isDirectory() && savdDir.isDirectory()) {
+
+	// File[] files = folder.listFiles();
+
+	// if (files != null) {
+	// for (File file : files) {
+	// if (file.isFile() && (file.getName().endsWith(".jpg")) ||
+	// (file.getName().endsWith(".png"))) {
+	// String imageUrl = "http://localhost:8080/images/" + file.getName();
+	// String filename = file.getName();
+
+	// ImageEntity img = new ImageEntity();
+	// img.setName(filename);
+	// img.setUrl(imageUrl);
+	// imageRepo.save(img);
+
+	// Path sourceFilePath = Paths.get(imgDir, filename);
+	// Path destinationFilePath = Paths.get(uploadDirectory, filename);
+
+	// try {
+	// Files.copy(sourceFilePath, destinationFilePath,
+	// StandardCopyOption.REPLACE_EXISTING);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	// }
+	// }
+
+	// };
+
 	public void updateImgTest(String imgDir) {
 		File folder = new File(imgDir);
-		File savdDir = new File(uploadDirectory);
+		File savedDir = new File(uploadDirectory);
 
-		if (folder.isDirectory() && savdDir.isDirectory()) {
-
+		if (folder.isDirectory() && savedDir.isDirectory()) {
 			File[] files = folder.listFiles();
 
 			if (files != null) {
 				for (File file : files) {
-					if (file.isFile() && (file.getName().endsWith(".jpg")) || (file.getName().endsWith(".png"))) {
-						String imageUrl = "http://localhost:8080/images/" + file.getName();
+					if (file.isFile() && (file.getName().endsWith(".jpg") || file.getName().endsWith(".png"))) {
 						String filename = file.getName();
 
 						ImageEntity img = new ImageEntity();
 						img.setName(filename);
+						imageRepo.save(img);
+
+						Long id = img.getId(); // 이제 이 이미지의 ID를 얻을 수 있습니다.
+						String imageUrl = "http://localhost:8080/find/images/" + id;
+
 						img.setUrl(imageUrl);
 						imageRepo.save(img);
 
@@ -477,7 +540,5 @@ public class FileUploadServiceImpl implements FileUploadService {
 				}
 			}
 		}
-
 	};
-
 }
