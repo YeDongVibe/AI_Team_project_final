@@ -9,12 +9,12 @@ export default function DataInquiryPage() {
   const [modalOpen, setModalOpen] = useState(false)
 
   const [fetchData, setFetchData] = useState()
-  const [fetchDate, setFetchDate] = useState()
   const [chartData, setChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
   const [nonChartData, setNonChartData] = useState([0, 0, 0, 0, 0, 0, 0, 0])
 
   const [isManager, setIsManager] = useState(false)
 
+  const [id, setId] = useState(1)
   const [page, setPage] = useState(1)
   const limit = 30
   const [total, setTotal] = useState(0)
@@ -27,7 +27,6 @@ export default function DataInquiryPage() {
       if (user.authority === '[ROLE_MANAGER]') setIsManager(true)
       else setIsManager(false)
     }
-    console.log(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/readAllRecycle`)
       .then(resp => resp.json())
@@ -42,7 +41,7 @@ export default function DataInquiryPage() {
             <td className="px-6 text-right border-4">{data.rm}</td>
             <td
               className="px-6 text-sm text-center border-4 cursor-pointer hover:bg-lime-200"
-              onClick={() => ImageOnClicked(data['date'], data['time'])}>
+              onClick={() => ImageOnClicked(data['detect_log_id'])}>
               이미지 보기
             </td>
           </tr>
@@ -64,8 +63,8 @@ export default function DataInquiryPage() {
       .catch(err => err.message)
   }, [isManager])
 
-  const ImageOnClicked = (date, time) => {
-    setFetchDate({dates: date, times: time})
+  const ImageOnClicked = id => {
+    setId(id)
     setModalOpen(true)
   }
 
@@ -158,9 +157,7 @@ export default function DataInquiryPage() {
 
       <Pagination total={total} limit={limit} page={page} setPage={setPage} />
 
-      {fetchDate && (
-        <ImageModal open={modalOpen} setOpen={setModalOpen} date={fetchDate.dates} time={fetchDate.times} />
-      )}
+      <ImageModal open={modalOpen} setOpen={setModalOpen} id={id} />
     </section>
   )
 }

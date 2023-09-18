@@ -174,7 +174,6 @@ export function ByTime() {
       fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/times/${startTime}/${endTime}`)
         .then(response => response.json())
         .then(datalist => {
-          console.log(datalist)
           setFetchData(datalist)
           // 데이터를 CE와 RM 데이터로 분리하여 합산
           datalist.forEach(data => {
@@ -227,7 +226,6 @@ export function ByTime() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${today}/${today}`)
       .then(response => response.json())
       .then(datalist => {
-        // console.log(datalist)
         setFetchData(datalist)
         datalist.forEach(data => {
           const timeValue = data.time[0]
@@ -255,7 +253,6 @@ export function ByTime() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/statistics/days/${date1}/${date2}`)
       .then(response => response.json())
       .then(datalist => {
-        console.log(datalist)
         setFetchData(datalist)
         // 데이터를 날짜로 그룹화하는 객체 생성
         const dataByDate = {}

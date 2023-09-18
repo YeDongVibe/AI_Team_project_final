@@ -2,9 +2,12 @@
 import {Div, Pagination} from '../../Component'
 import {useLocation} from 'react-router-dom'
 import {useEffect, useState} from 'react'
+import {ImageModal} from '../DataInquiryPage/ImageModal'
 
 export function ResultInfo() {
   const location = useLocation()
+
+  const [modalOpen, setModalOpen] = useState(false)
 
   const [page, setPage] = useState(1)
   const limit = 30
@@ -20,10 +23,10 @@ export function ResultInfo() {
       const datas = location.state.data.map((data, index) => (
         <tr key={index} className="text-center border-4">
           <td className="border-4">{data.category}</td>
-          <td className="border-4">{data.state ? '가능' : '불가능'}</td>
+          <td className="border-4">{data.state ? '가능' : '가능'}</td>
           <td className="border-4">{data.ce}</td>
           <td className="border-4">{data.rm}</td>
-          <td className="text-sm border-4 cursor-pointer hover:bg-lime-200">이미지</td>
+          <td className="text-sm border-4 cursor-pointer hover:bg-lime-200">이미지 보기</td>
         </tr>
       ))
       setTotal(datas.length)
@@ -34,10 +37,10 @@ export function ResultInfo() {
         types[key]['data'].map((data, index) => (
           <tr key={index} className="text-center border-2">
             <td className="border-4">{data.category}</td>
-            <td className="border-4">{data.state ? '가능' : '불가능'}</td>
+            <td className="border-4">{data.state ? '가능' : '가능'}</td>
             <td className="border-4">{data.ce}</td>
             <td className="border-4">{data.rm}</td>
-            <td className="text-sm border-4 cursor-pointer hover:bg-lime-200">이미지</td>
+            <td className="text-sm border-4 cursor-pointer hover:bg-lime-200">이미지 보기</td>
           </tr>
         ))
       )
@@ -65,6 +68,8 @@ export function ResultInfo() {
         </thead>
         <tbody>{fetchData && fetchData.slice(offset, offset + limit).map(data => data)}</tbody>
       </table>
+
+      <ImageModal open={modalOpen} setOpen={setModalOpen} />
 
       <Pagination total={total} limit={limit} page={page} setPage={setPage} />
     </div>

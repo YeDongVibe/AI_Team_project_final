@@ -16,7 +16,6 @@ export function GuideSection({currentSection}) {
 
   return (
     <section className="w-full h-screen bg-gradient-to-b from-[#EEFFE7] pt-[120px]">
-      {/* <div className="w-full h-full border-y-2"> */}
       <div className="w-full pt-10 pr-10 text-6xl font-bold text-right font-Notable md:text-5xl sm:text-4xl ">
         RECYLING TIP & GUIDE
       </div>
@@ -40,7 +39,6 @@ export function GuideSection({currentSection}) {
         </div>
       </div>
 
-      {/*  */}
       <div className="relative w-full mt-6 max-h-56">
         <img src={footer_1} alt="" className="w-full h-full max-h-56" />
         <p className="absolute font-bold text-white left-16 top-6 text-7xl font-Notable md:text-5xl sm:text-2xl sm:top-0">
@@ -50,8 +48,6 @@ export function GuideSection({currentSection}) {
           Every item you recycle brings us closer to a<span className="font-semibold"> greener future! </span>
         </p>
       </div>
-      {/*  */}
-      {/* </div> */}
     </section>
   )
 }

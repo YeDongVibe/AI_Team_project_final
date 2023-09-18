@@ -1,9 +1,8 @@
 import papercup from '../../images/yellow-cups-6576738_1280_1.png'
 import {Icon} from '../../Component'
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect} from 'react'
 
 export function IntroSection({showIntroAnimation}) {
-  // TODO: 스크롤 내리고 다시 올라왔을 떄 애니메이션 동작 안하는 버그 수정
   const [count, setCount] = useState(0)
   const [landingText, setLandingText] = useState('')
   const [startSecondAnimation, setStartSecondAnimation] = useState(false)

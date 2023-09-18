@@ -7,11 +7,10 @@ import paperpack from '../../images/CardImage/paperpack.jpg'
 import plastic from '../../images/CardImage/plastic.jpg'
 import vinly from '../../images/CardImage/vinly.jpg'
 import {useState, useEffect, useRef} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 export function TypeRecylingSection() {
   //recycling type
-  // 폰트가 피그마의 폰트랑 뭔가 다른데? 폰트 잘못 받았나? 확인 필요
   const [currentCard, setCurrentCard] = useState(1)
   const [customIntervel, setCustomIntervel] = useState(3000) // 이미지 이동시간
   const sliderRef = useRef(null)
@@ -29,7 +28,6 @@ export function TypeRecylingSection() {
     {imgsrc: vinly, typeName: 'vinly'}
   ]
 
-  // currentCard * translate-x-[-330px] 하면 될 듯
   useEffect(() => {
     if (currentCard === 1) setCustomIntervel(0)
     else setCustomIntervel(3000)

@@ -356,9 +356,7 @@ export function ByType() {
       </div>
 
       <Div className="relative flex w-11/12 p-16 m-auto bg-white rounded-[45px]">
-        {/*  */}
         <ResultClick chart={[day, month, year]} data={fetchData} />
-        {/*  */}
         <div className="w-1/3">
           <ReactApexChart options={day.options} series={day.series} type="bar" height={350} />
         </div>

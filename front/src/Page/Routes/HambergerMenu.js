@@ -4,15 +4,9 @@ import {Link} from 'react-router-dom'
 import logo from '../../images/Logo2.png'
 
 export function HambergerMenu({isHamberger, setIsHamberger, logoutClicked, loginText}) {
-  // const [isHamberger, setIsHamberger] = useState(false)
-
   const CloseHamberger = () => {
     setIsHamberger(false)
   }
-
-  // useEffect(() => {
-  //   console.log(isHamberger)
-  // }, [isHamberger])
 
   return (
     <div

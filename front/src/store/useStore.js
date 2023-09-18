@@ -5,7 +5,7 @@ import {useMemo} from 'react'
 
 const initializeStore = () => {
   const store = configureStore({reducer: {rootReducer}, middleware: []})
-  console.log(store.getState()) // 현재 store 안에 들어있는 상태를 조회합니다.
+  // console.log(store.getState()) // 현재 store 안에 들어있는 상태를 조회합니다.
   return store
 }
 

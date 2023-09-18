@@ -40,16 +40,12 @@ export default function CustomerCenterPage() {
     const search = serachRef.current?.value
     const searchOption = serachOptionRef.current?.value
     let requestParam = ''
-    console.log(search)
-    console.log(searchOption)
 
     if (searchOption === 'keyword') {
       requestParam = `?kw=${search}`
     } else {
       requestParam = `?${searchOption}=${search}`
     }
-    console.log(requestParam)
-    console.log(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
     fetch(`${process.env.REACT_APP_SERVER_URL}/public/board/searchBoard/${searchOption}${requestParam}`)
       .then(response => response.json())
       .then(data => {
