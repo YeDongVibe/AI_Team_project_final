@@ -14,7 +14,7 @@ public class CorsConfig implements WebMvcConfigurer{
 	    public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
 	        		//특정 주소 하나만 선택해줘야 함
-	                .allowedOrigins("http://localhost:3000", "http://localhost:5000/process_image")
+	                .allowedOrigins("http://localhost:3000", "http://localhost:5000/process_image","http://localhost:5000/process_imageFolder","")
 	                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 	                .allowedHeaders("*")
 	                .allowCredentials(true)
