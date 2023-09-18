@@ -23,6 +23,8 @@ export function Nav() {
   const navVisibleFalse = useNavVisibleFalse()
 
   const isMainPage = location === '/'
+  const isStaticPage = location === '/static'
+  const isStaticResultPage = location === '/static/result'
 
   // 마우스 휠 이벤트에 적용할 함수
   const MouseWheelScroll = e => {
@@ -71,7 +73,8 @@ export function Nav() {
 
   return (
     <nav
-      className={`w-full h-[120px] fixed ${navVisible ? 'z-40' : '-z-10'} flex justify-between items-center
+      className={`w-full h-[120px] fixed ${navVisible ? 'z-40' : '-z-10'}
+       flex justify-between items-center
     ${navVisible ? 'opacity-100 transition-all duration-500' : 'opacity-0 '}`}>
       <div className="w-1/5">
         <img src={logo} className="w-2/4 h-full ml-6 cursor-pointer md:w-3/4 sm:w-full" onClick={logoClicked} />

@@ -63,7 +63,7 @@ export default function CustomerCenterPage() {
       </div>
 
       <div className="w-full h-full mt-20">
-        <div className="flex w-full m-8 justify-evenly">
+        <div className="flex w-full mb-8 justify-evenly">
           <div className="w-1/4 ml-6 font-poppins">Total : {total}</div>
           <div className="relative flex w-2/4">
             <select className="border border-gray-200 rounded-xl w-1/7" ref={serachOptionRef}>

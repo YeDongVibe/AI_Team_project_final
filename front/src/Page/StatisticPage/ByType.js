@@ -133,10 +133,6 @@ export function ByType() {
   }
 
   useEffect(() => {
-    console.log('fetchData: ', fetchData) // 데이터가 업데이트될 때마다 출력
-  }, [fetchData])
-
-  useEffect(() => {
     // 재활용 종류별 통계
     byType.types.forEach(type => {
       fetchTrashStatisticsByType(type)
@@ -340,33 +336,39 @@ export function ByType() {
   }
 
   return (
-    <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 border-y-2">
-      <div className="flex justify-around flex-grow mb-8">
-        {byType.type.map((type, key) => (
-          <button
-            className={`px-8 py-4 text-black btn ${typeBtn[key].isActive ? 'bg-[#435353] text-white' : 'bg-white'}`}
-            key={key}
-            onClick={() => TypeClicked(type)}>
-            {type}
-          </button>
-        ))}
-        <button className="btn-day" onClick={AllTypeClicked}>
-          전체 보기
-        </button>
-      </div>
+    <Div className="w-full h-1/2 ">
+      <div className="w-4/5 bg-[#BBDCAB] py-11 m-auto border-y-2">
+        <div className="flex flex-wrap justify-around w-full mb-8">
+          {byType.type.map((type, key) => (
+            <div className="flex justify-center w-1/8 md:w-1/4 sm:w-1/4">
+              <button
+                className={`px-6 py-2 text-black btn ${typeBtn[key].isActive ? 'bg-[#435353] text-white' : 'bg-white'}`}
+                key={key}
+                onClick={() => TypeClicked(type)}>
+                {type}
+              </button>
+            </div>
+          ))}
+          <div className="flex justify-center w-1/8 md:w-1/4 sm:w-1/4">
+            <button className="btn-day " onClick={AllTypeClicked}>
+              전체 보기
+            </button>
+          </div>
+        </div>
 
-      <Div className="relative flex w-11/12 p-16 m-auto bg-white rounded-[45px]">
-        <ResultClick chart={[day, month, year]} data={fetchData} />
-        <div className="w-1/3">
-          <ReactApexChart options={day.options} series={day.series} type="bar" height={350} />
-        </div>
-        <div className="w-1/3">
-          <ReactApexChart options={month.options} series={month.series} type="bar" height={350} />
-        </div>
-        <div className="w-1/3">
-          <ReactApexChart options={year.options} series={year.series} type="bar" height={350} />
-        </div>
-      </Div>
+        <Div className="relative flex w-11/12 p-16 m-auto bg-white rounded-[45px] md:flex-col sm:flex-col">
+          <ResultClick chart={[day, month, year]} data={fetchData} />
+          <div className="w-1/3 md:w-full sm:w-full">
+            <ReactApexChart options={day.options} series={day.series} type="bar" height={350} />
+          </div>
+          <div className="w-1/3 md:w-full sm:w-full">
+            <ReactApexChart options={month.options} series={month.series} type="bar" height={350} />
+          </div>
+          <div className="w-1/3 md:w-full sm:w-full">
+            <ReactApexChart options={year.options} series={year.series} type="bar" height={350} />
+          </div>
+        </Div>
+      </div>
     </Div>
   )
 }

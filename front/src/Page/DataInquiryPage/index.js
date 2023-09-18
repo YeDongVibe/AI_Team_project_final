@@ -76,6 +76,7 @@ export default function DataInquiryPage() {
 
   const stateTrue = {
     options: {
+      colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800', '#123456', '#654321', '#834532'],
       title: {
         text: '재활용 가능',
         align: 'center'
@@ -98,6 +99,7 @@ export default function DataInquiryPage() {
   }
   const stateFalse = {
     options: {
+      colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800', '#123456', '#654321', '#834532'],
       title: {
         text: '재활용 불가능',
         align: 'center'
