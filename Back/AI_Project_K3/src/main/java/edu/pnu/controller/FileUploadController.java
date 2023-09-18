@@ -92,6 +92,33 @@ public class FileUploadController {
 		return ResponseEntity.notFound().build();
 	}
 
+	@GetMapping("find/imagename")
+	public ResponseEntity<String> getImageName() {
+		imgRepo.findAll();
+		return ResponseEntity.ok().body("upload success");
+	}
+
+	// image 아이디로 찾기
+	@GetMapping("/find/images/{id}")
+	public ResponseEntity<byte[]> getImageUrl(@PathVariable Long id) throws IOException {
+		Optional<ImageEntity> imageOptional = imgRepo.findById(id);
+		System.out.println("img id " + imageOptional);
+		if (imageOptional.isPresent()) {
+			String imageUrl = imageOptional.get().getUrl();
+			String imagePath = uploadDirectory + File.separator +
+					imageOptional.get().getName();
+
+			// file:{imagepath} 형태로 넘겨줌
+			Resource resource = resourceLoader.getResource("file:" + imagePath);
+			System.out.println(resource);
+			if (resource.exists()) {
+				byte[] imageBytes = Files.readAllBytes(resource.getFile().toPath());
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+			}
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 	@Value("${image.dir}")
 	private String imageDir;
 
