@@ -14,7 +14,7 @@ export function ImageModal({open, setOpen, date, time}) {
     console.log('time: ', time)
 
     // fetch(`${process.env.REACT_APP_SERVER_URL}/images/${imgFileName}`)
-    fetch(`${process.env.REACT_APP_SERVER_URL}/images/Wimple_2023_08_17_10_13_00.png`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/images/${imgFileName}`)
       .then(response => response.blob())
       .then(blob => {
         const imgurl = URL.createObjectURL(blob)
