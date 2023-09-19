@@ -94,9 +94,9 @@ public class FileUploadController {
 	}
 
 	@GetMapping("find/imagename")
-	public ResponseEntity<List<ImageEntity>> getImageName() {
+	public ResponseEntity<List<Object[]>> getImageName() {
 		
-		List<ImageEntity> image = imgRepo.findAll();
+		List<Object[]> image = imgRepo.findAllImageEntities();
 		return ResponseEntity.ok().body(image);
 	}
 
