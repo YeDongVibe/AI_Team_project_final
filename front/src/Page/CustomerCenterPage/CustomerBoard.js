@@ -100,6 +100,7 @@ export function CustomerBoardPage() {
           <div className="w-4/5 mt-4 border-gray-300 input h-96">{location.state.content}</div>
         </div>
 
+        {/* 댓글 */}
         <div className="w-full mt-4 border-y-2">
           <div className="w-full p-4">
             <div className="mb-4 ml-8 font-bold font-poppins">댓글 작성</div>

@@ -29,8 +29,10 @@ export function ResultBox() {
   }, [])
 
   return (
-    <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
-      <Div className="relative flex w-11/12 p-16 m-auto bg-white rounded-[45px]">{chart}</Div>
+    <Div className="w-full h-1/2 ">
+      <div className="w-4/5 h-full bg-[#BBDCAB] p-16 m-auto">
+        <Div className="relative flex justify-center items-center  bg-white rounded-[45px]">{chart}</Div>
+      </div>
     </Div>
   )
 }
