@@ -152,7 +152,7 @@ erDiagram
     USER_DB ||--o{ COMMENT : writes
     BOARD ||--o{ COMMENT : has
     TOTAL_RECYCLE ||--o{ RESULT_LIST : has
-    TOTAL_RECYCLE ||-->{ IMAGE : has
+    TOTAL_RECYCLE --> IMAGE : has
 
 ```  
 
