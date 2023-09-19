@@ -6,7 +6,6 @@ import axios from 'axios'
 export function ImageModal({open, setOpen, id}) {
   const [fetchImg, setFetchImg] = useState(null)
   const [caption, setCaption] = useState('')
-  const [imgFileName, setImgFileName] = useState()
 
   const onCloseIconClicked = () => {
     setOpen(false)
@@ -22,7 +21,6 @@ export function ImageModal({open, setOpen, id}) {
         fetch(`${process.env.REACT_APP_SERVER_URL}/find/imagename`)
           .then(response => response.json())
           .then(data => {
-            setImgFileName(data[id - 1][2])
             setCaption(data[id - 1][1])
           })
           .catch(error => error.message)
