@@ -23,8 +23,6 @@ export function Nav() {
   const navVisibleFalse = useNavVisibleFalse()
 
   const isMainPage = location === '/'
-  const isStaticPage = location === '/static'
-  const isStaticResultPage = location === '/static/result'
 
   // 마우스 휠 이벤트에 적용할 함수
   const MouseWheelScroll = e => {

@@ -7,7 +7,6 @@ export function WriteBoard() {
   const Navigate = useNavigate()
   const location = useLocation()
 
-  console.log(location)
   const titleRef = useRef(null)
   const contentRef = useRef(null)
 
@@ -15,7 +14,6 @@ export function WriteBoard() {
     if (location.state !== null) {
       titleRef.current.value = location.state.location.title
       contentRef.current.textContent = location.state.location.content
-      console.log(location.state.location.content)
     }
   }, [])
 

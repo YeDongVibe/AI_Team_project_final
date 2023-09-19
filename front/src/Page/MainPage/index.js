@@ -36,7 +36,6 @@ export default function MainPage() {
 
       // 스크롤 방향에 따라 새 섹션 계산
       const newSection = currentSection + Math.sign(deltaY)
-      // console.log(newSection)
 
       // 새 섹션 값이 유효한 범위 내에 있도록 보장
       if (newSection >= 1 && newSection <= 4) {
@@ -78,7 +77,6 @@ export default function MainPage() {
       const eventTimeout = setTimeout(() => {
         mainDiv.addEventListener('wheel', MouseWheelScroll, {passive: false})
       }, 800)
-      // console.log('currentSection: ', currentSection)
 
       return () => {
         clearTimeout(eventTimeout)
@@ -95,7 +93,7 @@ export default function MainPage() {
         <GuideSection currentSection={currentSection} />
         <Footer />
       </div>
-      <div className="fixed flex flex-col bottom-1/2 left-4">
+      {/* <div className="fixed flex flex-col bottom-1/2 left-4">
         <button className="mr-4" onClick={() => scrollToSection(1)}>
           Section 1
         </button>
@@ -108,7 +106,7 @@ export default function MainPage() {
         <button className="mr-4" onClick={() => scrollToSection(4)}>
           footer
         </button>
-      </div>
+      </div> */}
     </div>
   )
 }

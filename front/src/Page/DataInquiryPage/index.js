@@ -37,6 +37,12 @@ export default function DataInquiryPage() {
             <td className="px-6 text-center border-4">{data.detect_log_id}</td>
             <td className="px-6 text-center border-4">{data.category}</td>
             <td className="px-6 text-center border-4">{data.state === 'true' ? '가능' : '불가능'}</td>
+            <td className="px-6 text-center border-4">{`${data.date[0]}-${
+              data.date[1] < 10 ? '0' + data.date[1] : data.date[1]
+            }-${data.date[2] < 10 ? '0' + data.date[2] : data.date[2]}`}</td>
+            <td className="px-6 text-center border-4">{`${data.time[0] < 10 ? '0' + data.time[0] : data.time[0]}:${
+              data.time[1] < 10 ? '0' + data.time[1] : data.time[1]
+            }`}</td>
             <td className="px-6 text-right border-4">{data.ce}</td>
             <td className="px-6 text-right border-4">{data.rm}</td>
             <td
@@ -146,12 +152,14 @@ export default function DataInquiryPage() {
       <table className="items-center w-3/4 m-auto mb-8 border-4 border-collapse rounded-xl">
         <thead>
           <tr className="w-full md:text-sm sm:text-xs">
-            <th className="w-1/6 px-6 border-4">번호</th>
-            <th className="w-1/6 px-6 border-4">종류</th>
-            <th className="w-1/6 px-6 border-4">재활용 가능 여부</th>
-            <th className="w-1/6 px-6 border-4">탄소배출량</th>
-            <th className="w-1/6 px-6 border-4">원재료 수익</th>
-            <th className="w-1/6 px-6 border-4">이미지 상세보기</th>
+            <th className="px-6 border-4 w-1/8">번호</th>
+            <th className="px-6 border-4 w-1/8">종류</th>
+            <th className="px-6 border-4 w-1/8">재활용 가능 여부</th>
+            <th className="px-6 border-4 w-1/8">날짜</th>
+            <th className="px-6 border-4 w-1/8">시간</th>
+            <th className="px-6 border-4 w-1/8">탄소배출량</th>
+            <th className="px-6 border-4 w-1/8">원재료 수익</th>
+            <th className="px-6 border-4 w-1/8">이미지 상세보기</th>
           </tr>
         </thead>
         <tbody>{fetchData && fetchData.slice(offset, offset + limit).map(data => data)}</tbody>

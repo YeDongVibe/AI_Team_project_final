@@ -19,7 +19,6 @@ export const Login = () => {
       })
       .then(response => {
         const headers = response.headers
-        // console.log(headers)
         const jwtToken = headers['authorization']
         setCookie('accessToken', jwtToken.slice(7))
         const username = getUserInfoFromToken()
@@ -27,7 +26,6 @@ export const Login = () => {
         Navigate('/')
       })
       .catch(error => {
-        console.log(error.message)
         alert('로그인 실패')
       })
   }
