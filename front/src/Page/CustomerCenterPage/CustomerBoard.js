@@ -23,7 +23,7 @@ export function CustomerBoardPage() {
     const cookie = getCookie('accessToken')
     if (cookie) {
       const user = getUserInfoFromToken()
-      if (user.username === location.state.writer) setIsUser(true)
+      if (user.username === location.state.writer || user.authority === '[ROLE_MANAGER]') setIsUser(true)
       else setIsUser(false)
     }
 
