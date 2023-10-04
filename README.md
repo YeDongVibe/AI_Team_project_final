@@ -157,3 +157,87 @@ erDiagram
 ```  
 
 ##  __🔎 아키텍쳐__   
+  
+  ```bash
+  📦src
+ ┣ 📂Component 
+ ┃ ┣ 📜Card.js
+ ┃ ┣ 📜Div.js
+ ┃ ┣ 📜FileUpload.js
+ ┃ ┣ 📜Icon.js
+ ┃ ┣ 📜ImageUpload.js
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜Input.js
+ ┃ ┣ 📜Modal.js
+ ┃ ┗ 📜Pagination.js
+ ┣ 📂fonts
+ ┃ ┣ 📜Inconsolata-VariableFont_wdth,wght.ttf
+ ┃ ┣ 📜Notable-Regular.ttf
+ ┃ ┣ 📜Poppins-Black.ttf
+ ┃ ┣ 📜porter-sans-inline-block-webfont.woff
+ ┃ ┗ 📜Sunflower-Medium.ttf
+ ┣ 📂Page
+ ┃ ┣ 📂CustomerCenterPage
+ ┃ ┃ ┣ 📜CustomerBoard.js
+ ┃ ┃ ┣ 📜CustomerBoardItem.js
+ ┃ ┃ ┣ 📜CustomerBoardReply.js
+ ┃ ┃ ┣ 📜index.js
+ ┃ ┃ ┗ 📜WriteBoard.js
+ ┃ ┣ 📂DataInquiryPage
+ ┃ ┃ ┣ 📜ImageModal.js
+ ┃ ┃ ┣ 📜ImageUpload.js
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂GuideTipPage
+ ┃ ┃ ┣ 📜GuideDetailPage.js
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┣ 📂LoginPage
+ ┃ ┃ ┣ 📜Login.js
+ ┃ ┃ ┣ 📜LoginBg.js
+ ┃ ┃ ┗ 📜SignUp.js
+ ┃ ┣ 📂MainPage
+ ┃ ┃ ┣ 📜GuideSection.js
+ ┃ ┃ ┣ 📜index.js
+ ┃ ┃ ┣ 📜IntroSection.js
+ ┃ ┃ ┗ 📜TypeRecylingSection.js
+ ┃ ┣ 📂Routes
+ ┃ ┃ ┣ 📜Footer.js
+ ┃ ┃ ┣ 📜HambergerMenu.js
+ ┃ ┃ ┣ 📜Nav.js
+ ┃ ┃ ┗ 📜RouteMain.js
+ ┃ ┣ 📂StatisticPage
+ ┃ ┃ ┣ 📜ByTime.js
+ ┃ ┃ ┣ 📜ByType.js
+ ┃ ┃ ┗ 📜index.js
+ ┃ ┗ 📂StatisticResultPage
+ ┃ ┃ ┣ 📜index.js
+ ┃ ┃ ┣ 📜ResultBox.js
+ ┃ ┃ ┗ 📜ResultInfo.js
+ ┣ 📂store
+ ┃ ┣ 📂navColor
+ ┃ ┃ ┣ 📜actions.js
+ ┃ ┃ ┣ 📜index.js
+ ┃ ┃ ┗ 📜reducer.js
+ ┃ ┣ 📂navVisible
+ ┃ ┃ ┣ 📜actions.js
+ ┃ ┃ ┣ 📜index.js
+ ┃ ┃ ┗ 📜reducer.js
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜rootReducer.js
+ ┃ ┗ 📜useStore.js
+ ┣ 📂util
+ ┃ ┣ 📜Cookie.js
+ ┃ ┣ 📜Guide.js
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜NavColor.js
+ ┃ ┣ 📜NavVisible.js
+ ┃ ┣ 📜parseDate.js
+ ┃ ┗ 📜Static.js
+ ┣ 📜App.css
+ ┣ 📜App.js
+ ┣ 📜App.test.js
+ ┣ 📜index.css
+ ┣ 📜index.js
+ ┣ 📜logo.svg
+ ┣ 📜reportWebVitals.js
+ ┗ 📜setupTests.js
+  ```

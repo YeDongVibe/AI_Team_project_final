@@ -5,7 +5,7 @@ export function CustomerBoardItem({num, title, writer, date, content}) {
   const Navigate = useNavigate()
 
   const BoardOnClick = () => {
-    Navigate(`/customer/${num}`, {state: {num: num, title: title, writer: writer, date: date, content: content}})
+    Navigate(`/customer/${num}`, {state: {num: num, title: title, writer:writer ,date: date, content: content}})
   }
 
   return (

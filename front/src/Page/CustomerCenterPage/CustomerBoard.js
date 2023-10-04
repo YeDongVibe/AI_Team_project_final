@@ -117,7 +117,7 @@ export function CustomerBoardPage() {
                 commentList.map((data, index) => (
                   <CustomerBoardReply
                     key={index}
-                    writer={data.username}
+                    // writer={data.username}
                     num={data.id}
                     content={data.content}
                     regdate={data.date}
