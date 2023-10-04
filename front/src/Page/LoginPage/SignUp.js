@@ -30,12 +30,10 @@ export function SignUp() {
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/public/member/signup`, data)
       .then(response => {
-        // console.log(response.data)
         alert('회원가입 완료')
         Navigate('/login')
       })
       .catch(error => {
-        console.log(error.message)
         alert('회원가입 실패')
       })
   }

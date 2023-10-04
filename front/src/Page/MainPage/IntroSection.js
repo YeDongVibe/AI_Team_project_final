@@ -38,7 +38,6 @@ export function IntroSection({showIntroAnimation}) {
       }
 
       setLandingText(prev => {
-        // console.log(prev)
         let result = prev ? prev + completeText[count] : completeText[0]
         setCount(prev => prev + 1)
         return result

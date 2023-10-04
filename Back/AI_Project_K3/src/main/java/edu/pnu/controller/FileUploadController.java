@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.xmlgraphics.image.loader.Image;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -93,9 +94,10 @@ public class FileUploadController {
 	}
 
 	@GetMapping("find/imagename")
-	public ResponseEntity<String> getImageName() {
-		imgRepo.findAll();
-		return ResponseEntity.ok().body("upload success");
+	public ResponseEntity<List<Object[]>> getImageName() {
+		
+		List<Object[]> image = imgRepo.findAllImageEntities();
+		return ResponseEntity.ok().body(image);
 	}
 
 	// image 아이디로 찾기

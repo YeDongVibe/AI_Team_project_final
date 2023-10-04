@@ -40,8 +40,8 @@
 > D/A  
 - 가상 환경 구성 후 필요한 라이브러리 설치 
 - Python : v.3.10  
-- transformers : v.4.33.1  
-
+- transformers : v.4.33.1    
+- PyTorch : 2.0.1+cpu  
 
 
 ## __역할 분담__  
@@ -152,7 +152,7 @@ erDiagram
     USER_DB ||--o{ COMMENT : writes
     BOARD ||--o{ COMMENT : has
     TOTAL_RECYCLE ||--o{ RESULT_LIST : has
-    TOTAL_RECYCLE ||--o{ IMAGE : has
+    TOTAL_RECYCLE ||--|{ IMAGE : has
 
 ```  
 

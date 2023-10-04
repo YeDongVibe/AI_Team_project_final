@@ -50,7 +50,7 @@ export function TypeRecylingSection() {
   }, [currentCard, cardCount])
 
   const CardClicked = () => {
-    navigate('/guide', {state: {data: cardData.typeName}})
+    navigate('/static')
   }
 
   return (

@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import {Icon} from './Icon'
 
 export const Pagination = ({total, limit, page, setPage, className}) => {
   const numPages = Math.ceil(total / limit)
@@ -33,6 +34,9 @@ export const Pagination = ({total, limit, page, setPage, className}) => {
 
   return (
     <nav className="flex justify-center my-8 ">
+      <button className={btnClassName} onClick={() => setPage(1)} disabled={page === 1}>
+        <Icon name="keyboard_double_arrow_left" />
+      </button>
       <button className={btnClassName} onClick={() => setPage(page - 1)} disabled={page === 1}>
         &lt;
       </button>
@@ -51,6 +55,9 @@ export const Pagination = ({total, limit, page, setPage, className}) => {
 
       <button className={btnClassName} onClick={() => setPage(page + 1)} disabled={page === numPages}>
         &gt;
+      </button>
+      <button className={btnClassName} onClick={() => setPage(numPages)} disabled={page === numPages}>
+        <Icon name="keyboard_double_arrow_right" />
       </button>
     </nav>
   )

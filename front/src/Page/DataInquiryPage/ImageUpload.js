@@ -27,7 +27,6 @@ export function ImageUpload() {
 
             // 모든 이미지 파일의 미리보기 URL이 준비되면 상태 업데이트를 통해 화면에 표시할 수 있습니다.
             if (imgPreview.length === files.length) {
-              // console.log(imgPreview)
               setImgFile(imgPreview)
             }
           }
@@ -70,7 +69,7 @@ export function ImageUpload() {
       .post(`${process.env.REACT_APP_SERVER_URL}/manager/files/image`, formData)
       .then(response => {
         console.log(response.data)
-        alert('이미지 업로드가 완료 되었습니다.');
+        alert('이미지 업로드가 완료 되었습니다.')
       })
       .catch(error => {
         console.error(error)

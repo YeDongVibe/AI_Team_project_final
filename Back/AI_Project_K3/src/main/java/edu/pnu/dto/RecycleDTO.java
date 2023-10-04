@@ -16,8 +16,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class RecycleDTO {	
+public class RecycleDTO {
 
+	private final Long detect_log_id;
 	private final Integer rm;
 	private final Integer ce;
 	private final LocalTime time;
@@ -26,24 +27,25 @@ public class RecycleDTO {
 	private final Integer count;
 	private String state;
 
-//	public RecycleDTO(Integer rm, Integer ce, LocalDate date, LocalTime time, String category, Integer count) {
-//		
-//		this.rm = rm;
-//		this.ce = ce;
-//		this.date = date;
-//		this.time = time;
-//		this.category = category;
-//		this.count = count;
-//	}
+	// public RecycleDTO(Integer rm, Integer ce, LocalDate date, LocalTime time,
+	// String category, Integer count) {
+	//
+	// this.rm = rm;
+	// this.ce = ce;
+	// this.date = date;
+	// this.time = time;
+	// this.category = category;
+	// this.count = count;
+	// }
 
 	public RecycleDTO(Object[] objs) {
-		rm = (Integer) objs[0];
-		ce = (Integer) objs[1];
-		time =  (LocalTime) objs[3];
-		date = (LocalDate) objs[2];
-		category = (String) objs[4];
-		count = (Integer) objs[5];
+		detect_log_id = (Long) objs[0];
+		rm = (Integer) objs[1];
+		ce = (Integer) objs[2];
+		time = (LocalTime) objs[4];
+		date = (LocalDate) objs[3];
+		category = (String) objs[5];
+		count = (Integer) objs[6];
 	}
-	
 
 }

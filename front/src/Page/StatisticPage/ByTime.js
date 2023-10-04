@@ -267,13 +267,10 @@ export function ByTime() {
         })
 
         // 그룹화된 데이터 확인
-        // setFetchData(dataByDate)
         const CEData = []
         const RMData = []
         monthType.forEach(month => {
           if (dataByDate[month]) {
-            // console.log(month)
-            // console.log(dataByDate[month])
             const ceSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['ce'], 0)
             const rmSum = dataByDate[month].reduce((accumulator, currentValue) => accumulator + currentValue['rm'], 0)
             CEData.push(ceSum)
@@ -290,47 +287,68 @@ export function ByTime() {
   }
 
   return (
-    <Div className="w-full h-1/2 bg-[#BBDCAB] py-11 ">
-      <div className="flex justify-around flex-grow mb-8">
-        <select className="h-full px-8 py-2 text-black bg-white btn" ref={selectRef} onChange={TimeSelectOnChange}>
-          <option value="시간대별">시간대별</option>
-          <option value="당일">당일</option>
-          {timeRanges.map((timeRange, index) => (
-            <option key={index} value={`${timeRange.start} ~ ${timeRange.end}`}>
-              {`${timeRange.start} ~ ${timeRange.end}`}
-            </option>
-          ))}
-        </select>
-        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(oneMonthBtn, today)}>
-          최근 1개월
-        </button>
-        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(threeMonthBtn, today)}>
-          최근 3개월
-        </button>
-        <button className={`px-8 py-4 text-black btn bg-white`} onClick={() => FetchByTime(sixMonthBtn, today)}>
-          최근 6개월
-        </button>
-        <button className="btn-day" onClick={selfInput}>
-          직접 입력
-        </button>
-      </div>
-
-      {/* 직접 입력 창 */}
-      {isSelfInput && (
-        <div className="flex justify-center w-full mb-10">
-          <input type="date" className="input" ref={startDateRef} /> {/* 시작 */}
-          <span className="mx-4 font-bold text-center align-items">~</span>
-          <input type="date" className="input" ref={endDateRef} /> {/* 끝 */}
-          <button className="ml-6 btn" onClick={DateSelectOnClicked}>
-            확인
-          </button>
+    <Div className="w-full h-1/2 ">
+      <div className="w-4/5 bg-[#BBDCAB] py-11 m-auto">
+        <div className="flex flex-wrap justify-around mb-8">
+          <div className="flex justify-center sm:w-1/3">
+            <select
+              className="h-full px-6 py-2 text-black bg-white sm:px-2 sm:py-0 btn"
+              ref={selectRef}
+              onChange={TimeSelectOnChange}>
+              <option value="시간대별">시간대별</option>
+              <option value="당일">당일</option>
+              {timeRanges.map((timeRange, index) => (
+                <option key={index} value={`${timeRange.start} ~ ${timeRange.end}`}>
+                  {`${timeRange.start} ~ ${timeRange.end}`}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex justify-center sm:w-1/3">
+            <button
+              className={`px-6 py-4 sm:px-2 sm:py-0 text-black btn bg-white`}
+              onClick={() => FetchByTime(oneMonthBtn, today)}>
+              최근 1개월
+            </button>
+          </div>
+          <div className="flex justify-center sm:w-1/3">
+            <button
+              className={`px-6 py-4 sm:px-2 sm:py-0 text-black btn bg-white`}
+              onClick={() => FetchByTime(threeMonthBtn, today)}>
+              최근 3개월
+            </button>
+          </div>
+          <div className="flex justify-center sm:w-1/3">
+            <button
+              className={`px-6 py-4 sm:px-2 sm:py-0 text-black btn bg-white`}
+              onClick={() => FetchByTime(sixMonthBtn, today)}>
+              최근 6개월
+            </button>
+          </div>
+          <div className="flex justify-center sm:w-1/3">
+            <button className="btn-day sm:px-2 sm:py-0" onClick={selfInput}>
+              직접 입력
+            </button>
+          </div>
         </div>
-      )}
 
-      <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
-        <ResultClick linechart={JSON.stringify(line)} data={fetchData} />
-        <ReactApexChart options={line.options} series={line.series} type="line" height={350} />
-      </Div>
+        {/* 직접 입력 창 */}
+        {isSelfInput && (
+          <div className="flex justify-center w-full mb-10">
+            <input type="date" className="input" ref={startDateRef} /> {/* 시작 */}
+            <span className="mx-4 font-bold text-center align-items">~</span>
+            <input type="date" className="input" ref={endDateRef} /> {/* 끝 */}
+            <button className="ml-6 btn" onClick={DateSelectOnClicked}>
+              확인
+            </button>
+          </div>
+        )}
+
+        <Div className="relative w-2/3 p-16 m-auto bg-white rounded-[45px]">
+          <ResultClick linechart={JSON.stringify(line)} data={fetchData} />
+          <ReactApexChart options={line.options} series={line.series} type="line" height={350} />
+        </Div>
+      </div>
     </Div>
   )
 }
